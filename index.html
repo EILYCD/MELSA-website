@@ -12,22 +12,8 @@
             theme: {
                 extend: {
                     colors: {
-                        stone: {
-                            50: '#fafaf9',
-                            100: '#f5f5f4',
-                            200: '#e7e5e4',
-                            300: '#d6d3d1',
-                            400: '#a8a29e',
-                            500: '#78716c',
-                            600: '#57534e',
-                            800: '#292524',
-                            900: '#1c1917',
-                        },
-                        sage: {
-                            100: '#f0fdf4',
-                            500: '#84a98c',
-                            700: '#52796f',
-                        }
+                        stone: { 50: '#fafaf9', 100: '#f5f5f4', 200: '#e7e5e4', 300: '#d6d3d1', 400: '#a8a29e', 500: '#78716c', 600: '#57534e', 800: '#292524', 900: '#1c1917' },
+                        sage: { 100: '#f0fdf4', 500: '#84a98c', 700: '#52796f' }
                     },
                     fontFamily: {
                         sans: ['Helvetica Neue', 'Arial', 'sans-serif'],
@@ -39,42 +25,47 @@
     </script>
     
     <style>
-        /* 進場動畫設定 */
         .fade-in-up { animation: fadeInUp 1s ease-out; }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* 語言切換隱藏設定 */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .hidden-lang { display: none !important; }
     </style>
 </head>
 <body class="bg-stone-50 text-stone-800 font-sans antialiased">
 
-    <nav class="fixed w-full bg-stone-50/90 backdrop-blur-md z-50 border-b border-stone-200">
+    <nav class="fixed w-full bg-stone-50/95 backdrop-blur-md z-50 border-b border-stone-200">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-serif font-bold tracking-wider text-stone-900">MELSA Wellness</div>
             
-            <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest text-stone-600">
-                <a href="#philosophy" class="hover:text-stone-900 transition">
-                    <span class="lang-en">Philosophy</span><span class="lang-zh hidden-lang">核心理念</span>
-                </a>
+            <div class="text-2xl font-serif font-bold tracking-wider text-stone-900 z-50">MELSA Wellness</div>
+            
+            <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest text-stone-600 items-center">
+                <a href="#philosophy" class="hover:text-stone-900 transition"><span class="lang-en">Philosophy</span><span class="lang-zh hidden-lang">核心理念</span></a>
+                <a href="about.html" class="hover:text-stone-900 transition"><span class="lang-en">About</span><span class="lang-zh hidden-lang">關於我</span></a>
+                <a href="#services" class="hover:text-stone-900 transition"><span class="lang-en">Services</span><span class="lang-zh hidden-lang">服務項目</span></a>
+                <a href="#contact" class="hover:text-stone-900 transition"><span class="lang-en">Contact</span><span class="lang-zh hidden-lang">聯絡方式</span></a>
                 
-                <a href="about.html" class="hover:text-stone-900 transition">
-                    <span class="lang-en">About</span><span class="lang-zh hidden-lang">關於我</span>
-                </a>
-
-                <a href="#services" class="hover:text-stone-900 transition">
-                    <span class="lang-en">Services</span><span class="lang-zh hidden-lang">服務項目</span>
-                </a>
-                <a href="#contact" class="hover:text-stone-900 transition">
-                    <span class="lang-en">Contact</span><span class="lang-zh hidden-lang">聯絡方式</span>
-                </a>
+                <button id="lang-btn-desktop" class="text-sm border border-stone-300 px-3 py-1 rounded-full cursor-pointer hover:bg-stone-200 transition focus:outline-none ml-4">
+                    EN / 中文
+                </button>
             </div>
 
-            <button id="lang-btn" class="text-sm border border-stone-300 px-3 py-1 rounded-full cursor-pointer hover:bg-stone-200 transition focus:outline-none">
-                EN / 中文
-            </button>
+            <div class="flex items-center gap-4 md:hidden z-50">
+                <button id="lang-btn-mobile" class="text-xs border border-stone-300 px-2 py-1 rounded-full hover:bg-stone-200 transition">
+                    EN / 中文
+                </button>
+                
+                <button id="mobile-menu-btn" class="text-stone-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-stone-50 border-b border-stone-200 shadow-lg md:hidden flex-col p-6 space-y-6 text-center text-sm uppercase tracking-widest text-stone-600">
+            <a href="#philosophy" class="block hover:text-stone-900 mobile-link"><span class="lang-en">Philosophy</span><span class="lang-zh hidden-lang">核心理念</span></a>
+            <a href="about.html" class="block hover:text-stone-900 mobile-link"><span class="lang-en">About</span><span class="lang-zh hidden-lang">關於我</span></a>
+            <a href="#services" class="block hover:text-stone-900 mobile-link"><span class="lang-en">Services</span><span class="lang-zh hidden-lang">服務項目</span></a>
+            <a href="#contact" class="block hover:text-stone-900 mobile-link"><span class="lang-en">Contact</span><span class="lang-zh hidden-lang">聯絡方式</span></a>
         </div>
     </nav>
 
@@ -86,25 +77,13 @@
             </p>
             
             <h1 class="text-4xl md:text-6xl font-serif text-stone-900 leading-tight mb-6">
-                <span class="lang-en">
-                    Beyond the "Right" Path. <br>
-                    <span class="italic text-stone-600">Find Your Own Answers.</span>
-                </span>
-                <span class="lang-zh hidden-lang">
-                    超越所謂的「正確」道路<br>
-                    <span class="italic text-stone-600">尋找屬於您的答案</span>
-                </span>
+                <span class="lang-en">Beyond the "Right" Path. <br><span class="italic text-stone-600">Find Your Own Answers.</span></span>
+                <span class="lang-zh hidden-lang">超越所謂的「正確」道路<br><span class="italic text-stone-600">尋找屬於您的答案</span></span>
             </h1>
 
             <p class="text-lg md:text-xl text-stone-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-                <span class="lang-en">
-                    Combining the logic of a strategist with the wisdom of the Shaman. 
-                    No gurus. No dogma. Just direct connection to your inner authority.
-                </span>
-                <span class="lang-zh hidden-lang">
-                    結合策略師的邏輯與薩滿的智慧。<br>
-                    沒有大師，沒有教條。唯有連結您內在的權威。
-                </span>
+                <span class="lang-en">Combining the logic of a strategist with the wisdom of the Shaman. No gurus. No dogma. Just direct connection to your inner authority.</span>
+                <span class="lang-zh hidden-lang">結合策略師的邏輯與薩滿的智慧。<br>沒有大師，沒有教條。唯有連結您內在的權威。</span>
             </p>
 
             <div class="flex flex-col md:flex-row gap-4 justify-center">
@@ -124,11 +103,9 @@
                 <img src="https://images.pexels.com/photos/3374210/pexels-photo-3374210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Abstract nature texture" class="absolute inset-0 w-full h-full object-cover rounded-sm shadow-2xl grayscale">
                 <div class="absolute inset-0 border border-stone-200 rounded-sm transform translate-x-4 translate-y-4 -z-10 hidden md:block"></div>
             </div>
-            
             <div class="md:pl-8">
                 <h2 class="text-3xl md:text-4xl font-serif mb-8 text-stone-900 leading-tight">
-                    <span class="lang-en">Cut Off the Middleman</span>
-                    <span class="lang-zh hidden-lang">無需中間人</span>
+                    <span class="lang-en">Cut Off the Middleman</span><span class="lang-zh hidden-lang">無需中間人</span>
                 </h2>
                 <p class="text-stone-600 mb-6 leading-relaxed text-lg">
                     <span class="lang-en">We are often told that spiritual connection requires an intermediary—a priest, a guru, or a medium. But true power lies in <strong>Spiritual Autonomy</strong>.</span>
@@ -150,68 +127,49 @@
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-serif mb-4">
-                    <span class="lang-en">Work With Me</span>
-                    <span class="lang-zh hidden-lang">服務項目</span>
+                    <span class="lang-en">Work With Me</span><span class="lang-zh hidden-lang">服務項目</span>
                 </h2>
                 <p class="text-stone-400 max-w-xl mx-auto">
                     <span class="lang-en">Virtual sessions available for clients in Toronto, Taiwan, China, and worldwide.</span>
                     <span class="lang-zh hidden-lang">提供多倫多、台灣、中國及全球線上諮詢服務。</span>
                 </p>
             </div>
-
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="bg-stone-700 p-8 rounded-sm hover:bg-stone-600 transition duration-300 border border-stone-600">
                     <h3 class="text-2xl font-serif mb-2 text-white">
-                        <span class="lang-en">The Spiritual Autonomy Series</span>
-                        <span class="lang-zh hidden-lang">靈性自主系列課程</span>
+                        <span class="lang-en">The Spiritual Autonomy Series</span><span class="lang-zh hidden-lang">靈性自主系列課程</span>
                     </h3>
                     <p class="text-sage-100 text-sm uppercase tracking-wider mb-6">
-                        <span class="lang-en">5-Session Flagship Program</span>
-                        <span class="lang-zh hidden-lang">5 堂課 • 旗艦計畫</span>
+                        <span class="lang-en">5-Session Flagship Program</span><span class="lang-zh hidden-lang">5 堂課 • 旗艦計畫</span>
                     </p>
                     <p class="text-stone-300 mb-6 leading-relaxed">
                         <span class="lang-en">A structured 5-week journey based on Harner Shamanic Counseling (HSC). You will learn to journey safely, meet your power animal and teacher, and ask your own questions.</span>
                         <span class="lang-zh hidden-lang">基於 Harner 薩滿諮商 (HSC) 的 5 週結構化旅程。您將學習如何安全地進行薩滿旅程、遇見您的力量動物與指導靈，並尋求自己的解答。</span>
                     </p>
                     <ul class="text-stone-300 space-y-3 mb-8 text-sm">
-                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> 
-                            <span class="lang-en">Build your own "Spiritual Toolbox"</span><span class="lang-zh hidden-lang">建立您專屬的「靈性工具箱」</span>
-                        </li>
-                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> 
-                            <span class="lang-en">No interpretation by me; you are the authority</span><span class="lang-zh hidden-lang">不由我來詮釋，您才是權威</span>
-                        </li>
-                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> 
-                            <span class="lang-en">Graduate with ability to journey independently</span><span class="lang-zh hidden-lang">結業後具備獨立進行旅程的能力</span>
-                        </li>
+                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> <span class="lang-en">Build your own "Spiritual Toolbox"</span><span class="lang-zh hidden-lang">建立您專屬的「靈性工具箱」</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> <span class="lang-en">No interpretation by me; you are the authority</span><span class="lang-zh hidden-lang">不由我來詮釋，您才是權威</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> <span class="lang-en">Graduate with ability to journey independently</span><span class="lang-zh hidden-lang">結業後具備獨立進行旅程的能力</span></li>
                     </ul>
                     <a href="https://calendly.com/melsawellness" target="_blank" class="block text-center w-full bg-white text-stone-900 py-3 rounded-sm hover:bg-stone-200 transition font-medium">
                         <span class="lang-en">Book Introductory Call</span><span class="lang-zh hidden-lang">預約說明通話</span>
                     </a>
                 </div>
-
                 <div class="bg-stone-700 p-8 rounded-sm hover:bg-stone-600 transition duration-300 border border-stone-600">
                     <h3 class="text-2xl font-serif mb-2 text-white">
-                        <span class="lang-en">Clarity & Integration Session</span>
-                        <span class="lang-zh hidden-lang">清晰與整合諮詢</span>
+                        <span class="lang-en">Clarity & Integration Session</span><span class="lang-zh hidden-lang">清晰與整合諮詢</span>
                     </h3>
                     <p class="text-sage-100 text-sm uppercase tracking-wider mb-6">
-                        <span class="lang-en">Single Deep-Dive (90 Mins)</span>
-                        <span class="lang-zh hidden-lang">單次深度探索 (90 分鐘)</span>
+                        <span class="lang-en">Single Deep-Dive (90 Mins)</span><span class="lang-zh hidden-lang">單次深度探索 (90 分鐘)</span>
                     </p>
                     <p class="text-stone-300 mb-6 leading-relaxed">
                         <span class="lang-en">For those facing a specific crossroad (career, relationship, grief) or needing to integrate a recent spiritual experience.</span>
                         <span class="lang-zh hidden-lang">適合面臨特定十字路口（職涯、關係、悲傷）或需要整合近期靈性體驗的人。</span>
                     </p>
                     <ul class="text-stone-300 space-y-3 mb-8 text-sm">
-                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> 
-                            <span class="lang-en">Address subconscious fears holding you back</span><span class="lang-zh hidden-lang">處理阻礙您的潛意識恐懼</span>
-                        </li>
-                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> 
-                            <span class="lang-en">Shamanic extraction or power retrieval if needed</span><span class="lang-zh hidden-lang">視需要進行薩滿移除或力量找回</span>
-                        </li>
-                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> 
-                            <span class="lang-en">Post-workshop integration support</span><span class="lang-zh hidden-lang">工作坊後的整合支持</span>
-                        </li>
+                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> <span class="lang-en">Address subconscious fears holding you back</span><span class="lang-zh hidden-lang">處理阻礙您的潛意識恐懼</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> <span class="lang-en">Shamanic extraction or power retrieval if needed</span><span class="lang-zh hidden-lang">視需要進行薩滿移除或力量找回</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-sage-500">✓</span> <span class="lang-en">Post-workshop integration support</span><span class="lang-zh hidden-lang">工作坊後的整合支持</span></li>
                     </ul>
                     <a href="https://calendly.com/melsawellness" target="_blank" class="block text-center w-full bg-stone-800 border border-stone-500 text-white py-3 rounded-sm hover:bg-stone-900 transition font-medium">
                         <span class="lang-en">Book Single Session</span><span class="lang-zh hidden-lang">預約單次諮詢</span>
@@ -240,25 +198,48 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const langBtn = document.getElementById('lang-btn');
-            let isEnglish = true;
+            
+            // --- 漢堡選單邏輯 ---
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
 
-            if (langBtn) {
-                langBtn.addEventListener('click', function() {
-                    const enElements = document.querySelectorAll('.lang-en');
-                    const zhElements = document.querySelectorAll('.lang-zh');
+            if (btn && menu) {
+                btn.addEventListener('click', () => {
+                    menu.classList.toggle('hidden');
+                    menu.classList.toggle('flex');
+                });
 
-                    if (isEnglish) {
-                        enElements.forEach(el => el.classList.add('hidden-lang'));
-                        zhElements.forEach(el => el.classList.remove('hidden-lang'));
-                    } else {
-                        enElements.forEach(el => el.classList.remove('hidden-lang'));
-                        zhElements.forEach(el => el.classList.add('hidden-lang'));
-                    }
-
-                    isEnglish = !isEnglish;
+                // 點擊連結後自動關閉選單
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        menu.classList.add('hidden');
+                        menu.classList.remove('flex');
+                    });
                 });
             }
+
+            // --- 語言切換邏輯 (支援電腦版與手機版按鈕) ---
+            const langBtnDesktop = document.getElementById('lang-btn-desktop');
+            const langBtnMobile = document.getElementById('lang-btn-mobile');
+            let isEnglish = true;
+
+            function toggleLanguage() {
+                const enElements = document.querySelectorAll('.lang-en');
+                const zhElements = document.querySelectorAll('.lang-zh');
+
+                if (isEnglish) {
+                    enElements.forEach(el => el.classList.add('hidden-lang'));
+                    zhElements.forEach(el => el.classList.remove('hidden-lang'));
+                } else {
+                    enElements.forEach(el => el.classList.remove('hidden-lang'));
+                    zhElements.forEach(el => el.classList.add('hidden-lang'));
+                }
+                isEnglish = !isEnglish;
+            }
+
+            if (langBtnDesktop) langBtnDesktop.addEventListener('click', toggleLanguage);
+            if (langBtnMobile) langBtnMobile.addEventListener('click', toggleLanguage);
         });
     </script>
 
