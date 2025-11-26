@@ -119,7 +119,7 @@
     <section id="philosophy" class="py-24 bg-white overflow-hidden">
         <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
             <div class="relative h-full min-h-[400px] md:min-h-[500px]">
-                <img src="https://images.unsplash.com/photo-1621262927956-62024564c794?q=80&w=1000&auto=format&fit=crop" alt="Abstract stone texture" class="absolute inset-0 w-full h-full object-cover rounded-sm shadow-2xl grayscale">
+                <img src="https://images.pexels.com/photos/3374210/pexels-photo-3374210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Abstract nature texture" class="absolute inset-0 w-full h-full object-cover rounded-sm shadow-2xl grayscale">
                 <div class="absolute inset-0 border border-stone-200 rounded-sm transform translate-x-4 translate-y-4 -z-10 hidden md:block"></div>
             </div>
             
@@ -293,11 +293,9 @@
                     const zhElements = document.querySelectorAll('.lang-zh');
 
                     if (isEnglish) {
-                        // 切換到中文
                         enElements.forEach(el => el.classList.add('hidden-lang'));
                         zhElements.forEach(el => el.classList.remove('hidden-lang'));
                     } else {
-                        // 切換回英文
                         enElements.forEach(el => el.classList.remove('hidden-lang'));
                         zhElements.forEach(el => el.classList.add('hidden-lang'));
                     }
