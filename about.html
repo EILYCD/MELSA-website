@@ -24,18 +24,17 @@
     <style>
         .fade-in { animation: fadeIn 1.2s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        /* 語言切換隱藏設定 */
         .hidden-lang { display: none !important; }
     </style>
 </head>
-<body class="bg-stone-200 font-sans antialiased min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+<body class="bg-stone-200 font-sans antialiased min-h-screen flex items-center justify-center p-4 py-10 md:p-4 relative overflow-y-auto">
 
-    <div class="absolute inset-0 z-0">
+    <div class="fixed inset-0 z-0">
         <img src="https://images.pexels.com/photos/3374210/pexels-photo-3374210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
              class="w-full h-full object-cover opacity-30 blur-sm scale-110">
     </div>
 
-    <main class="relative z-10 w-full max-w-4xl bg-white/90 backdrop-blur-md shadow-2xl rounded-sm overflow-hidden fade-in grid md:grid-cols-2">
+    <main class="relative z-10 w-full max-w-4xl bg-white/90 backdrop-blur-md shadow-2xl rounded-sm overflow-hidden fade-in grid md:grid-cols-2 my-auto">
         
         <div class="h-64 md:h-auto relative bg-stone-100">
             <img src="images/aboutme.png" 
@@ -136,15 +135,12 @@
                     const zhElements = document.querySelectorAll('.lang-zh');
 
                     if (isEnglish) {
-                        // 切換到中文
                         enElements.forEach(el => el.classList.add('hidden-lang'));
                         zhElements.forEach(el => el.classList.remove('hidden-lang'));
                     } else {
-                        // 切換回英文
                         enElements.forEach(el => el.classList.remove('hidden-lang'));
                         zhElements.forEach(el => el.classList.add('hidden-lang'));
                     }
-
                     isEnglish = !isEnglish;
                 });
             }
