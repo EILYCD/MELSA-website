@@ -49,3 +49,16 @@ Official website for MELSA Wellnes
  * 視覺： 最深色 (stone-900)。
  * 內容： 簡單的聯絡資訊、Email、IG/LinkedIn 連結。
 
+
+UAT步驟：
+ * 去 GitHub 建立 uat 分支：
+   * 在 GitHub 頁面上，把 main 下拉選單打開，輸入 uat 並建立新分支。
+ * 去 Netlify 開啟 Branch Deploys：
+   * 到 Netlify 後台 > Site configuration > Build & deploy > Branches and deploy contexts。
+   * 確認 Branch deploys 選擇了 "All" 或者手動加入 "uat"。
+ * 試著修改一點東西：
+   * 切換到 uat 分支
+   * Netlify 會自動部署 https://uat--[您的專案名].netlify.app。
+ * 練習合併 (Merge)：
+   * 確認 UAT 網址沒問題後，在 GitHub 發起 Pull Request (從 uat 合併到 main)。
+   * 合併後，您的主網址 https://[您的專案名].netlify.app 就會更新了。
