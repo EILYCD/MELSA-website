@@ -38,7 +38,7 @@
     <main class="relative z-10 w-full max-w-4xl bg-white/90 backdrop-blur-md shadow-2xl rounded-sm overflow-hidden fade-in grid md:grid-cols-2">
         
         <div class="h-64 md:h-auto relative bg-stone-100">
-            <img src="images/emily-profile.jpg" 
+            <img src="images/aboutme.png" 
                  alt="Emily Profile" 
                  class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700">
         </div>
@@ -60,4 +60,96 @@
                 </h1>
                 <p class="text-stone-500 italic font-serif">
                     <span class="lang-en">Bridging the Corporate & The Cosmic.</span>
-                    <span class="lang-zh hidden-lang">連結商業理性與宇宙
+                    <span class="lang-zh hidden-lang">連結商業理性與宇宙智慧。</span>
+                </p>
+            </div>
+
+            <div class="space-y-4 text-stone-600 text-sm leading-relaxed mb-8">
+                <p>
+                    <span class="lang-en">I used to define success by spreadsheets and corporate ladders. As an MBA graduate and A+ student, I lived in a world of logic.</span>
+                    <span class="lang-zh hidden-lang">我曾經用報表和職位階梯來定義成功。身為 MBA 畢業生和曾經的優等生，我生活在一個講求邏輯的世界裡。</span>
+                </p>
+                <p>
+                    <span class="lang-en">But the Universe had other plans. Through profound personal loss and the study of death, I discovered a different kind of authority: <strong>Inner Wisdom</strong>.</span>
+                    <span class="lang-zh hidden-lang">但宇宙另有安排。經歷了至親的離世與對死亡的探索，我發現了另一種權威：<strong>內在智慧</strong>。</span>
+                </p>
+                <p>
+                    <span class="lang-en">Now, I help high-achieving professionals find their "Ease" (鬆弛感) by combining rational strategy with Shamanic healing.</span>
+                    <span class="lang-zh hidden-lang">現在，我結合理性策略與薩滿療癒，協助高成就專業人士找回屬於他們的「鬆弛感」。</span>
+                </p>
+            </div>
+
+            <div class="flex space-x-6 mb-8 text-stone-400">
+                <div class="flex flex-col items-center group">
+                    <span class="text-xl mb-1 group-hover:text-stone-800 transition">🌿</span>
+                    <span class="text-[10px] uppercase tracking-wider">
+                        <span class="lang-en">Shamanic</span>
+                        <span class="lang-zh hidden-lang">薩滿</span>
+                    </span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <span class="text-xl mb-1 group-hover:text-stone-800 transition">🌀</span>
+                    <span class="text-[10px] uppercase tracking-wider">
+                        <span class="lang-en">Hypnosis</span>
+                        <span class="lang-zh hidden-lang">催眠</span>
+                    </span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <span class="text-xl mb-1 group-hover:text-stone-800 transition">✨</span>
+                    <span class="text-[10px] uppercase tracking-wider">
+                        <span class="lang-en">Reiki</span>
+                        <span class="lang-zh hidden-lang">靈氣</span>
+                    </span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <span class="text-xl mb-1 group-hover:text-stone-800 transition">🎓</span>
+                    <span class="text-[10px] uppercase tracking-wider">MBA</span>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <a href="index.html#services" class="flex-1 bg-stone-800 text-white text-center py-3 rounded-sm text-sm uppercase tracking-wider hover:bg-stone-700 transition">
+                    <span class="lang-en">Work With Me</span>
+                    <span class="lang-zh hidden-lang">預約諮詢</span>
+                </a>
+                <a href="index.html" class="px-6 border border-stone-300 text-stone-600 flex items-center justify-center rounded-sm hover:bg-stone-100 transition">
+                    <span class="lang-en">← Home</span>
+                    <span class="lang-zh hidden-lang">← 回首頁</span>
+                </a>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-stone-100 flex gap-4 text-stone-400 text-sm">
+                <a href="mailto:melsawellness@gmail.com" class="hover:text-stone-800 transition">Email</a>
+                <a href="https://www.instagram.com/melsawellness" target="_blank" class="hover:text-stone-800 transition">Instagram</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langBtn = document.getElementById('lang-btn');
+            let isEnglish = true;
+
+            if (langBtn) {
+                langBtn.addEventListener('click', function() {
+                    const enElements = document.querySelectorAll('.lang-en');
+                    const zhElements = document.querySelectorAll('.lang-zh');
+
+                    if (isEnglish) {
+                        // 切換到中文
+                        enElements.forEach(el => el.classList.add('hidden-lang'));
+                        zhElements.forEach(el => el.classList.remove('hidden-lang'));
+                    } else {
+                        // 切換回英文
+                        enElements.forEach(el => el.classList.remove('hidden-lang'));
+                        zhElements.forEach(el => el.classList.add('hidden-lang'));
+                    }
+
+                    isEnglish = !isEnglish;
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
