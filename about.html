@@ -27,7 +27,7 @@
         .hidden-lang { display: none !important; }
     </style>
 </head>
-<body class="bg-stone-200 font-sans antialiased min-h-screen flex items-center justify-center p-4 py-10 md:p-4 relative overflow-y-auto">
+<body class="bg-stone-200 font-sans antialiased min-h-screen flex items-start md:items-center justify-center p-4 py-10 relative overflow-x-hidden">
 
     <div class="fixed inset-0 z-0">
         <img src="https://images.pexels.com/photos/3374210/pexels-photo-3374210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
@@ -44,7 +44,7 @@
 
         <div class="p-8 md:p-12 flex flex-col justify-center relative">
             
-            <button id="lang-btn" class="absolute top-6 right-6 text-xs border border-stone-300 px-2 py-1 rounded-full text-stone-500 hover:bg-stone-200 transition focus:outline-none">
+            <button id="lang-btn" class="absolute top-6 right-6 text-xs border border-stone-300 px-2 py-1 rounded-full text-stone-500 hover:bg-stone-200 transition focus:outline-none z-20 bg-white/80">
                 EN / 中文
             </button>
 
@@ -141,6 +141,7 @@
                         enElements.forEach(el => el.classList.remove('hidden-lang'));
                         zhElements.forEach(el => el.classList.add('hidden-lang'));
                     }
+
                     isEnglish = !isEnglish;
                 });
             }
