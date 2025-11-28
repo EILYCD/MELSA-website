@@ -50,15 +50,22 @@ Official website for MELSA Wellnes
  * 內容： 簡單的聯絡資訊、Email、IG/LinkedIn 連結。
 
 
-UAT步驟：
- * 去 GitHub 建立 uat 分支：
-   * 在 GitHub 頁面上，把 main 下拉選單打開，輸入 uat 並建立新分支。
- * 去 Netlify 開啟 Branch Deploys：
-   * 到 Netlify 後台 > Site configuration > Build & deploy > Branches and deploy contexts。
-   * 確認 Branch deploys 選擇了 "All" 或者手動加入 "uat"。
- * 試著修改一點東西：
-   * 切換到 uat 分支
-   * Netlify 會自動部署 https://uat--[您的專案名].netlify.app。
- * 練習合併 (Merge)：
-   * 確認 UAT 網址沒問題後，在 GitHub 發起 Pull Request (從 uat 合併到 main)。
-   * 合併後，您的主網址 https://[您的專案名].netlify.app 就會更新了。
+雖然 Cloudflare 給了 500 次額度很難用完，但學會控制部署節奏是很好的開發習慣。
+
+方法一：使用「通關密語」 (⭐ 最推薦)
+  Cloudflare Pages (以及 Netlify/Vercel) 都支援一種機制：只要您的 Commit Message (提交訊息) 裡面包含特定的關鍵字，系統就會自動忽略這次更新，只備份程式碼但不進行部署。
+
+  操作步驟：
+    當您做了一些小修改（例如改個錯字、換個顏色），想要存檔但不想浪費部署次數時。
+    在 GitHub (或是您的 Git 工具) 提交時，在訊息後面加上 [skip ci] 或 [ci skip]。
+  範例：
+    原本寫： Update typo in footer (這會觸發部署)
+    現在寫： Update typo in footer [skip ci] (這不會觸發部署)
+    如何觸發部署？ 等到您累積了 5 個小修改，覺得「好，現在可以看成果了」，下一次提交時不要加 [skip ci]，Cloudflare 就會把前面累積的所有修改一次打包部署出來。
+
+方法二：在 Cloudflare 後台暫停 (手動開關)
+  如果您希望這段時間完全不要動，可以去後台把自動部署「關掉」。
+  進入 Cloudflare Pages 的 melsawellness 專案。
+  點擊 Settings (設定) > Builds & deployments (建置與部署)。
+  向下滑找到 Configure Production deployments (設定正式部署) 或 Branch deployments (分支部署)。
+  點擊 Pause deployments (暫停部署)。
