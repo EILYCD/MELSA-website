@@ -12,23 +12,22 @@
             theme: {
                 extend: {
                     colors: {
-                        // Updated 'stone' to a warmer, creamier palette for the light theme
+                        // Color Documentation & Usage:
                         stone: { 
-                            50: '#FAF9F6', // Main background (very light cream)
-                            100: '#F5F5F2', // Secondary background (slightly darker cream)
-                            200: '#EBE9E4', // Borders/Accents
-                            300: '#D6D3D1', 
+                            50: '#FAF9F6', // Main background (very light cream) - 用於 Body 背景
+                            100: '#F5F5F2', // Secondary background - 用於 Footer 和 Services 區塊背景
+                            200: '#EBE9E4', // Borders/Accents - 用於邊框線條
+                            300: '#D6D3D1', // Medium Gray - 用於分隔線
                             400: '#A8A29E', 
-                            500: '#78716C', 
-                            600: '#57534E', // Body text
-                            800: '#292524', // Headings
-                            900: '#1C1917'  // Darkest text
+                            500: '#78716C', // Muted Text - 用於次要文字
+                            600: '#57534E', // Body Text - 用於網頁主要內文
+                            800: '#292524', // Headings - 用於次標題
+                            900: '#1C1917'  // Darkest Text - 用於主標題
                         },
-                        // Updated 'sage' to match the teal brand color from the logo/mockups
                         sage: { 
                             100: '#E0F2F1', 
-                            500: '#4FB5B0', // Primary Brand Teal
-                            600: '#3D9C98', // Hover Teal
+                            500: '#4FB5B0', // Primary Brand Teal - 用於按鈕、圖標、強調色 (#4FB5B0)
+                            600: '#3D9C98', // Hover Teal - 用於按鈕懸停狀態
                             700: '#2F7A77' 
                         }
                     },
@@ -162,8 +161,7 @@
                         <div class="flex items-center gap-3 mb-4">
                             <span class="px-3 py-1 bg-sage-500 text-white text-xs uppercase tracking-widest rounded-full font-medium">
                                 <span class="lang-en">Flagship Program</span>
-                                <span class="lang-zh hidden-lang">旗艦項目</span>
-                            </span>
+                                <span class="lang-zh hidden-lang">旗艦項目</span> </span>
                             <span class="text-sage-500 text-xs uppercase tracking-widest font-medium">
                                 <span class="lang-en">5-Week Deep Dive</span>
                                 <span class="lang-zh hidden-lang">5週深度旅程</span>
@@ -199,16 +197,13 @@
                     <div class="text-center md:border-l md:border-stone-200 md:pl-8">
                         <p class="text-sm text-stone-600 mb-6">
                             <span class="lang-en">Start building your own authority.</span>
-                            <span class="lang-zh hidden-lang">開始建立您的內在自主權。</span>
-                        </p>
-                        <a href="https://calendly.com/melsawellness" target="_blank" class="block w-full bg-sage-500 text-white py-4 rounded-sm hover:bg-sage-600 transition font-medium mb-4 shadow-md">
+                            <span class="lang-zh hidden-lang">開始建立您的內在自主權。</span> </p>
+                        <a href="https://cal.com/melsawellness" target="_blank" class="block w-full bg-sage-500 text-white py-4 rounded-sm hover:bg-sage-600 transition font-medium mb-4 shadow-md">
                             <span class="lang-en">Book Intro Call</span>
-                            <span class="lang-zh hidden-lang">預約線上諮詢</span>
-                        </a>
+                            <span class="lang-zh hidden-lang">預約線上諮詢</span> </a>
                         <p class="text-xs text-stone-500">
                             <span class="lang-en">Free 15-min consultation</span>
-                            <span class="lang-zh hidden-lang">免費15分鐘線上諮詢</span>
-                        </p>
+                            <span class="lang-zh hidden-lang">免費15分鐘線上諮詢</span> </p>
                     </div>
                 </div>
             </div>
@@ -227,40 +222,39 @@
                 <div class="flex flex-col gap-6 w-full">
                     <div class="border-t-2 border-sage-500 pt-4">
                         <h4 class="uppercase tracking-widest text-sm font-bold text-stone-800 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-sage-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            <span class="lang-en">Power</span>
-                            <span class="lang-zh hidden-lang">力量</span>
+                            <svg class="w-5 h-5 text-sage-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="lang-en">Integration</span>
+                            <span class="lang-zh hidden-lang">整合</span>
                         </h4>
-                        <p class="text-xs text-stone-500 mt-1 uppercase">Energy & Resilience</p>
+                        <p class="text-xs text-stone-500 mt-1 uppercase">Strategy & Insight</p>
                     </div>
 
                     <div class="bg-white p-6 rounded-sm border border-stone-200 shadow-sm hover:shadow-md transition group">
                         <h5 class="text-xl font-serif text-stone-900 mb-3">
-                            <span class="lang-en">Power Animal Retrieval</span>
-                            <span class="lang-zh hidden-lang">力量動物連結</span>
-                        </h5>
+                            <span class="lang-en">Divination</span>
+                            <span class="lang-zh hidden-lang">薩滿諮詢占卜 直接訊息取得</span> </h5>
                         <p class="text-sage-500 text-xs uppercase tracking-wider mb-3 font-bold">
-                            <span class="lang-en">Metaphor: A Digital Security Key</span>
-                            <span class="lang-zh hidden-lang">類比：數位安全金鑰</span>
+                            <span class="lang-en">Metaphor: A Predictive Algorithm</span>
+                            <span class="lang-zh hidden-lang">類比：預測演算法</span>
                         </p>
                         <p class="text-stone-600 text-sm leading-relaxed">
-                            <span class="lang-en">Connects you with aㄙ inner resource of protective energy. Like an "Always On" security protocol protecting your essential files.</span>
-                            <span class="lang-zh hidden-lang">連結內在的保護性動能。就像「隨時開啟」的數位金鑰一樣，時刻保護您的核心檔案。</span>
+                            <span class="lang-en">Strategic data gathering. Bypassing noise to unlock high-level actionable insights from your inner authority.</span>
+                            <span class="lang-zh hidden-lang">策略性的數據收集。繞過雜訊，直接從內在權威獲取可執行的洞察。</span>
                         </p>
                     </div>
 
                     <div class="bg-white p-6 rounded-sm border border-stone-200 shadow-sm hover:shadow-md transition group">
                         <h5 class="text-xl font-serif text-stone-900 mb-3">
-                            <span class="lang-en">Empowerment</span>
-                            <span class="lang-zh hidden-lang">力量灌注</span>
+                            <span class="lang-en">Subconscious Strategy</span>
+                            <span class="lang-zh hidden-lang">潛意識重塑 (催眠)</span>
                         </h5>
                         <p class="text-sage-500 text-xs uppercase tracking-wider mb-3 font-bold">
-                            <span class="lang-en">Metaphor: Battery Recharging</span>
-                            <span class="lang-zh hidden-lang">類比：電池充電</span>
+                            <span class="lang-en">Metaphor: System Administrator Access</span>
+                            <span class="lang-zh hidden-lang">類比：作業系統更新</span>
                         </p>
                         <p class="text-stone-600 text-sm leading-relaxed">
-                            <span class="lang-en">An energy transmission to combat burnout. A full refill for your entire system when depleted.</span>
-                            <span class="lang-zh hidden-lang">針對過勞的能量傳輸。就像為耗盡的電池進行完整的充飽電。</span>
+                            <span class="lang-en">Direct access to update your internal programming. A focused shift in brainwave state to release fear and install new behavioral scripts.</span>
+                            <span class="lang-zh hidden-lang">直接存取並更新您的內在程式設定。透過腦波狀態的轉換，釋放恐懼並安裝新的行為腳本。</span>
                         </p>
                     </div>
                 </div>
@@ -309,29 +303,29 @@
                 <div class="flex flex-col gap-6 w-full">
                     <div class="border-t-2 border-sage-500 pt-4">
                         <h4 class="uppercase tracking-widest text-sm font-bold text-stone-800 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-sage-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span class="lang-en">Integration</span>
-                            <span class="lang-zh hidden-lang">整合</span>
+                            <svg class="w-5 h-5 text-sage-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            <span class="lang-en">Power</span>
+                            <span class="lang-zh hidden-lang">力量</span>
                         </h4>
-                        <p class="text-xs text-stone-500 mt-1 uppercase">Strategy & Insight</p>
+                        <p class="text-xs text-stone-500 mt-1 uppercase">Energy & Resilience</p>
                     </div>
 
                     <div class="bg-white p-6 rounded-sm border border-stone-200 shadow-sm hover:shadow-md transition group">
                         <h5 class="text-xl font-serif text-stone-900 mb-3">
-                            <span class="lang-en">Divination</span>
-                            <span class="lang-zh hidden-lang">薩滿諮詢占卜 直接訊息取得</span>
+                            <span class="lang-en">Power Animal Retrieval</span>
+                            <span class="lang-zh hidden-lang">力量動物連結</span>
                         </h5>
                         <p class="text-sage-500 text-xs uppercase tracking-wider mb-3 font-bold">
-                            <span class="lang-en">Metaphor: A Predictive Algorithm</span>
-                            <span class="lang-zh hidden-lang">類比：預測演算法</span>
+                            <span class="lang-en">Metaphor: A Digital Security Key</span>
+                            <span class="lang-zh hidden-lang">類比：數位安全金鑰</span>
                         </p>
                         <p class="text-stone-600 text-sm leading-relaxed">
-                            <span class="lang-en">Strategic data gathering. Bypassing noise to unlock high-level actionable insights from your inner authority.</span>
-                            <span class="lang-zh hidden-lang">策略性的數據收集。繞過雜訊，直接從內在權威獲取可執行的洞察。</span>
+                            <span class="lang-en">Connects you with a permanent, inner resource of protective energy. Like an "Always On" security protocol protecting your essential files.</span>
+                            <span class="lang-zh hidden-lang">連結內在永久的保護性動能。就像「隨時開啟」的數位金鑰一樣，時刻保護您的核心檔案。</span>
                         </p>
                     </div>
 
-                    <div class="bg-white p-8 rounded-sm border-2 border-sage-500 text-center mt-4 shadow-md">
+                    <div class="bg-white p-8 rounded-sm border-2 border-sage-500 text-center mt-auto shadow-md">
                         <p class="text-stone-800 text-sm mb-6 font-medium">
                             <span class="lang-en">Need help navigating these options?</span>
                             <span class="lang-zh hidden-lang">不確定該選擇哪一項？</span>
@@ -350,7 +344,7 @@
     <footer id="contact" class="bg-stone-100 text-stone-600 py-12 px-6 border-t border-stone-200">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
             <div class="mb-6 md:mb-0 text-center md:text-left">
-                <img src="images/logo-w.png" alt="MELSA Wellness Logo" class="h-8 mb-4 mx-auto md:mx-0 opacity-80 grayscale hover:grayscale-0 transition">
+                <img src="images/logo-teal.png" alt="MELSA Wellness Logo" class="h-8 mb-4 mx-auto md:mx-0 opacity-80 grayscale hover:grayscale-0 transition">
                 <p class="text-sm">
                     <span class="lang-en">Toronto • Taipei • Global Virtual</span>
                     <span class="lang-zh hidden-lang">多倫多 • 台北 • 全球線上諮詢</span>
