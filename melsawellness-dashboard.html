@@ -3,21 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MELSA Wellness | Digital Operations Manual</title>
-    
-    <!-- CSS Framework: Tailwind CSS -->
+    <title>MELSA Wellness | Project Dashboard v2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Visualization Library: Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Theme Configuration -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        stone: { 50: '#FAF9F6', 100: '#F5F5F2', 200: '#EBE9E4', 800: '#292524', 900: '#1C1917' },
+                        stone: { 50: '#FAF9F6', 100: '#F5F5F2', 200: '#EBE9E4', 300: '#D6D3D1', 800: '#292524', 900: '#1C1917' },
                         sage: { 100: '#E0F2F1', 500: '#4FB5B0', 600: '#3D9C98', 700: '#2F7A77' }
                     },
                     fontFamily: {
@@ -28,456 +22,295 @@
             }
         }
     </script>
-
     <style>
-        /* Chart Container Styling Requirements */
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 300px;
-        }
-        
-        /* Custom UI Utilities */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid #EBE9E4;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            border-color: #4FB5B0;
-        }
-        .nav-item.active {
-            background-color: #E0F2F1;
-            color: #2F7A77;
-            border-right: 3px solid #4FB5B0;
-        }
-        .hidden-section { display: none; }
-        .fade-in { animation: fadeIn 0.4s ease-in-out; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .chart-container { position: relative; width: 100%; max-width: 350px; margin: 0 auto; height: 300px; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .timeline-line { position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background-color: #D6D3D1; }
+        .timeline-item { position: relative; padding-left: 40px; margin-bottom: 24px; }
+        .timeline-dot { position: absolute; left: 6px; top: 6px; width: 20px; height: 20px; border-radius: 50%; background-color: #4FB5B0; border: 4px solid #FAF9F6; }
     </style>
-
-    <!-- Placeholder: Palette -->
-    <!-- Chosen Palette: MELSA Rational Mystic (Stone & Sage) -->
 </head>
-<body class="bg-stone-50 text-stone-800 font-sans h-screen flex overflow-hidden">
+<body class="bg-stone-50 text-stone-600 font-sans antialiased h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <!-- Placeholder: Structure Plan -->
-    <!-- Application Structure Plan: A dashboard-style layout with a persistent sidebar navigation. Content is divided into thematic views: 'Dashboard' (High-level stats), 'Brand Identity' (Visuals), 'Service Architecture' (Business Logic), 'Tech & Data' (Implementation), and 'Workflows' (Processes). This structure facilitates non-linear exploration of the project documentation. -->
-
-    <!-- Sidebar Navigation -->
-    <aside class="w-64 bg-stone-100 border-r border-stone-200 flex flex-col z-20 flex-shrink-0">
-        <div class="p-6 border-b border-stone-200">
-            <h1 class="font-serif text-xl font-bold text-stone-900">MELSA<span class="text-sage-500">.Ops</span></h1>
-            <p class="text-xs text-stone-500 mt-1">Interactive Manual v2.0</p>
+    <!-- Sidebar -->
+    <aside class="w-full md:w-64 bg-stone-100 border-r border-stone-200 flex flex-col flex-shrink-0 z-20">
+        <div class="p-6 border-b border-stone-200 bg-stone-50">
+            <h1 class="font-serif text-2xl text-stone-900 font-bold">MELSA<span class="text-sage-500">.Docs</span></h1>
+            <p class="text-xs text-stone-500 mt-1">v2.0 Project Hub</p>
         </div>
-        <nav class="flex-1 overflow-y-auto py-4">
-            <ul class="space-y-1">
-                <li><button onclick="showSection('dashboard')" class="nav-item w-full text-left px-6 py-3 text-sm font-medium text-stone-500 hover:bg-stone-50 transition active" id="nav-dashboard">📊 Dashboard</button></li>
-                <li><button onclick="showSection('brand')" class="nav-item w-full text-left px-6 py-3 text-sm font-medium text-stone-500 hover:bg-stone-50 transition" id="nav-brand">🎨 Brand Identity</button></li>
-                <li><button onclick="showSection('services')" class="nav-item w-full text-left px-6 py-3 text-sm font-medium text-stone-500 hover:bg-stone-50 transition" id="nav-services">🧩 Service Architecture</button></li>
-                <li><button onclick="showSection('tech')" class="nav-item w-full text-left px-6 py-3 text-sm font-medium text-stone-500 hover:bg-stone-50 transition" id="nav-tech">🛠️ Tech & Data Flow</button></li>
-                <li><button onclick="showSection('workflow')" class="nav-item w-full text-left px-6 py-3 text-sm font-medium text-stone-500 hover:bg-stone-50 transition" id="nav-workflow">🚀 Dev Workflows</button></li>
-            </ul>
+        <nav class="flex-1 overflow-y-auto p-4 space-y-2">
+            <button onclick="switchTab('dashboard')" class="nav-btn w-full text-left px-4 py-3 rounded-md hover:bg-sage-100 hover:text-sage-700 transition flex items-center font-medium bg-sage-100 text-sage-700" data-target="dashboard">📊 Dashboard</button>
+            <button onclick="switchTab('design')" class="nav-btn w-full text-left px-4 py-3 rounded-md hover:bg-sage-100 hover:text-sage-700 transition flex items-center font-medium" data-target="design">🎨 Design System</button>
+            <button onclick="switchTab('architecture')" class="nav-btn w-full text-left px-4 py-3 rounded-md hover:bg-sage-100 hover:text-sage-700 transition flex items-center font-medium" data-target="architecture">🏗️ Architecture</button>
+            <button onclick="switchTab('workflow')" class="nav-btn w-full text-left px-4 py-3 rounded-md hover:bg-sage-100 hover:text-sage-700 transition flex items-center font-medium" data-target="workflow">🚀 Workflows</button>
+            <button onclick="switchTab('history')" class="nav-btn w-full text-left px-4 py-3 rounded-md hover:bg-sage-100 hover:text-sage-700 transition flex items-center font-medium" data-target="history">📜 Version History</button>
         </nav>
-        <div class="p-4 border-t border-stone-200 bg-stone-50">
-            <div class="flex items-center gap-2">
-                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span class="text-xs font-bold text-stone-500">System Status: Online</span>
-            </div>
+        <div class="p-4 border-t border-stone-200 text-xs text-stone-400">
+            Last Updated: Nov 30<br>Status: Live (v2.0)
         </div>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto bg-stone-50 p-8 relative">
+    <main class="flex-1 overflow-y-auto relative bg-stone-50 p-6 md:p-10 scroll-smooth">
         
-        <!-- VIEW 1: DASHBOARD -->
-        <section id="dashboard" class="fade-in">
-            <!-- Introductory Paragraph -->
-            <div class="mb-8 max-w-3xl">
-                <h2 class="text-3xl font-serif text-stone-900 mb-3">Mission Control</h2>
-                <p class="text-stone-500 leading-relaxed">
-                    Welcome to the central hub for MELSA Wellness. This view provides a real-time snapshot of the project's deployment status, domain health, and core architectural composition. Use this to quickly verify environment integrity.
-                </p>
+        <!-- TAB 1: DASHBOARD -->
+        <div id="dashboard" class="tab-content active">
+            <div class="mb-8">
+                <h2 class="text-3xl font-serif text-stone-900 mb-2">Project Overview</h2>
+                <p class="text-stone-500">Status and composition of the MELSA Wellness platform.</p>
             </div>
 
-            <!-- Environment Status Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <!-- Prod -->
-                <div class="glass-card p-4 rounded-lg border-t-4 border-sage-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-xs font-bold text-sage-500 tracking-widest uppercase">Production</p>
-                            <h3 class="font-bold text-stone-900 text-lg mt-1">Live Site</h3>
-                        </div>
-                        <span class="text-xl">🌍</span>
+            <!-- Environment Cards -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <div class="glass-panel p-6 rounded-lg shadow-sm border-l-4 border-sage-500 hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-sage-100 text-sage-700 px-2 py-1 rounded text-xs font-bold tracking-wider">PRODUCTION</span>
+                        <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
                     </div>
-                    <div class="mt-4 text-xs text-stone-400 space-y-1">
-                        <p>Branch: <span class="font-mono text-stone-600 bg-stone-200 px-1 rounded">main</span></p>
-                        <p>Domain: <a href="https://melsawellness.ca" target="_blank" class="text-sage-600 hover:underline">melsawellness.ca</a></p>
-                    </div>
+                    <h3 class="text-xl font-bold text-stone-800">Live Site</h3>
+                    <p class="text-xs text-stone-500 mt-1">melsawellness.ca</p>
+                    <a href="https://melsawellness.ca" target="_blank" class="text-sage-600 text-xs font-bold hover:underline mt-3 block">Visit &rarr;</a>
                 </div>
-                <!-- UAT -->
-                <div class="glass-card p-4 rounded-lg border-t-4 border-yellow-400">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-xs font-bold text-yellow-600 tracking-widest uppercase">Staging</p>
-                            <h3 class="font-bold text-stone-900 text-lg mt-1">UAT</h3>
-                        </div>
-                        <span class="text-xl">🧪</span>
+                <div class="glass-panel p-6 rounded-lg shadow-sm border-l-4 border-yellow-500 hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold tracking-wider">UAT</span>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
                     </div>
-                    <div class="mt-4 text-xs text-stone-400 space-y-1">
-                        <p>Branch: <span class="font-mono text-stone-600 bg-stone-200 px-1 rounded">uat</span></p>
-                        <p>Status: <span class="text-green-600">Synced</span></p>
-                    </div>
+                    <h3 class="text-xl font-bold text-stone-800">Staging</h3>
+                    <p class="text-xs text-stone-500 mt-1">uat.melsawellness...</p>
+                    <a href="https://uat.melsawellness.pages.dev" target="_blank" class="text-sage-600 text-xs font-bold hover:underline mt-3 block">Visit &rarr;</a>
                 </div>
-                <!-- Database -->
-                <div class="glass-card p-4 rounded-lg border-t-4 border-blue-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-xs font-bold text-blue-600 tracking-widest uppercase">Database</p>
-                            <h3 class="font-bold text-stone-900 text-lg mt-1">Google Sheets</h3>
-                        </div>
-                        <span class="text-xl">📊</span>
+                <div class="glass-panel p-6 rounded-lg shadow-sm border-l-4 border-blue-500 hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold tracking-wider">DATABASE</span>
+                        <div class="text-xl">📊</div>
                     </div>
-                    <div class="mt-4 text-xs text-stone-400 space-y-1">
-                        <p>Backend: <span class="font-mono text-stone-600 bg-stone-200 px-1 rounded">Apps Script</span></p>
-                        <p>Access: <span class="text-red-500">Restricted</span></p>
-                    </div>
+                    <h3 class="text-xl font-bold text-stone-800">Google Sheets</h3>
+                    <p class="text-xs text-stone-500 mt-1">Automated Intake</p>
                 </div>
-                 <!-- Limit Tracker -->
-                 <div class="glass-card p-4 rounded-lg border-t-4 border-purple-500">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-xs font-bold text-purple-600 tracking-widest uppercase">Build Quota</p>
-                            <h3 class="font-bold text-stone-900 text-lg mt-1">Cloudflare</h3>
-                        </div>
-                        <span class="text-xl">☁️</span>
+                 <div class="glass-panel p-6 rounded-lg shadow-sm border-l-4 border-stone-800 hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="bg-stone-200 text-stone-700 px-2 py-1 rounded text-xs font-bold tracking-wider">VERSION</span>
+                        <div class="text-xl">🚀</div>
                     </div>
-                    <div class="mt-4">
-                        <div class="w-full bg-stone-200 rounded-full h-2 mb-1">
-                            <div class="bg-purple-500 h-2 rounded-full" style="width: 5%"></div>
-                        </div>
-                        <p class="text-xs text-stone-400 text-right">Safe Zone</p>
-                    </div>
+                    <h3 class="text-xl font-bold text-stone-800">v2.0</h3>
+                    <p class="text-xs text-stone-500 mt-1">Launched Nov 30</p>
                 </div>
             </div>
 
-            <!-- Tech Stack Visualization -->
-            <div class="glass-card p-6 rounded-lg">
-                <h3 class="font-serif text-xl text-stone-900 mb-4">Architecture Composition</h3>
+            <!-- Tech Stack Chart -->
+            <div class="glass-panel p-6 rounded-lg mb-10">
+                <h3 class="text-lg font-serif text-stone-900 mb-4 border-b border-stone-200 pb-2">Tech Stack Composition</h3>
                 <div class="flex flex-col md:flex-row items-center gap-8">
-                    <div class="w-full md:w-1/2">
-                        <p class="text-sm text-stone-500 mb-4">
-                            The project is built on a "Rational" stack: minimal dependencies, maximum performance. This chart visualizes the distribution of code logic versus content structure.
-                        </p>
-                        <ul class="space-y-2 text-sm">
-                            <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-stone-800"></span> <strong>HTML5 (Structure):</strong> 40%</li>
-                            <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-sage-500"></span> <strong>Tailwind (Styling):</strong> 35%</li>
-                            <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-stone-300"></span> <strong>JS (Automation):</strong> 15%</li>
-                            <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-400"></span> <strong>Backend (GAS):</strong> 10%</li>
+                    <div class="chart-container">
+                        <canvas id="techStackChart"></canvas>
+                    </div>
+                    <div class="w-full md:w-1/2 space-y-4 text-sm">
+                        <p class="text-stone-500">A lightweight, high-performance static stack deployed on the edge.</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-stone-900"></span> <strong>HTML5 (40%):</strong> Semantic structure & content.</li>
+                            <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-sage-500"></span> <strong>Tailwind (30%):</strong> Utility-first styling (CDN).</li>
+                            <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-stone-300"></span> <strong>JS (20%):</strong> Logic for forms, nav, & i18n.</li>
+                            <li class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-500"></span> <strong>Backend (10%):</strong> Google Apps Script automation.</li>
                         </ul>
                     </div>
-                    <div class="w-full md:w-1/2 flex justify-center">
-                         <!-- Chart Container -->
-                        <div class="chart-container">
-                            <canvas id="stackChart"></canvas>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- VIEW 2: BRAND IDENTITY -->
-        <section id="brand" class="hidden-section fade-in">
-             <div class="mb-8 max-w-3xl">
-                <h2 class="text-3xl font-serif text-stone-900 mb-3">Visual Identity System</h2>
-                <p class="text-stone-500 leading-relaxed">
-                    The "Rational Mystic" aesthetic. This section allows you to access the core color codes and typography rules that define the brand's look—bridging warmth with professional precision.
-                </p>
+        <!-- TAB 2: DESIGN SYSTEM -->
+        <div id="design" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-serif text-stone-900 mb-2">Design System</h2>
+                <p class="text-stone-500">Theme: "The Rational Mystic" (Light)</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8">
-                <!-- Interactive Color Palette -->
-                <div class="glass-card p-6 rounded-lg">
-                    <h3 class="font-bold text-stone-800 mb-4 flex items-center gap-2">
-                        <span>🎨 Core Palette</span>
-                        <span class="text-xs font-normal text-stone-400 bg-stone-100 px-2 py-1 rounded">Click to Copy</span>
-                    </h3>
-                    
-                    <div class="space-y-6">
-                        <!-- Stone -->
+                <!-- Colors -->
+                <div class="glass-panel p-6 rounded-lg">
+                    <h3 class="font-bold text-stone-800 mb-4">Color Palette (Click to Copy)</h3>
+                    <div class="space-y-4">
                         <div>
-                            <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Stone (Backgrounds)</p>
-                            <div class="grid grid-cols-3 gap-3">
-                                <button onclick="copyToClipboard('#FAF9F6')" class="group relative h-20 rounded-md border border-stone-200 shadow-sm hover:scale-105 transition" style="background: #FAF9F6;">
-                                    <span class="absolute bottom-2 left-2 text-xs font-bold text-stone-400">Cream (50)</span>
-                                </button>
-                                <button onclick="copyToClipboard('#F5F5F2')" class="group relative h-20 rounded-md border border-stone-200 shadow-sm hover:scale-105 transition" style="background: #F5F5F2;">
-                                    <span class="absolute bottom-2 left-2 text-xs font-bold text-stone-400">Warm Grey (100)</span>
-                                </button>
-                                <button onclick="copyToClipboard('#1C1917')" class="group relative h-20 rounded-md border border-stone-200 shadow-sm hover:scale-105 transition" style="background: #1C1917;">
-                                    <span class="absolute bottom-2 left-2 text-xs font-bold text-white">Charcoal (900)</span>
-                                </button>
+                            <p class="text-xs font-bold text-stone-400 uppercase mb-2">Stone (Base)</p>
+                            <div class="grid grid-cols-5 gap-2">
+                                <button onclick="copyColor('#FAF9F6')" class="h-12 rounded border border-stone-200 hover:scale-105 transition bg-[#FAF9F6] relative group"><span class="absolute bottom-1 left-1 text-[10px] text-stone-400 opacity-0 group-hover:opacity-100">50</span></button>
+                                <button onclick="copyColor('#F5F5F2')" class="h-12 rounded border border-stone-200 hover:scale-105 transition bg-[#F5F5F2] relative group"><span class="absolute bottom-1 left-1 text-[10px] text-stone-400 opacity-0 group-hover:opacity-100">100</span></button>
+                                <button onclick="copyColor('#EBE9E4')" class="h-12 rounded border border-stone-200 hover:scale-105 transition bg-[#EBE9E4] relative group"><span class="absolute bottom-1 left-1 text-[10px] text-stone-600 opacity-0 group-hover:opacity-100">200</span></button>
+                                <button onclick="copyColor('#292524')" class="h-12 rounded hover:scale-105 transition bg-[#292524] relative group"><span class="absolute bottom-1 left-1 text-[10px] text-white opacity-0 group-hover:opacity-100">800</span></button>
+                                <button onclick="copyColor('#1C1917')" class="h-12 rounded hover:scale-105 transition bg-[#1C1917] relative group"><span class="absolute bottom-1 left-1 text-[10px] text-white opacity-0 group-hover:opacity-100">900</span></button>
                             </div>
                         </div>
-                        <!-- Sage -->
                         <div>
-                            <p class="text-xs font-bold text-sage-500 uppercase tracking-widest mb-2">Sage (Brand Accent)</p>
-                            <div class="grid grid-cols-3 gap-3">
-                                <button onclick="copyToClipboard('#E0F2F1')" class="group relative h-20 rounded-md border border-sage-200 shadow-sm hover:scale-105 transition" style="background: #E0F2F1;">
-                                    <span class="absolute bottom-2 left-2 text-xs font-bold text-sage-700">Light (100)</span>
-                                </button>
-                                <button onclick="copyToClipboard('#4FB5B0')" class="group relative h-20 rounded-md border border-sage-200 shadow-sm hover:scale-105 transition" style="background: #4FB5B0;">
-                                    <span class="absolute bottom-2 left-2 text-xs font-bold text-white">Brand Teal (500)</span>
-                                </button>
-                                <button onclick="copyToClipboard('#2F7A77')" class="group relative h-20 rounded-md border border-sage-200 shadow-sm hover:scale-105 transition" style="background: #2F7A77;">
-                                    <span class="absolute bottom-2 left-2 text-xs font-bold text-white">Dark (700)</span>
-                                </button>
+                            <p class="text-xs font-bold text-sage-500 uppercase mb-2">Sage (Brand Teal)</p>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="copyColor('#E0F2F1')" class="h-12 rounded border border-sage-200 hover:scale-105 transition bg-[#E0F2F1] relative group"><span class="absolute bottom-1 left-1 text-[10px] text-sage-700 opacity-0 group-hover:opacity-100">100</span></button>
+                                <button onclick="copyColor('#4FB5B0')" class="h-12 rounded hover:scale-105 transition bg-[#4FB5B0] relative group"><span class="absolute bottom-1 left-1 text-[10px] text-white opacity-0 group-hover:opacity-100">500</span></button>
+                                <button onclick="copyColor('#3D9C98')" class="h-12 rounded hover:scale-105 transition bg-[#3D9C98] relative group"><span class="absolute bottom-1 left-1 text-[10px] text-white opacity-0 group-hover:opacity-100">600</span></button>
+                                <button onclick="copyColor('#2F7A77')" class="h-12 rounded hover:scale-105 transition bg-[#2F7A77] relative group"><span class="absolute bottom-1 left-1 text-[10px] text-white opacity-0 group-hover:opacity-100">700</span></button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Typography -->
-                <div class="glass-card p-6 rounded-lg">
-                     <h3 class="font-bold text-stone-800 mb-4">📝 Typography</h3>
-                     <div class="space-y-6">
-                        <div class="border-b border-stone-100 pb-4">
-                            <p class="text-4xl font-serif text-stone-900 mb-2">Rational Mystic</p>
-                            <p class="text-xs text-stone-400 font-mono">Font: Georgia (Serif) | Usage: Headings</p>
-                        </div>
-                        <div>
-                            <p class="text-base font-sans text-stone-600 mb-2 leading-relaxed">
-                                "Spiritual autonomy is about cutting off the middleman. We combine logic with intuition to build your own authority."
-                            </p>
-                            <p class="text-xs text-stone-400 font-mono">Font: Helvetica Neue / Arial (Sans) | Usage: Body</p>
-                        </div>
-                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIEW 3: SERVICES ARCHITECTURE -->
-        <section id="services" class="hidden-section fade-in">
-            <div class="mb-8 max-w-3xl">
-                <h2 class="text-3xl font-serif text-stone-900 mb-3">Service Architecture</h2>
-                <p class="text-stone-500 leading-relaxed">
-                    Explore the logic behind the service offerings. Each service corresponds to a specific "Metaphor" that translates spiritual concepts into rational, tech-native language.
-                </p>
-            </div>
-
-            <!-- Service Logic Flow -->
-            <div class="flex flex-col md:flex-row justify-between items-stretch gap-4 mb-10">
-                <!-- Step 1 -->
-                <div class="flex-1 glass-card p-6 rounded-lg border-t-4 border-stone-400">
-                    <span class="text-4xl mb-2 block">🧩</span>
-                    <h4 class="font-bold text-stone-800">1. Integration</h4>
-                    <p class="text-xs text-stone-400 uppercase tracking-wider mb-2">Strategy & Insight</p>
-                    <ul class="text-sm text-stone-600 space-y-2">
-                        <li><strong>Divination:</strong> Predictive Algorithm</li>
-                        <li><strong>Hypnosis:</strong> System Admin Access</li>
-                    </ul>
-                </div>
-                <!-- Arrow -->
-                 <div class="hidden md:flex items-center text-stone-300">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                </div>
-                <!-- Step 2 -->
-                <div class="flex-1 glass-card p-6 rounded-lg border-t-4 border-sage-500">
-                    <span class="text-4xl mb-2 block">🗑️</span>
-                    <h4 class="font-bold text-stone-800">2. Clearing</h4>
-                    <p class="text-xs text-stone-400 uppercase tracking-wider mb-2">Clarity & Boundary</p>
-                    <ul class="text-sm text-stone-600 space-y-2">
-                        <li><strong>Extraction:</strong> Defragmentation</li>
-                        <li><strong>Psychopomp:</strong> Closing Files</li>
-                    </ul>
-                </div>
-                <!-- Arrow -->
-                <div class="hidden md:flex items-center text-stone-300">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                </div>
-                <!-- Step 3 -->
-                <div class="flex-1 glass-card p-6 rounded-lg border-t-4 border-stone-800">
-                    <span class="text-4xl mb-2 block">⚡</span>
-                    <h4 class="font-bold text-stone-800">3. Power</h4>
-                    <p class="text-xs text-stone-400 uppercase tracking-wider mb-2">Energy & Resilience</p>
-                    <ul class="text-sm text-stone-600 space-y-2">
-                        <li><strong>Power Animal:</strong> Security Key</li>
-                        <li><strong>Soul Retrieval:</strong> Reconnecting</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIEW 4: TECH & DATA -->
-        <section id="tech" class="hidden-section fade-in">
-            <div class="mb-8 max-w-3xl">
-                <h2 class="text-3xl font-serif text-stone-900 mb-3">Tech & Data Flow</h2>
-                <p class="text-stone-500 leading-relaxed">
-                    A transparent look at how data moves through the system. We use a "Serverless" architecture where the static frontend communicates directly with Google's secure cloud infrastructure.
-                </p>
-            </div>
-
-            <div class="glass-card p-8 rounded-lg mb-8">
-                <h3 class="font-bold text-stone-800 mb-6">Data Lifecycle Diagram</h3>
                 
-                <div class="flex flex-col items-center space-y-4">
-                    <!-- User -->
-                    <div class="w-full max-w-md p-4 bg-stone-50 border border-stone-200 rounded text-center relative">
-                        <span class="text-2xl block">👤 User</span>
-                        <p class="text-xs text-stone-500">Fills form on index.html / intake.html</p>
-                    </div>
-
-                    <!-- Arrow Down -->
-                    <div class="h-8 w-0.5 bg-stone-300"></div>
-
-                    <!-- JS Fetch -->
-                    <div class="w-full max-w-md p-4 bg-white border border-sage-200 rounded text-center relative shadow-sm">
-                        <span class="text-2xl block">⚡ JS Fetch API</span>
-                        <p class="text-xs text-sage-600">Secure POST Request (No page reload)</p>
-                    </div>
-
-                    <!-- Arrow Down -->
-                    <div class="h-8 w-0.5 bg-stone-300"></div>
-
-                    <!-- Google Apps Script -->
-                    <div class="w-full max-w-md p-4 bg-blue-50 border border-blue-200 rounded text-center relative shadow-sm">
-                        <span class="text-2xl block">🤖 Google Apps Script</span>
-                        <p class="text-xs text-blue-600">Receives data, validates, and routes</p>
-                    </div>
-
-                    <!-- Split Flow -->
-                    <div class="flex w-full max-w-md justify-between relative">
-                        <div class="absolute top-0 left-1/2 h-8 w-0.5 bg-stone-300 transform -translate-x-1/2"></div>
-                        <div class="absolute top-8 left-0 right-0 h-0.5 bg-stone-300"></div>
-                        
-                        <!-- Left Leg -->
-                        <div class="flex flex-col items-center mt-8 w-1/2">
-                            <div class="h-4 w-0.5 bg-stone-300"></div>
-                            <div class="p-3 bg-green-50 border border-green-200 rounded text-center w-11/12">
-                                <span class="block font-bold text-green-700">📄 Google Sheet</span>
-                                <p class="text-[10px] text-green-600">Data Saved</p>
-                            </div>
+                <!-- Typography -->
+                <div class="glass-panel p-6 rounded-lg">
+                    <h3 class="font-bold text-stone-800 mb-4">Typography</h3>
+                    <div class="bg-[#FAF9F6] p-4 rounded border border-stone-200 space-y-4">
+                        <div>
+                            <p class="text-3xl font-serif text-[#1C1917]">Rational Mystic</p>
+                            <p class="text-xs text-stone-400 font-mono mt-1">Heading: Georgia (Serif)</p>
                         </div>
-
-                        <!-- Right Leg -->
-                        <div class="flex flex-col items-center mt-8 w-1/2">
-                            <div class="h-4 w-0.5 bg-stone-300"></div>
-                            <div class="p-3 bg-yellow-50 border border-yellow-200 rounded text-center w-11/12">
-                                <span class="block font-bold text-yellow-700">📧 Gmail Alert</span>
-                                <p class="text-[10px] text-yellow-600">Notification Sent</p>
-                            </div>
+                        <div>
+                            <p class="text-base font-sans text-[#57534E] leading-relaxed">
+                                "Spiritual autonomy is about cutting off the middleman. We combine logic with intuition."
+                            </p>
+                            <p class="text-xs text-stone-400 font-mono mt-1">Body: Helvetica Neue / Arial (Sans)</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- VIEW 5: WORKFLOW -->
-        <section id="workflow" class="hidden-section fade-in">
-             <div class="mb-8 max-w-3xl">
-                <h2 class="text-3xl font-serif text-stone-900 mb-3">Credit-Saver Workflow</h2>
-                <p class="text-stone-500 leading-relaxed">
-                    Follow this process to ensure zero waste of Cloudflare build credits. Develop locally, test on staging, and only deploy perfection.
-                </p>
+        <!-- TAB 3: ARCHITECTURE -->
+        <div id="architecture" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-serif text-stone-900 mb-2">Website Architecture</h2>
+                <p class="text-stone-500">Visual blueprint of the site's logical structure.</p>
             </div>
-
             <div class="space-y-4">
-                <!-- Step 1 -->
-                <div class="glass-card p-5 rounded-lg flex items-start gap-4">
-                    <div class="bg-stone-200 text-stone-600 w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">1</div>
-                    <div>
-                        <h4 class="font-bold text-stone-800">Local Development</h4>
-                        <p class="text-sm text-stone-600">Download the repo to your Chromebook. Use VS Code to edit and preview files using `file://`. Ensure images load correctly.</p>
-                        <span class="inline-block mt-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">Cost: 0 Credits</span>
+                <div class="glass-panel p-4 rounded-lg border-l-4 border-stone-300">
+                    <h3 class="font-bold text-stone-900">1. Navbar ("The Compass")</h3>
+                    <p class="text-sm text-stone-600">Frosted glass, Teal Logo, prominent EN/ZH toggle.</p>
+                </div>
+                <div class="glass-panel p-4 rounded-lg border-l-4 border-stone-300">
+                    <h3 class="font-bold text-stone-900">2. Hero ("The Hook")</h3>
+                    <p class="text-sm text-stone-600">Cream background, centered typography. "Beyond the Right Path."</p>
+                </div>
+                 <div class="glass-panel p-4 rounded-lg border-l-4 border-sage-500">
+                    <h3 class="font-bold text-stone-900">3. Services ("The Methodology")</h3>
+                    <p class="text-sm text-stone-600 mb-2">3-Column Grid structured by logical flow:</p>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                        <div class="bg-white p-2 rounded border border-stone-200 text-center"><strong>Integration</strong><br>Strategy</div>
+                        <div class="bg-white p-2 rounded border border-stone-200 text-center"><strong>Clearing</strong><br>Cleanup</div>
+                        <div class="bg-white p-2 rounded border border-stone-200 text-center"><strong>Power</strong><br>Fuel</div>
                     </div>
                 </div>
-
-                <!-- Step 2 -->
-                <div class="glass-card p-5 rounded-lg flex items-start gap-4">
-                    <div class="bg-sage-100 text-sage-600 w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">2</div>
-                    <div>
-                        <h4 class="font-bold text-stone-800">UAT Deployment</h4>
-                        <p class="text-sm text-stone-600">Push changes to the `uat` branch. Cloudflare automatically builds to `uat.melsawellness.pages.dev`. Test mobile responsiveness here.</p>
-                        <span class="inline-block mt-2 text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-bold">Cost: 1 Credit</span>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="glass-card p-5 rounded-lg flex items-start gap-4">
-                    <div class="bg-stone-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">3</div>
-                    <div>
-                        <h4 class="font-bold text-stone-800">Production Release</h4>
-                        <p class="text-sm text-stone-600">Merge `uat` into `main` via Pull Request. This updates the live `melsawellness.ca` site.</p>
-                        <span class="inline-block mt-2 text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded font-bold">Cost: 1 Credit</span>
-                    </div>
+                <div class="glass-panel p-4 rounded-lg border-l-4 border-stone-300">
+                    <h3 class="font-bold text-stone-900">4. Community ("Drumming Circle")</h3>
+                    <p class="text-sm text-stone-600">Newsletter signup section for in-person events.</p>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- TAB 4: WORKFLOWS -->
+        <div id="workflow" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-serif text-stone-900 mb-2">Operational Workflows</h2>
+                <p class="text-stone-500">How data and code move through the system.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Dev Workflow -->
+                <div class="glass-panel p-6 rounded-lg">
+                    <h3 class="font-bold text-stone-800 mb-4">🚀 Credit-Saver Development</h3>
+                    <ol class="list-decimal list-inside space-y-3 text-sm text-stone-600">
+                        <li><strong>Local:</strong> Edit & preview on Chromebook (`file://`). <span class="text-green-600 font-bold text-xs">[0 Cost]</span></li>
+                        <li><strong>UAT:</strong> Push to `uat` branch. Auto-builds to staging. <span class="text-yellow-600 font-bold text-xs">[1 Credit]</span></li>
+                        <li><strong>Prod:</strong> Merge PR (`uat` -> `main`). Deploys live. <span class="text-green-600 font-bold text-xs">[1 Credit]</span></li>
+                    </ol>
+                    <div class="mt-4 p-3 bg-sage-100 rounded text-xs text-sage-800">
+                        <strong>Tip:</strong> Use `[skip ci]` in commit messages to save credits!
+                    </div>
+                </div>
+
+                <!-- Data Workflow -->
+                <div class="glass-panel p-6 rounded-lg">
+                    <h3 class="font-bold text-stone-800 mb-4">📨 Client Data Flow</h3>
+                    <ul class="space-y-3 text-sm text-stone-600">
+                        <li class="flex items-center gap-2">👤 <strong>User</strong> submits form (Index/Intake)</li>
+                        <li class="flex items-center gap-2">⬇️ <strong>JS Fetch</strong> sends POST request</li>
+                        <li class="flex items-center gap-2">🤖 <strong>Google Apps Script</strong> receives data</li>
+                        <li class="flex items-center gap-2">⬇️ <strong>Routes</strong> data to specific Sheet tab</li>
+                        <li class="flex items-center gap-2">✅ <strong>Redirects</strong> user to Success Page</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: HISTORY -->
+        <div id="history" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-serif text-stone-900 mb-2">Version History</h2>
+                <p class="text-stone-500">Project evolution timeline.</p>
+            </div>
+            
+            <div class="relative pl-4">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4 class="font-bold text-stone-900">Launch V2.0 (Nov 30)</h4>
+                    <p class="text-sm text-stone-600">Domain purchase (`melsawellness.ca`), custom domain connection, full production release.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4 class="font-bold text-stone-900">Release V2.0 (Nov 29)</h4>
+                    <p class="text-sm text-stone-600">Added Drumming Circle signup, Client Intake diagnostic form, and Google Sheets backend automation.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4 class="font-bold text-stone-900">Release V1.0 (Nov 27-28)</h4>
+                    <p class="text-sm text-stone-600">Rebranding implementation (Light Theme), Logo integration, Service card redesign.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4 class="font-bold text-stone-900">MVP (Nov 26-27)</h4>
+                    <p class="text-sm text-stone-600">Calendly setup, UAT environment, Migration to Cloudflare (from Netlify).</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h4 class="font-bold text-stone-900">PoC (Nov 25)</h4>
+                    <p class="text-sm text-stone-600">Initial GitHub repo setup, Netlify deployment test.</p>
+                </div>
+            </div>
+        </div>
 
     </main>
 
-    <!-- Logic -->
     <script>
-        // --- Tab Switching Logic ---
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('section').forEach(el => el.classList.add('hidden-section'));
-            // Show target
-            document.getElementById(sectionId).classList.remove('hidden-section');
-            
-            // Update active nav state
-            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('nav-' + sectionId).classList.add('active');
+        // Tab Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
         }
 
-        // --- Copy Logic ---
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Copied ' + text + ' to clipboard!');
-            });
+        // Copy Logic
+        function copyColor(hex) {
+            navigator.clipboard.writeText(hex);
+            alert('Copied ' + hex);
         }
 
-        // --- Chart.js Logic for Tech Stack ---
-        const ctx = document.getElementById('stackChart').getContext('2d');
+        // Chart Logic
+        const ctx = document.getElementById('techStackChart').getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['HTML5 (Structure)', 'Tailwind (Style)', 'JS (Logic)', 'Backend (GAS)'],
+                labels: ['HTML5', 'Tailwind', 'JavaScript', 'Backend'],
                 datasets: [{
-                    data: [40, 35, 15, 10],
+                    data: [40, 30, 20, 10],
                     backgroundColor: ['#1C1917', '#4FB5B0', '#D6D3D1', '#3B82F6'],
-                    borderWidth: 0,
-                    hoverOffset: 4
+                    borderWidth: 0
                 }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { font: { family: 'sans-serif', size: 10 } }
-                    }
-                }
-            }
+            options: { responsive: true, maintainAspectRatio: false }
         });
     </script>
 </body>
 </html>
-
-<!-- Chosen Palette: MELSA Rational Mystic (Stone & Sage) -->
-<!-- Application Structure Plan: A dashboard-style layout with a persistent sidebar navigation. Content is divided into thematic views: 'Dashboard' (High-level stats), 'Brand Identity' (Visuals), 'Service Architecture' (Business Logic), 'Tech & Data' (Implementation), and 'Workflows' (Processes). This structure facilitates non-linear exploration of the project documentation. -->
-<!-- Visualization & Content Choices: Tech Stack -> Goal: Visualize complexity -> Viz: Doughnut Chart -> Interaction: Hover for % -> Justification: Quick visual summary -> Library: Chart.js. Design System -> Goal: Utility -> Viz: Clickable Cards -> Interaction: Copy Hex -> Justification: Functional documentation. -->
-<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
