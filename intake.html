@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Intake | MELSA Wellness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        stone: { 50: '#FAF9F6', 100: '#F5F5F2', 200: '#EBE9E4', 300: '#D6D3D1', 400: '#A8A29E', 500: '#78716C', 600: '#57534E', 800: '#292524', 900: '#1C1917' },
+                        sage: { 100: '#E0F2F1', 500: '#4FB5B0', 600: '#3D9C98', 700: '#2F7A77' }
+                    },
+                    fontFamily: {
+                        sans: ['Helvetica Neue', 'Arial', 'sans-serif'],
+                        serif: ['Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in { animation: fadeIn 1.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden-lang { display: none !important; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-600 font-sans antialiased min-h-screen flex items-center justify-center p-4 py-10 relative overflow-x-hidden">
+
+    <div class="fixed inset-0 z-0">
+        <img src="https://images.pexels.com/photos/3374210/pexels-photo-3374210.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+             class="w-full h-full object-cover opacity-20 blur-sm scale-110">
+    </div>
+
+    <main class="relative z-10 w-full max-w-2xl bg-white/95 backdrop-blur-md shadow-xl rounded-sm overflow-hidden fade-in border border-white my-auto">
+        <div class="bg-sage-500 h-2 w-full"></div>
+        <div class="p-8 md:p-12 relative">
+            <button id="lang-btn" class="absolute top-8 right-8 text-xs border border-stone-300 px-2 py-1 rounded-full text-stone-500 hover:text-sage-500 hover:border-sage-500 transition focus:outline-none bg-white/80">
+                EN / 中文
+            </button>
+
+            <div class="mb-8 text-center md:text-left">
+                <p class="text-xs font-bold tracking-[0.2em] text-sage-500 uppercase mb-2">
+                    <span class="lang-en">Preliminary Assessment</span><span class="lang-zh hidden-lang">初步評估</span>
+                </p>
+                <h1 class="text-3xl font-serif text-stone-900 mb-2">
+                    <span class="lang-en">Initiate Your Intake</span><span class="lang-zh hidden-lang">啟動您的評估流程</span>
+                </h1>
+                <p class="text-stone-500 text-sm">
+                    <span class="lang-en">Please brief me on your situation. This helps me determine the right diagnostic approach.</span>
+                    <span class="lang-zh hidden-lang">請簡述您的情況，這將協助我判斷適合您的診斷方式。</span>
+                </p>
+            </div>
+
+            <form action="https://formsubmit.co/melsawellness@gmail.com" method="POST" class="space-y-6">
+                <input type="hidden" name="_subject" value="New Client Intake Request (評估申請)">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value=""> <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-stone-500 mb-2">Name / 姓名</label>
+                        <input type="text" name="name" required class="w-full px-4 py-3 rounded-sm border border-stone-200 bg-stone-50 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-stone-500 mb-2">Email / 信箱</label>
+                        <input type="email" name="email" required class="w-full px-4 py-3 rounded-sm border border-stone-200 bg-stone-50 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-stone-500 mb-2">
+                        <span class="lang-en">Current Challenge or "Bug"</span><span class="lang-zh hidden-lang">目前的挑戰或「系統錯誤」</span>
+                    </label>
+                    <textarea name="challenge" rows="4" required class="w-full px-4 py-3 rounded-sm border border-stone-200 bg-stone-50 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition" placeholder="What feels stuck, heavy, or disconnected? / 哪裡感覺卡住了、沈重或斷聯？"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-stone-500 mb-2">
+                        <span class="lang-en">Desired System State</span><span class="lang-zh hidden-lang">期望的系統狀態</span>
+                    </label>
+                    <input type="text" name="goal" class="w-full px-4 py-3 rounded-sm border border-stone-200 bg-stone-50 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition" placeholder="e.g., Clarity, Energy, Closure / 例如：清晰、活力、放下過去">
+                </div>
+
+                <div class="pt-4 flex flex-col md:flex-row gap-4 items-center">
+                    <button type="submit" class="w-full md:w-auto px-8 py-3 bg-sage-500 text-white font-medium rounded-sm hover:bg-sage-600 transition shadow-sm tracking-wider uppercase text-xs">
+                        <span class="lang-en">Submit for Review</span><span class="lang-zh hidden-lang">送出評估申請</span>
+                    </button>
+                    <a href="index.html" class="text-xs text-stone-400 hover:text-stone-600 transition">
+                        <span class="lang-en">Cancel & Return Home</span><span class="lang-zh hidden-lang">取消並回首頁</span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langBtn = document.getElementById('lang-btn');
+            let isEnglish = true;
+
+            // --- Dynamic Form Redirect ---
+            const form = document.querySelector('form');
+            if (form) {
+                const nextInput = form.querySelector('input[name="_next"]');
+                // Logic: If on UAT, stay on UAT. If on Prod, stay on Prod.
+                if (nextInput) {
+                    nextInput.value = window.location.origin + '/intake-success.html';
+                }
+            }
+
+            // Language Toggle Logic
+            if (langBtn) {
+                langBtn.addEventListener('click', function() {
+                    const enElements = document.querySelectorAll('.lang-en');
+                    const zhElements = document.querySelectorAll('.lang-zh');
+
+                    if (isEnglish) {
+                        enElements.forEach(el => el.classList.add('hidden-lang'));
+                        zhElements.forEach(el => el.classList.remove('hidden-lang'));
+                    } else {
+                        enElements.forEach(el => el.classList.remove('hidden-lang'));
+                        zhElements.forEach(el => el.classList.add('hidden-lang'));
+                    }
+                    isEnglish = !isEnglish;
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
