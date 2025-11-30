@@ -3,7 +3,7 @@
 ## 🌍 Environments
 | Environment | Branch | URL | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Production** | main | https://melsawellness.pages.dev | Live public site |
+| **Production** | main | https://melsawellness.com https://melsawellness.pages.dev | Live public site |
 | **UAT** | uat | https://uat.melsawellness.pages.dev | Versioning pre colour change |
 | **IST** | ist | https://ist.melsawellness.pages.dev | Staging |
 | **DEV** | dev | https://dev.melsawellness.pages.dev | Testing new features |
