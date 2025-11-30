@@ -15,9 +15,11 @@
 * **Styling:** Tailwind CSS (via CDN)
 * **Scripting:** Vanilla JavaScript (No frameworks)
 * **Hosting:** Cloudflare Pages (Unlimited bandwidth & requests)
-* **Forms:** Formsubmit.co (Email-based backend)
 * **Booking:** Calendly Integration
-
+* **Forms:** Formsubmit.co (Email-based backend) => deprecated from IST, replaced by Backend Automation + Database
+* **Backend Automation:** Google Apps Script (Serverless)
+* **Database:** Google Sheets ("MELSA Website Database")
+**Update (v2.0)**: We have migrated away from email-only forwarding (Formsubmit). Data is now sent via JavaScript fetch to a custom Google Apps Script, which appends rows to specific tabs in a secured Google Sheet.  
 ---
 
 ## 🎨 Design System (Light Theme)
@@ -78,20 +80,31 @@ Based on the "Rational Mystic" brand positioning.
 
 ```text
 /
-├── index.html          # Landing Page (Services, Philosophy, Newsletter)
-├── about.html          # About Me Page (Profile, Story)
-├── intake.html         # Client Intake Form (Diagnostic)
-├── thank-you.html      # Success page for Newsletter signup (Drumming Circle)
-├── intake-success.html # Success page for Client Intake (Assessment)
-├── README.md           # Project Documentation
-└── images/             # Image Assets Folder
-    ├── logo-w.png      # Primary Logo (Teal text, Transparent BG)
-    └── profile.png     # Founder Portrait (MUST be lowercase)
+├── index.html                # Landing Page (Services, Philosophy, Drumming Circle)
+├── about.html                # About Me Page (Profile, Story)
+├── intake.html               # [NEW] Diagnostic Intake Form for 1-on-1 services
+├── thank-you.html            # [NEW] Success page for Drumming Circle Signup
+├── intake-success.html       # [NEW] Success page for Client Intake
+├── melsawellness-dashboard.html # [NEW] Project Documentation Dashboard
+├── README.md                 # This documentation
+└── images/                   # Image Assets Folder
+    ├── logo-w.png            # Primary Logo (Teal text, Transparent BG)
+    └── profile.png           # Founder Portrait
 ```
 
 > **⚠️ CRITICAL RULES FOR ASSETS:**
 > 1.  **Case Sensitivity:** Cloudflare Pages is case-sensitive. `profile.png` ≠ `Profile.png`. Always use lowercase filenames.
 > 2.  **Absolute Paths:** Always reference images with a leading slash (e.g., `/images/profile.png`). This prevents broken images when Cloudflare uses Clean URLs (e.g., `/about` instead of `/about.html`).
+
+---
+
+## 📝 Localization (EN / 中文)
+The site uses a CSS-first class toggling system to prevent content flickering.
+
+* **English elements:** `<span class="lang-en">...</span>`
+* **Chinese elements:** `<span class="lang-zh hidden-lang">...</span>`
+
+**Logic:** JavaScript toggles the `hidden-lang` class. Chinese is hidden by default in CSS.
 
 ---
 
@@ -140,10 +153,25 @@ git commit -m "Update README docs [skip ci]"
 
 ---
 
-## 📝 Localization (EN / 中文)
-The site uses a CSS-first class toggling system to prevent content flickering.
+## V2.0 🌟 Key Features Update
 
-* **English elements:** `<span class="lang-en">...</span>`
-* **Chinese elements:** `<span class="lang-zh hidden-lang">...</span>`
+### 1. Newsletter & Community (Drumming Circle)
+* **Location:** `index.html` (Bottom section) + Nav Bar link.
+* **Design:** "Coming Soon" card style with Toronto/Markham location tags.
+* **Workflow:** User submits form → Data sent to Google Sheets (Newsletter tab) → Auto-redirect to `thank-you.html`.
 
-**Logic:** JavaScript toggles the `hidden-lang` class. Chinese is hidden by default in CSS.
+### 2. Client Intake System (Diagnostic)
+* **Location:** `intake.html` (Linked from Services CTA).
+* **Concept:** Framed as a "System Diagnostic" (identifying bugs/challenges) rather than a menu order.
+* **Workflow:** User submits diagnostic → Data sent to Google Sheets (Intake tab) → Auto-redirect to `intake-success.html`.
+
+### 3. Backend Automation (Google Sheets)
+* **Upgrade:** We moved away from email forwarding (Formsubmit) to a true database.
+* **Mechanism:** Custom Google Apps Script (`doPost`) receives form data via JS Fetch API and appends it to specific tabs in the Master Google Sheet.
+* **Security:** Script executes as "Me" (Owner), protecting the database from public access while allowing public submissions.
+
+### 4. Developer Dashboard
+* **File:** `melsawellness-dashboard.html`
+* **Purpose:** A single-page view to check live environment status, copy brand hex codes, view tech stack composition, and reference development workflows.
+
+---
