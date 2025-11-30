@@ -56,10 +56,11 @@
             </a>
             
             <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest text-stone-600 items-center">
-                <a href="#philosophy" class="hover:text-sage-500 transition"><span class="lang-en">Philosophy</span><span class="lang-zh hidden-lang">核心理念</span></a>
-                <a href="about.html" class="hover:text-sage-500 transition"><span class="lang-en">About</span><span class="lang-zh hidden-lang">關於我</span></a>
-                <a href="#services" class="hover:text-sage-500 transition"><span class="lang-en">Services</span><span class="lang-zh hidden-lang">服務項目</span></a>
-                <a href="#contact" class="hover:text-sage-500 transition"><span class="lang-en">Contact</span><span class="lang-zh hidden-lang">聯絡方式</span></a>
+                <a href="#philosophy" class="hover:text-sage-400 transition"><span class="lang-en">Philosophy</span><span class="lang-zh hidden-lang">核心理念</span></a>
+                <a href="about.html" class="hover:text-sage-400 transition"><span class="lang-en">About</span><span class="lang-zh hidden-lang">關於我</span></a>
+                <a href="#services" class="hover:text-sage-400 transition"><span class="lang-en">Services</span><span class="lang-zh hidden-lang">服務項目</span></a>
+                <a href="#newsletter" class="hover:text-sage-400 transition"><span class="lang-en">Community</span><span class="lang-zh hidden-lang">薩滿鼓圈</span></a>
+                <a href="#contact" class="hover:text-sage-400 transition"><span class="lang-en">Contact</span><span class="lang-zh hidden-lang">聯絡方式</span></a>
                 
                 <button id="lang-btn-desktop" class="text-sm border border-stone-300 px-3 py-1 rounded-full cursor-pointer hover:bg-stone-100 hover:text-sage-500 transition focus:outline-none ml-4">
                     EN / 中文
@@ -80,10 +81,11 @@
         </div>
 
         <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-stone-50 border-b border-stone-200 shadow-lg md:hidden flex-col p-6 space-y-6 text-center text-sm uppercase tracking-widest text-stone-600">
-            <a href="#philosophy" class="block hover:text-sage-500 mobile-link"><span class="lang-en">Philosophy</span><span class="lang-zh hidden-lang">核心理念</span></a>
-            <a href="about.html" class="block hover:text-sage-500 mobile-link"><span class="lang-en">About</span><span class="lang-zh hidden-lang">關於我</span></a>
-            <a href="#services" class="block hover:text-sage-500 mobile-link"><span class="lang-en">Services</span><span class="lang-zh hidden-lang">服務項目</span></a>
-            <a href="#contact" class="block hover:text-sage-500 mobile-link"><span class="lang-en">Contact</span><span class="lang-zh hidden-lang">聯絡方式</span></a>
+            <a href="#philosophy" class="block hover:text-sage-400 mobile-link"><span class="lang-en">Philosophy</span><span class="lang-zh hidden-lang">核心理念</span></a>
+            <a href="about.html" class="block hover:text-sage-400 mobile-link"><span class="lang-en">About</span><span class="lang-zh hidden-lang">關於我</span></a>
+            <a href="#services" class="block hover:text-sage-400 mobile-link"><span class="lang-en">Services</span><span class="lang-zh hidden-lang">服務項目</span></a>
+            <a href="#newsletter" class="block hover:text-sage-500 mobile-link"><span class="lang-en">Drumming Circle</span><span class="lang-zh hidden-lang">薩滿鼓圈</span></a>
+            <a href="#contact" class="block hover:text-sage-400 mobile-link"><span class="lang-en">Contact</span><span class="lang-zh hidden-lang">聯絡方式</span></a>
         </div>
     </nav>
 
@@ -346,47 +348,83 @@
         </div>
     </section>
 
-    <section id="newsletter" class="py-20 px-6 bg-sage-100/50 border-t border-stone-200">
-        <div class="max-w-3xl mx-auto text-center">
-            
-            <div class="text-3xl mb-4">🥁</div>
+    <!-- ============================================ -->
+    <!-- SECTION: 薩滿鼓圈訂閱 (Coming Soon & Waitlist) -->
+    <!-- ============================================ -->
+    <section id="newsletter" class="py-24 px-6 bg-sage-100/50 border-t border-stone-200 relative overflow-hidden">
+        <!-- Decorative Gradient Top -->
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-sage-100 via-sage-500 to-sage-100 opacity-50"></div>
 
-            <h2 class="text-2xl md:text-3xl font-serif text-stone-800 mb-4">
-                <span class="lang-en">Join the Drumming Circle</span>
-                <span class="lang-zh hidden-lang">加入薩滿鼓圈</span>
+        <div class="max-w-3xl mx-auto text-center relative z-10">
+            
+            <!-- Coming Soon Badge -->
+            <div class="inline-block bg-stone-900 text-white text-xs font-bold tracking-[0.2em] uppercase px-4 py-2 rounded-full mb-8 shadow-md">
+                <span class="lang-en">Coming Soon • Spring 2025</span>
+                <span class="lang-zh hidden-lang">即將推出 • 2025 春季</span>
+            </div>
+
+            <!-- Icon -->
+            <div class="text-4xl mb-6 animate-pulse">🥁</div>
+
+            <!-- Title -->
+            <h2 class="text-3xl md:text-4xl font-serif text-stone-900 mb-4">
+                <span class="lang-en">In-Person Drumming Circle</span>
+                <span class="lang-zh hidden-lang">實體薩滿鼓圈</span>
             </h2>
 
-            <p class="text-stone-600 mb-8 leading-relaxed">
-                <span class="lang-en">Be the first to know about upcoming in-person and virtual drumming circles. Connect with the rhythm of your inner wisdom.</span>
-                <span class="lang-zh hidden-lang">第一時間獲取實體與線上鼓圈的活動資訊。與您內在智慧的節奏重新連結。</span>
+            <!-- Location Highlight -->
+            <div class="inline-flex items-center gap-2 text-sage-600 font-bold tracking-wide uppercase text-sm mb-8 bg-white px-4 py-1 rounded-full border border-sage-200 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="lang-en">Toronto (Markham) • Ontario</span>
+                <span class="lang-zh hidden-lang">多倫多 (萬錦市) • 安大略省</span>
+            </div>
+
+            <!-- Description -->
+            <p class="text-stone-600 mb-10 leading-relaxed max-w-xl mx-auto">
+                <span class="lang-en">Reconnect with the rhythm of your inner wisdom in a shared physical space. We are curating a grounded, sacred container for community healing.</span>
+                <span class="lang-zh hidden-lang">在實體空間中，與您內在智慧的節奏重新連結。我們正在籌備一個接地、神聖的社群療癒場域。</span>
             </p>
 
-            <form action="https://formsubmit.co/melsawellness@gmail.com" method="POST" class="max-w-md mx-auto space-y-4">
+            <!-- Notify Form (Waitlist) -->
+            <div class="bg-white p-8 rounded-sm shadow-lg border border-stone-100 max-w-md mx-auto relative">
+                <!-- Visual accent -->
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-sage-500 w-12 h-1 rounded-full"></div>
+
+                <h3 class="text-stone-800 font-bold text-xs uppercase tracking-wider mb-6 text-center">
+                    <span class="lang-en">Join the Waitlist</span>
+                    <span class="lang-zh hidden-lang">加入等候名單</span>
+                </h3>
                 
-                <input type="hidden" name="_subject" value="New Drumming Circle Signup! (來自網站)">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value=""> <div>
-                    <input type="text" name="name" required 
-                           class="w-full px-4 py-3 rounded-sm border border-stone-300 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition"
-                           placeholder="Name / 姓名">
-                </div>
+                <form action="https://formsubmit.co/melsawellness@gmail.com" method="POST" class="space-y-4">
+                    
+                    <input type="hidden" name="_subject" value="Drumming Circle Waitlist Signup (鼓圈等候名單)">
+                    <input type="hidden" name="_captcha" value="false">
+                    <!-- Dynamic redirect will be handled by JS below -->
+                    <input type="hidden" name="_next" value=""> 
 
-                <div>
-                    <input type="email" name="email" required 
-                           class="w-full px-4 py-3 rounded-sm border border-stone-300 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition"
-                           placeholder="Email Address / 電子信箱">
-                </div>
+                    <div>
+                        <input type="text" name="name" required 
+                               class="w-full px-4 py-3 rounded-sm border border-stone-300 bg-stone-50 text-stone-800 placeholder-stone-400 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition text-sm"
+                               placeholder="Name / 姓名">
+                    </div>
 
-                <button type="submit" class="w-full bg-sage-500 text-white font-medium py-3 rounded-sm hover:bg-sage-600 transition shadow-sm tracking-wider uppercase text-sm">
-                    <span class="lang-en">Stay Connected</span>
-                    <span class="lang-zh hidden-lang">保持聯繫</span>
-                </button>
+                    <div>
+                        <input type="email" name="email" required 
+                               class="w-full px-4 py-3 rounded-sm border border-stone-300 bg-stone-50 text-stone-800 placeholder-stone-400 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition text-sm"
+                               placeholder="Email Address / 電子信箱">
+                    </div>
 
-                <p class="text-xs text-stone-400 mt-4">
-                    <span class="lang-en">No spam. Unsubscribe anytime.</span>
-                    <span class="lang-zh hidden-lang">絕無垃圾郵件。隨時可取消。</span>
-                </p>
-            </form>
+                    <button type="submit" class="w-full bg-stone-800 text-white font-bold py-3 rounded-sm hover:bg-sage-500 transition shadow-md tracking-wider uppercase text-xs">
+                        <span class="lang-en">Notify Me When It Starts</span>
+                        <span class="lang-zh hidden-lang">活動開始時通知我</span>
+                    </button>
+
+                    <p class="text-[10px] text-stone-400 text-center mt-2">
+                        <span class="lang-en">No spam. You will only be notified about this event.</span>
+                        <span class="lang-zh hidden-lang">無垃圾郵件。僅發送此活動相關通知。</span>
+                    </p>
+                </form>
+            </div>
         </div>
     </section>
 
