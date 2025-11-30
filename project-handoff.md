@@ -69,3 +69,127 @@ Critical technical rule: Images must use absolute paths (e.g., /images/file.png)
 
 My next task is: [Insert your next goal here, e.g., 'Connect my custom domain', 'Add a blog section', 'Refine the mobile footer']
 ```
+---
+# 📦 MELSA Wellness Project Handoff
+
+> **Version:** 2.0 (Live Release)
+> **Date:** November 30, 2025
+> **Status:** ✅ Production Active
+
+---
+
+## 1. Project Overview
+**Brand Identity:** "The Rational Mystic"
+MELSA Wellness bridges corporate strategy and shamanic wisdom, targeting high-achieving professionals. The website reflects this with a clean, structured "Light Theme" aesthetic (Cream & Teal) and tech-forward metaphors for spiritual services.
+
+### Live URLs
+* **Production (Main):** [https://melsawellness.com](https://melsawellness.com) (Primary Domain)
+* **Staging (UAT) Backup:** [https://uat.melsawellness.pages.dev](https://uat.melsawellness.pages.dev)
+* **IST/Feature Testing:** [https://dev.melsawellness.pages.dev](https://dev.melsawellness.pages.dev)
+* **Dev/Feature Testing:** [https://dev.melsawellness.pages.dev](https://dev.melsawellness.pages.dev)
+
+---
+
+## 2. Technical Architecture
+
+### Stack
+* **Frontend:** HTML5, Vanilla JavaScript, Tailwind CSS (CDN).
+* **Hosting:** Cloudflare Pages (Static Site Hosting).
+* **Backend Logic:** Google Apps Script (Serverless function for form handling).
+* **Database:** Google Sheets (Two tabs: Newsletter, Intake).
+* **Booking System:** Calendly.
+
+### Key Integrations
+
+| Feature | Provider | Logic |
+| :--- | :--- | :--- |
+| **Forms** | Custom JS `fetch()` | Sends data to Google Apps Script Web App URL. |
+| **Database** | Google Sheets | Script appends rows to specific sheets based on hidden `formType` input. |
+| **Booking** | Calendly | Direct links for `/free` (Intro) and custom intake for paid sessions. |
+| **Analytics** | Cloudflare | Built-in privacy-first web analytics. |
+
+---
+
+## 3. File Structure & Critical Logic
+
+```text
+/
+├── index.html             # Landing Page
+│   ├── Logic: Language Toggle, Mobile Menu, Newsletter Form Submission
+│   └── Key Sections: Hero, Philosophy, Services Grid, Newsletter
+├── about.html             # About Page
+│   ├── Logic: Language Toggle
+│   └── Assets: Uses absolute path /images/profile.png
+├── intake.html            # Diagnostic Intake Form
+│   ├── Logic: Form Submission -> Redirect to intake-success.html
+│   └── Fields: Name, Email, Current Challenge, Desired Outcome
+├── thank-you.html         # Success Page for Newsletter (Drumming Circle)
+├── intake-success.html    # Success Page for Client Intake
+├── melsawellness-dashboard.html # Developer Documentation Dashboard
+├── README.md              # Project Documentation
+└── images/                # Asset Folder (Case Sensitive!)
+    ├── logo-w.png         # Teal Logo (Transparent BG)
+    └── profile.png        # Emily's Photo
+```
+
+---
+
+## 4. Design System (Light Theme)
+
+### Primary Colors
+| Color Name | Hex Code | Usage |
+| :--- | :--- | :--- |
+| **Stone 50** | `#FAF9F6` | Background (Cream) |
+| **Stone 900** | `#1C1917` | Text (Charcoal) |
+| **Sage 500** | `#4FB5B0` | Brand Accent (Teal) |
+
+### Typography
+* **Headings:** Georgia (Serif) — *Represents "Mystic/Wisdom"*
+* **Body:** Helvetica Neue / Arial (Sans) — *Represents "Rational/Modern"*
+
+---
+
+## 5. Operational Workflows
+
+### A. The "Credit-Saver" Dev Workflow
+To avoid hitting Cloudflare build limits (500/mo):
+1.  **Local First:** Always preview `index.html` on your local machine (VS Code / Chromebook) to fix typos and layout.
+2.  **Batch Commits:** Use `[skip ci]` in commit messages for minor saves that don't need immediate deployment.
+3.  **UAT Testing:** Push to the `uat` branch to test on mobile or share with friends.
+4.  **Production Release:** Only merge `uat` to `main` when features are 100% ready.
+
+### B. Content Management (CMS)
+* **Updating Text:** Edit HTML files directly. Use `<span class="lang-en">` and `<span class="lang-zh hidden-lang">` for bilingual content.
+* **Updating Images:**
+    * **Rule 1:** Filenames must be lowercase (`profile.png`, not `Profile.png`).
+    * **Rule 2:** Use absolute paths in HTML (`/images/profile.png`).
+    * **Method:** To replace an image, delete the old file in GitHub and upload the new one with the **exact same name**.
+
+### C. Client Management
+* **New Leads:** Check the **"Intake"** tab in your Google Sheet.
+* **Drumming Circle:** Check the **"Newsletter"** tab in your Google Sheet.
+* **Email Notifications:** You will receive an email notification for every new submission (configured in Apps Script).
+
+---
+
+## 6. Known "Gotchas" & Troubleshooting
+
+### Image 404 Errors
+* **Cause:** Usually case sensitivity (e.g., referencing `Logo.png` in code but file is `logo.png`).
+* **Fix:** Rename file to all lowercase and ensure code matches exactly. Use absolute paths (`/images/...`).
+
+### Form "Bad Request" (400)
+* **Cause:** Google Apps Script permissions not set correctly.
+* **Fix:** Redeploy the script as "Web App", set **"Execute as: Me"**, and **"Who has access: Anyone"**. Use the `/exec` URL.
+
+### Chinese Text "Flicker"
+* **Fix:** Ensure all Chinese elements have the `hidden-lang` class in the HTML source code. Do not rely solely on JS to hide them.
+
+---
+
+## 7. Future Roadmap Items
+- [ ] **Blog/Journal:** Create a simple blog layout for sharing articles.
+- [ ] **SEO:** Add `<meta>` descriptions and Open Graph (OG) tags for better social sharing.
+- [ ] **Domain Email:** Set up Cloudflare Email Routing to forward `hello@melsawellness.ca` to your Gmail.
+
+*End of Handoff Document*
