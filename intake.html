@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Intake | MELSA Wellness</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script>
         tailwind.config = {
             theme: {
@@ -23,7 +21,6 @@
             }
         }
     </script>
-    
     <style>
         .fade-in { animation: fadeIn 1.2s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -38,23 +35,18 @@
     </div>
 
     <main class="relative z-10 w-full max-w-2xl bg-white/95 backdrop-blur-md shadow-xl rounded-sm overflow-hidden fade-in border border-white my-auto">
-        
         <div class="bg-sage-500 h-2 w-full"></div>
-
         <div class="p-8 md:p-12 relative">
-            
             <button id="lang-btn" class="absolute top-8 right-8 text-xs border border-stone-300 px-2 py-1 rounded-full text-stone-500 hover:text-sage-500 hover:border-sage-500 transition focus:outline-none bg-white/80">
                 EN / 中文
             </button>
 
             <div class="mb-8 text-center md:text-left">
                 <p class="text-xs font-bold tracking-[0.2em] text-sage-500 uppercase mb-2">
-                    <span class="lang-en">Preliminary Assessment</span>
-                    <span class="lang-zh hidden-lang">初步評估</span>
+                    <span class="lang-en">Preliminary Assessment</span><span class="lang-zh hidden-lang">初步評估</span>
                 </p>
                 <h1 class="text-3xl font-serif text-stone-900 mb-2">
-                    <span class="lang-en">Initiate Your Intake</span>
-                    <span class="lang-zh hidden-lang">啟動您的評估流程</span>
+                    <span class="lang-en">Initiate Your Intake</span><span class="lang-zh hidden-lang">啟動您的評估流程</span>
                 </h1>
                 <p class="text-stone-500 text-sm">
                     <span class="lang-en">Please brief me on your situation. This helps me determine the right diagnostic approach.</span>
@@ -63,12 +55,9 @@
             </div>
 
             <form action="https://formsubmit.co/melsawellness@gmail.com" method="POST" class="space-y-6">
-                
                 <input type="hidden" name="_subject" value="New Client Intake Request (評估申請)">
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="https://melsawellness.pages.dev/intake-success.html">
-
-                <div class="grid md:grid-cols-2 gap-6">
+                <input type="hidden" name="_next" value=""> <div class="grid md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-xs uppercase tracking-wider text-stone-500 mb-2">Name / 姓名</label>
                         <input type="text" name="name" required class="w-full px-4 py-3 rounded-sm border border-stone-200 bg-stone-50 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition">
@@ -78,35 +67,28 @@
                         <input type="email" name="email" required class="w-full px-4 py-3 rounded-sm border border-stone-200 bg-stone-50 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition">
                     </div>
                 </div>
-
                 <div>
                     <label class="block text-xs uppercase tracking-wider text-stone-500 mb-2">
-                        <span class="lang-en">Current Challenge or "Bug"</span>
-                        <span class="lang-zh hidden-lang">目前的挑戰或「系統錯誤」</span>
+                        <span class="lang-en">Current Challenge or "Bug"</span><span class="lang-zh hidden-lang">目前的挑戰或「系統錯誤」</span>
                     </label>
                     <textarea name="challenge" rows="4" required class="w-full px-4 py-3 rounded-sm border border-stone-200 bg-stone-50 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition" placeholder="What feels stuck, heavy, or disconnected? / 哪裡感覺卡住了、沈重或斷聯？"></textarea>
                 </div>
-
                 <div>
                     <label class="block text-xs uppercase tracking-wider text-stone-500 mb-2">
-                        <span class="lang-en">Desired System State</span>
-                        <span class="lang-zh hidden-lang">期望的系統狀態</span>
+                        <span class="lang-en">Desired System State</span><span class="lang-zh hidden-lang">期望的系統狀態</span>
                     </label>
                     <input type="text" name="goal" class="w-full px-4 py-3 rounded-sm border border-stone-200 bg-stone-50 focus:outline-none focus:border-sage-500 focus:ring-1 focus:ring-sage-500 transition" placeholder="e.g., Clarity, Energy, Closure / 例如：清晰、活力、放下過去">
                 </div>
 
                 <div class="pt-4 flex flex-col md:flex-row gap-4 items-center">
                     <button type="submit" class="w-full md:w-auto px-8 py-3 bg-sage-500 text-white font-medium rounded-sm hover:bg-sage-600 transition shadow-sm tracking-wider uppercase text-xs">
-                        <span class="lang-en">Submit for Review</span>
-                        <span class="lang-zh hidden-lang">送出評估申請</span>
+                        <span class="lang-en">Submit for Review</span><span class="lang-zh hidden-lang">送出評估申請</span>
                     </button>
                     <a href="index.html" class="text-xs text-stone-400 hover:text-stone-600 transition">
-                        <span class="lang-en">Cancel & Return Home</span>
-                        <span class="lang-zh hidden-lang">取消並回首頁</span>
+                        <span class="lang-en">Cancel & Return Home</span><span class="lang-zh hidden-lang">取消並回首頁</span>
                     </a>
                 </div>
             </form>
-            
         </div>
     </main>
 
@@ -115,6 +97,17 @@
             const langBtn = document.getElementById('lang-btn');
             let isEnglish = true;
 
+            // --- Dynamic Form Redirect ---
+            const form = document.querySelector('form');
+            if (form) {
+                const nextInput = form.querySelector('input[name="_next"]');
+                // Logic: If on UAT, stay on UAT. If on Prod, stay on Prod.
+                if (nextInput) {
+                    nextInput.value = window.location.origin + '/intake-success.html';
+                }
+            }
+
+            // Language Toggle Logic
             if (langBtn) {
                 langBtn.addEventListener('click', function() {
                     const enElements = document.querySelectorAll('.lang-en');
