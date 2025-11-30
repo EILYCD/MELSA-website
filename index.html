@@ -48,7 +48,7 @@
 </head>
 <body class="bg-stone-50 text-stone-600 font-sans antialiased">
 
-<nav class="fixed w-full bg-stone-50/95 backdrop-blur-md z-50 border-b border-stone-200">
+    <nav class="fixed w-full bg-stone-50/95 backdrop-blur-md z-50 border-b border-stone-200">
         <div class="max-w-6xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
             
             <a href="#" class="z-50">
@@ -161,7 +161,8 @@
                         <div class="flex items-center gap-3 mb-4">
                             <span class="px-3 py-1 bg-sage-500 text-white text-xs uppercase tracking-widest rounded-full font-medium">
                                 <span class="lang-en">Flagship Program</span>
-                                <span class="lang-zh hidden-lang">旗艦項目</span> </span>
+                                <span class="lang-zh hidden-lang">旗艦項目</span>
+                            </span>
                             <span class="text-sage-500 text-xs uppercase tracking-widest font-medium">
                                 <span class="lang-en">5-Week Deep Dive</span>
                                 <span class="lang-zh hidden-lang">5週深度旅程</span>
@@ -197,13 +198,16 @@
                     <div class="text-center md:border-l md:border-stone-200 md:pl-8">
                         <p class="text-sm text-stone-600 mb-6">
                             <span class="lang-en">Start building your own authority.</span>
-                            <span class="lang-zh hidden-lang">開始建立您的內在自主權。</span> </p>
+                            <span class="lang-zh hidden-lang">開始建立您的內在自主權。</span>
+                        </p>
                         <a href="https://calendly.com/melsawellness/free" target="_blank" class="block w-full bg-sage-500 text-white py-4 rounded-sm hover:bg-sage-600 transition font-medium mb-4 shadow-md">
                             <span class="lang-en">Book Intro Call</span>
-                            <span class="lang-zh hidden-lang">預約初步對談</span> </a>
+                            <span class="lang-zh hidden-lang">預約初步對談</span>
+                        </a>
                         <p class="text-xs text-stone-500">
                             <span class="lang-en">Free 15-min consultation</span>
-                            <span class="lang-zh hidden-lang">免費 15 分鐘評估</span> </p>
+                            <span class="lang-zh hidden-lang">免費 15 分鐘評估</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -232,7 +236,8 @@
                     <div class="bg-white p-6 rounded-sm border border-stone-200 shadow-sm hover:shadow-md transition group">
                         <h5 class="text-xl font-serif text-stone-900 mb-3">
                             <span class="lang-en">Divination</span>
-                            <span class="lang-zh hidden-lang">薩滿諮詢占卜-直接訊息取得</span> </h5>
+                            <span class="lang-zh hidden-lang">薩滿諮詢占卜-直接訊息取得</span>
+                        </h5>
                         <p class="text-sage-500 text-xs uppercase tracking-wider mb-3 font-bold">
                             <span class="lang-en">Metaphor: A Predictive Algorithm</span>
                             <span class="lang-zh hidden-lang">類比：預測演算法</span>
@@ -339,7 +344,9 @@
 
             </div>
         </div>
-<section id="newsletter" class="py-20 px-6 bg-sage-100/50 border-t border-stone-200">
+    </section>
+
+    <section id="newsletter" class="py-20 px-6 bg-sage-100/50 border-t border-stone-200">
         <div class="max-w-3xl mx-auto text-center">
             
             <div class="text-3xl mb-4">🥁</div>
@@ -405,17 +412,27 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            
+            const langBtnDesktop = document.getElementById('lang-btn-desktop');
+            const langBtnMobile = document.getElementById('lang-btn-mobile');
             const btn = document.getElementById('mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
             const mobileLinks = document.querySelectorAll('.mobile-link');
+            let isEnglish = true;
+
+            // --- Dynamic Form Redirect ---
+            const newsletterForm = document.querySelector('#newsletter form');
+            if (newsletterForm) {
+                const nextInput = newsletterForm.querySelector('input[name="_next"]');
+                if (nextInput) {
+                    nextInput.value = window.location.origin + '/thank-you.html';
+                }
+            }
 
             if (btn && menu) {
                 btn.addEventListener('click', () => {
                     menu.classList.toggle('hidden');
                     menu.classList.toggle('flex');
                 });
-
                 mobileLinks.forEach(link => {
                     link.addEventListener('click', () => {
                         menu.classList.add('hidden');
@@ -423,10 +440,6 @@
                     });
                 });
             }
-
-            const langBtnDesktop = document.getElementById('lang-btn-desktop');
-            const langBtnMobile = document.getElementById('lang-btn-mobile');
-            let isEnglish = true;
 
             function toggleLanguage() {
                 const enElements = document.querySelectorAll('.lang-en');
