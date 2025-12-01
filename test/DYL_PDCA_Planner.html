@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DYL人生設計與PDCA行動藍圖</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f7fafc;
+            color: #1a202c;
+        }
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 1rem;
+        }
+
+        /* Custom Colors & Components */
+        .color-primary { color: #00bcd4; } /* Teal */
+        .bg-primary { background-color: #00bcd4; }
+        .border-primary { border-color: #00bcd4; }
+        .text-section {
+            border-left: 4px solid #1976d2; /* Deep Blue */
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Specific Table Styling */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background-color: #e3f2fd;
+            font-weight: 600;
+            color: #1976d2;
+            text-transform: uppercase;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .table-rounded {
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Hide content on screen but show for print */
+        @media print {
+            body {
+                background-color: white;
+                color: black;
+                font-size: 10pt;
+                padding: 0;
+                margin: 0;
+            }
+            .container { max-width: none; padding: 0.5cm; }
+            .tabs, .tab-content > div:not(#printable-template) { display: none; }
+            #printable-template { display: block !important; }
+            .print-button { display: none; }
+            .card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                padding: 1rem;
+                margin-bottom: 0.5rem;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3 { color: black !important; }
+            /* Printable Template Specific Layout */
+            .printable-section {
+                margin-bottom: 1cm;
+                border-bottom: 2px solid black;
+                padding-bottom: 0.5cm;
+            }
+            .fill-line {
+                border-bottom: 1px dashed #666;
+                height: 1.5em;
+                margin-top: 0.5em;
+            }
+            .goal-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            .goal-box {
+                border: 1px solid #999;
+                padding: 10px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-4xl font-bold text-gray-800 mb-6 border-b pb-3">年度人生設計藍圖：思考・設計・行動・檢視</h1>
+
+        <!-- Tab Navigation -->
+        <div class="flex border-b tabs mb-6 overflow-x-auto whitespace-nowrap">
+            <button class="tab-button py-2 px-4 text-lg font-medium transition-all duration-200" data-target="vision-goals">
+                🧭 藍圖總覽：願景與SMART目標
+            </button>
+            <button class="tab-button py-2 px-4 text-lg font-medium transition-all duration-200" data-target="roadmap-mvt">
+                🗓️ 行動規劃：12月路線圖與MVT
+            </button>
+            <button class="tab-button py-2 px-4 text-lg font-medium transition-all duration-200" data-target="pdca-risks">
+                🔄 檢視與風險：PDCA與應對
+            </button>
+            <button class="tab-button py-2 px-4 text-lg font-medium transition-all duration-200" data-target="printable-template">
+                🖨️ 手寫模板 (可列印)
+            </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Tab 1: Vision & SMART -->
+            <div id="vision-goals" class="tab-pane grid md:grid-cols-3 gap-6">
+                <!-- 核心價值與願景 -->
+                <div class="card md:col-span-1 bg-blue-50 border-t-4 border-blue-500">
+                    <h2 class="text-2xl font-semibold text-blue-800 mb-4 flex items-center"><i class="fas fa-heart mr-2"></i> 核心價值與願景</h2>
+                    <div class="text-section">
+                        <p class="font-bold">核心價值 (Core Values):</p>
+                        <p class="text-lg">家庭 (首位)、健康 (需實踐)、自由、生活品質、精神富足</p>
+                    </div>
+                    <div class="text-section mt-4">
+                        <p class="font-bold">年度願景 (Odyssey Plan):</p>
+                        <p class="text-lg font-bold text-green-700">Plan B：轉向成長型</p>
+                        <p class="text-sm text-gray-600">平衡穩定工作與新挑戰 (療癒副業＋減重＋自我品牌)。</p>
+                    </div>
+                    <div class="text-section mt-4">
+                        <p class="font-bold">Workview / Lifeview 對齊:</p>
+                        <p class="text-sm text-gray-600">透過 MELSA 結合「貢獻」與「精神富足」，在政府工作外創造「自由」與「變化」。</p>
+                    </div>
+                </div>
+
+                <!-- SMART 目標 -->
+                <div class="card md:col-span-2">
+                    <h2 class="text-2xl font-semibold color-primary mb-4 flex items-center"><i class="fas fa-check-circle mr-2"></i> SMART 行動目標 (2026/07)</h2>
+                    <div class="overflow-x-auto table-rounded">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>領域</th>
+                                    <th>SMART 目標 (具體)</th>
+                                    <th>時限 (Time-bound)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-medium text-red-600">健康與體能 (5分)</td>
+                                    <td>**成功減重 15 公斤**，並維持低衝擊運動習慣 (3-4 次/週)。</td>
+                                    <td>2026 年 7 月底前</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-blue-600">工作與職涯 (7分)</td>
+                                    <td>獲得 **Google Machine Learning Engineer (MLE) 專業證書**。</td>
+                                    <td>2026 年 1 月底前</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-green-600">財務與副業 (7分)</td>
+                                    <td>正式啟動 **MELSA 營運**並開始接受個案。</td>
+                                    <td>2026 年 1 月底前 (接案：2 月底前)</td>
+                                </tr>
+                                <tr>
+                                    <td>薩滿學習</td>
+                                    <td>完成兩門進階薩滿課程 (*Practice & Advanced*)。</td>
+                                    <td>2026 年 6 月底前</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium text-yellow-600">家庭 (行政)</td>
+                                    <td>11 月底前完成所有孩子常規的物流與行政確認。</td>
+                                    <td>2025 年 11 月底前</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 滿意度與行動聚焦 -->
+                <div class="card md:col-span-3">
+                    <h3 class="text-xl font-semibold mb-3">九宮格滿意度與行動聚焦</h3>
+                    <div class="grid grid-cols-3 md:grid-cols-9 gap-4 text-center">
+                        <!-- Health -->
+                        <div class="p-3 bg-red-100 rounded-lg">
+                            <p class="text-2xl font-bold text-red-700">5/10</p>
+                            <p class="text-sm font-medium">健康與體能</p>
+                        </div>
+                        <!-- Work -->
+                        <div class="p-3 bg-blue-100 rounded-lg">
+                            <p class="text-2xl font-bold text-blue-700">7/10</p>
+                            <p class="text-sm font-medium">工作與職涯</p>
+                        </div>
+                        <!-- Finance -->
+                        <div class="p-3 bg-green-100 rounded-lg">
+                            <p class="text-2xl font-bold text-green-700">7/10</p>
+                            <p class="text-sm font-medium">財務與副業</p>
+                        </div>
+                        <!-- Others (Higher Scores) -->
+                        <div class="p-3 bg-gray-100 rounded-lg hidden md:block">
+                            <p class="text-2xl font-bold text-gray-700">8/10</p>
+                            <p class="text-sm font-medium">家庭關係</p>
+                        </div>
+                        <div class="p-3 bg-gray-100 rounded-lg hidden md:block">
+                            <p class="text-2xl font-bold text-gray-700">9/10</p>
+                            <p class="text-sm font-medium">個人成長</p>
+                        </div>
+                        <div class="p-3 bg-gray-100 rounded-lg hidden md:block">
+                            <p class="text-2xl font-bold text-gray-700">8/10</p>
+                            <p class="text-sm font-medium">心靈與創意</p>
+                        </div>
+                         <div class="p-3 bg-gray-100 rounded-lg hidden md:block">
+                            <p class="text-2xl font-bold text-gray-700">9/10</p>
+                            <p class="text-sm font-medium">社交與社群</p>
+                        </div>
+                        <div class="p-3 bg-gray-100 rounded-lg hidden md:block">
+                            <p class="text-2xl font-bold text-gray-700">8/10</p>
+                            <p class="text-sm font-medium">環境與秩序</p>
+                        </div>
+                        <div class="p-3 bg-gray-100 rounded-lg hidden md:block">
+                            <p class="text-2xl font-bold text-gray-700">8/10</p>
+                            <p class="text-sm font-medium">休息與玩樂</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Roadmap & MVT -->
+            <div id="roadmap-mvt" class="tab-pane hidden">
+                <h2 class="text-3xl font-bold mb-4 color-primary">📅 12 個月行動路線圖 (按月里程碑)</h2>
+                <div class="card overflow-x-auto table-rounded">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>月份</th>
+                                <th>AI 學習 (MLE)</th>
+                                <th>健康 (-2.5kg/月)</th>
+                                <th>副業/薩滿 (MELSA)</th>
+                                <th>家庭與其他</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>**Nov**</td>
+                                <td class="font-medium text-blue-600">衝刺 Agent Lab + Databricks 基礎 (10/62)。</td>
+                                <td class="font-medium text-red-600">**啟動**：運動常規 (3-4 次/週)；飲食追蹤。</td>
+                                <td>ICF 探索決策；協助 FSS Basic Workshop。</td>
+                                <td>行政：完成所有預約 (牙醫/游泳/治療)。</td>
+                            </tr>
+                            <tr>
+                                <td>**Dec**</td>
+                                <td>**完成**：Gen AI Leader 證書；啟動 MLE Pathway。</td>
+                                <td>達成 **-2.5 kg**；優化運動與飲食。</td>
+                                <td>**架設**：設置 Website, FB, Notion 品牌頁面。</td>
+                                <td>審查：常規執行狀況；規劃假期。</td>
+                            </tr>
+                            <tr>
+                                <td>**Jan**</td>
+                                <td class="font-medium text-blue-600">**完成**：取得 Google MLE 證書。</td>
+                                <td>達成 **-5 kg**。</td>
+                                <td>**營運**：開始接受薩滿療癒/諮詢個案 (目標 2 個案)。</td>
+                                <td>薩滿學習：啟動 *Shamanism in Practice*。</td>
+                            </tr>
+                            <tr>
+                                <td>**Mar**</td>
+                                <td>-</td>
+                                <td>達成 **-10 kg** (中期檢查)。</td>
+                                <td>**完成** *Shamanism in Practice* 課程。</td>
+                                <td>規劃暑期旅行細節。</td>
+                            </tr>
+                            <tr>
+                                <td>**Jun**</td>
+                                <td>-</td>
+                                <td class="font-medium text-red-600">達成 **-15 kg** (最終目標)。</td>
+                                <td>**完成** *Advanced Shamanic Healing Practice* 課程。</td>
+                                <td>協助 Dying and Beyond 準備。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 class="text-3xl font-bold mt-8 mb-4 color-primary">📝 每週最低可執行任務 (MVT)</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- 每週 MVT 清單 -->
+                    <div class="card bg-green-50 border-t-4 border-green-500">
+                        <h3 class="text-xl font-semibold text-green-700 mb-3">MVT 清單 (確保計畫不脫軌)</h3>
+                        <ul class="list-disc ml-5 space-y-2 text-gray-700">
+                            <li>**健康：** 執行 **3 次低衝擊運動**（每次 30 分鐘）。</li>
+                            <li>**專業：** 安排 **2 次 AI 學習區塊**（每次 60-90 分鐘）。</li>
+                            <li>**家庭：** 執行 **1 次 1:1 Mummy & Daughter Date**（至少 30 分鐘）。</li>
+                            <li>**追蹤：** 每週日晚上進行 **5 分鐘的進度檢查** (健康/AI/薩滿進度)。</li>
+                        </ul>
+                    </div>
+
+                    <!-- 每週時間分配 -->
+                    <div class="card bg-yellow-50 border-t-4 border-yellow-500">
+                        <h3 class="text-xl font-semibold text-yellow-700 mb-3">每週時間分配建議 (小時)</h3>
+                        <ul class="list-disc ml-5 space-y-2 text-gray-700">
+                            <li>AI 學習 (專業): **3.5 - 5 小時** (晚間專注)</li>
+                            <li>健康 (運動/追蹤): **2.5 - 3.5 小時** (清晨或週末)</li>
+                            <li>薩滿/副業 (MELSA): **4 - 6 小時** (週末或特定晚間)</li>
+                            <li>家庭 (質量/行政): **7 - 8 小時** (1:1 Date + 物流/行政)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: PDCA & Risks -->
+            <div id="pdca-risks" class="tab-pane hidden">
+                <h2 class="text-3xl font-bold mb-4 color-primary">🔄 PDCA 檢視與調整循環</h2>
+                <div class="card overflow-x-auto table-rounded mb-6">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>循環階段</th>
+                                <th>檢視問題 (Check) - 每週/每月</th>
+                                <th>調整行動 (Adjust) - 月度/季度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-bold text-red-600">D (執行) & C (檢視)</td>
+                                <td>**每週日**：是否達成 3 次運動 MVT、2 次 AI MVT、1 次 Date？<br>**每月 30 日**：體重是否達成 -2.5 kg 月目標？</td>
+                                <td>若健康落後：將運動時間增加到 4 次/週，並**嚴格控制一個高熱量飲食項**。</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-red-600">A (調整) - 季度</td>
+                                <td>**年度對齊檢查：** 哪些行動帶來了「自由」或「精神富足」的感受？哪些產生了「束縛」？</td>
+                                <td>**風險應對：** 若副業不如預期 (R2)，啟動 ICF 課程研究以提供更結構化服務。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 class="text-3xl font-bold mb-4 color-primary">🚧 風險與替代方案 (風險管理)</h2>
+                <div class="card">
+                    <ul class="space-y-4">
+                        <li class="p-3 bg-red-50 rounded-lg border-l-4 border-red-400">
+                            <p class="font-semibold text-lg text-red-700">風險 R1：時間衝突與疲勞 (Burnout)</p>
+                            <p class="text-gray-600 mt-1">**緩解措施：** 嚴格執行「每週時間分配建議」；當疲憊時，將「AI 學習」暫時替換為「**主動休息**」；將運動強度降低至**純伸展**。</p>
+                        </li>
+                        <li class="p-3 bg-red-50 rounded-lg border-l-4 border-red-400">
+                            <p class="font-semibold text-lg text-red-700">風險 R2：家庭活動導致常規崩潰</p>
+                            <p class="text-gray-600 mt-1">**緩解措施：** 預留**星期五晚上**作為「彈性緩衝區」；當常規被打亂時，優先保持**運動 MVT**，AI 學習則挪至週末清晨補齊。</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card mt-6 bg-indigo-50 border-t-4 border-indigo-500 text-center">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-2">年度反思卡 (Mantra)</h3>
+                    <p class="text-lg font-semibold text-gray-800">「在穩定的環境中，創造自由與變化。」</p>
+                    <p class="text-sm text-gray-600 mt-2">用行動來體現健康，用貢獻來獲得富足。</p>
+                </div>
+            </div>
+
+            <!-- Tab 4: Printable Template -->
+            <div id="printable-template" class="tab-pane hidden">
+                <div class="card">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">📝 年度人生設計手寫模板</h2>
+                    <p class="text-lg text-gray-600 mb-6">您可以點擊下方的列印按鈕，將此頁面優化為手寫表格後印出。</p>
+                    <button onclick="window.print()" class="print-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-200">
+                        點此列印模板
+                    </button>
+                </div>
+
+                <div class="printable-container mt-6 p-4 border rounded-lg bg-white">
+                    <h1 class="text-2xl font-bold text-center mb-6 printable-section">【核心價值與年度願景】</h1>
+                    
+                    <div class="printable-section">
+                        <h3 class="text-xl font-semibold mb-2">核心價值觀 (請依序填寫 5 個)：</h3>
+                        <div class="goal-grid">
+                            <div class="goal-box border-primary"><p class="font-medium text-sm">第一位 (動力):</p><div class="fill-line"></div></div>
+                            <div class="goal-box"><p class="font-medium text-sm">第二位:</p><div class="fill-line"></div></div>
+                            <div class="goal-box"><p class="font-medium text-sm">第三位:</p><div class="fill-line"></div></div>
+                        </div>
+                        <p class="text-lg font-medium mt-4">年度提醒金句 (Mantra):</p>
+                        <div class="fill-line"></div>
+                    </div>
+
+                    <div class="printable-section">
+                        <h3 class="text-xl font-semibold mb-2">SMART 目標清單 (2026/07 前)</h3>
+                        <div class="goal-grid">
+                            <div class="goal-box"><p class="font-medium text-sm">1. 健康與體能 (減重):</p><div class="fill-line"></div></div>
+                            <div class="goal-box"><p class="font-medium text-sm">2. 工作與職涯 (證書):</p><div class="fill-line"></div></div>
+                            <div class="goal-box"><p class="font-medium text-sm">3. 財務與副業 (啟動):</p><div class="fill-line"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="printable-section">
+                        <h3 class="text-xl font-semibold mb-2">最低可執行任務 (MVT) 與時間分配</h3>
+                        <p class="font-medium text-sm">每週 MVT (Checklist):</p>
+                        <div class="fill-line"></div>
+                        <div class="fill-line"></div>
+                        <p class="font-medium text-sm mt-3">每週時間分配重點 (時數):</p>
+                        <div class="fill-line"></div>
+                    </div>
+
+                    <div class="printable-section">
+                        <h3 class="text-xl font-semibold mb-2">PDCA 檢視與調整 (每月檢視)</h3>
+                        <p class="font-medium text-sm">每月檢視問題 (Check):</p>
+                        <div class="fill-line"></div>
+                        <p class="font-medium text-sm mt-3">風險應對與調整 (Adjust):</p>
+                        <div class="fill-line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab-button');
+        const panes = document.querySelectorAll('.tab-pane');
+
+        // Initial active tab setup
+        function initializeTabs() {
+            tabs[0].classList.add('border-b-2', 'border-blue-500', 'text-blue-600');
+            panes[0].classList.remove('hidden');
+        }
+
+        function switchTab(targetId) {
+            // Deactivate all tabs
+            tabs.forEach(tab => {
+                tab.classList.remove('border-b-2', 'border-blue-500', 'text-blue-600');
+                tab.classList.add('text-gray-500');
+            });
+
+            // Hide all panes
+            panes.forEach(pane => {
+                pane.classList.add('hidden');
+            });
+
+            // Activate the selected tab
+            const activeTab = document.querySelector(`.tab-button[data-target="${targetId}"]`);
+            activeTab.classList.add('border-b-2', 'border-blue-500', 'text-blue-600');
+            activeTab.classList.remove('text-gray-500');
+
+            // Show the selected pane
+            document.getElementById(targetId).classList.remove('hidden');
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-target');
+                switchTab(target);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', initializeTabs);
+    </script>
+</body>
+</html>
