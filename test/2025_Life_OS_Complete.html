@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2025 Lightness & Sovereignty | Life OS (AI Powered)</title>
+    
+    <!-- React Core -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Styling & Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Markdown Parser for AI responses -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+        
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Mobile specific adjustments */
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* AI Loading Animation */
+        .shimmer {
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo, useRef } = React;
+
+        // ==========================================
+        // 1. Data Configuration (薩滿數據庫)
+        // ==========================================
+        
+        const SHAMAN_PROMPTS = {
+            "12-01": "【系統啟動】今天佔用你最多算力 (Compute Power) 的變數是什麼？",
+            "12-21": "【冬至重啟】寫下一個你希望在 2026 年顯化的高清畫面。",
+            "12-31": "【2026 System Prompt】用一句話定義 2026 年你的操作系統核心守則。",
+            "default": "今日靈感：在這一刻，你的身體感覺是輕盈還是沈重？" 
+        };
+
+        const MANDALA_DATA = [
+            { id: "spiritual", title: "🧘‍♀️ 身心靈", color: "bg-purple-50", text: "text-purple-700", goal: "薩滿社群連結", actions: ["Drumming Circle", "每日冥想", "AI 概念融合"] },
+            { id: "health", title: "🏃‍♀️ 健康體態", color: "bg-green-50", text: "text-green-700", goal: "減重 10-12kg", actions: ["RTO即運動", "戒情緒進食", "11pm 睡覺"] },
+            { id: "growth", title: "🎓 學習成長", color: "bg-blue-50", text: "text-blue-700", goal: "AI SME 權威", actions: ["AI 證照", "內部 Mentor", "顧問機會"] },
+            { id: "family", title: "👨‍👩‍👧‍👦 家庭", color: "bg-orange-50", text: "text-orange-700", goal: "高質量陪伴", actions: ["G9/G6 Date", "支持遠距", "全家旅行"] },
+            { id: "core", title: "💠 核心", color: "bg-slate-800", text: "text-white", goal: "輕盈主導，自在連結", actions: ["Body: Lightness", "Career: Sovereignty", "Spirit: Connection"] },
+            { id: "finance", title: "💰 財務副業", color: "bg-yellow-50", text: "text-yellow-700", goal: "驗證獲利", actions: ["工作坊 Beta", "個人品牌", "現金流"] },
+            { id: "social", title: "🤝 社交", color: "bg-pink-50", text: "text-pink-700", goal: "滋養型人際", actions: ["PM 社群", "讀書會", "遠離消耗"] },
+            { id: "leisure", title: "🎨 娛樂環境", color: "bg-teal-50", text: "text-teal-700", goal: "心流體驗", actions: ["Me time", "居家斷捨離", "閱讀書寫"] },
+            { id: "career", title: "🚀 工作職涯", color: "bg-indigo-50", text: "text-indigo-700", goal: "體制內創業", actions: ["SOP 建立", "爭取 WFH", "拒絕無效會議"] },
+        ];
+
+        // ==========================================
+        // 2. Storage Helpers & API Service
+        // ==========================================
+        const useLocalStorage = (key, initialValue) => {
+            const [storedValue, setStoredValue] = useState(() => {
+                try {
+                    const item = window.localStorage.getItem(key);
+                    return item ? JSON.parse(item) : initialValue;
+                } catch (error) {
+                    return initialValue;
+                }
+            });
+            const setValue = (value) => {
+                try {
+                    const valueToStore = value instanceof Function ? value(storedValue) : value;
+                    setStoredValue(valueToStore);
+                    window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            return [storedValue, setValue];
+        };
+
+        const getTodayStr = () => new Date().toISOString().split('T')[0];
+
+        // --- GEMINI API HELPER ---
+        const callGeminiAPI = async (apiKey, prompt, systemInstruction) => {
+            if (!apiKey) throw new Error("Missing API Key");
+            
+            // Using the flash-preview model as requested for text generation
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error?.message || "API Call Failed");
+            }
+
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+        };
+
+        // ==========================================
+        // 3. Components
+        // ==========================================
+
+        // --- 3.1 Dashboard & Mandala ---
+        const Dashboard = ({ apiKey }) => {
+            const [dyl, setDyl] = useLocalStorage('dyl_scores', { health: 60, work: 80, play: 40, love: 90 });
+            const [activeCell, setActiveCell] = useState(null);
+            const [isAiLoading, setIsAiLoading] = useState(false);
+
+            const handleAiBreakdown = async () => {
+                if (!apiKey) { alert("請先至 Settings 設定 Gemini API Key"); return; }
+                setIsAiLoading(true);
+                try {
+                    const prompt = `目標：${activeCell.goal}。既有行動：${activeCell.actions.join(', ')}。請身為一位資深產品經理與人生教練，針對此目標，再給出 3 個具體、可執行的一步行動建議 (Actionable Steps)。請用繁體中文，列點說明，語氣簡潔有力。`;
+                    const system = "You are an expert PM and Life Coach. Be concise, actionable, and encouraging.";
+                    
+                    const result = await callGeminiAPI(apiKey, prompt, system);
+                    
+                    // Simple parsing to extract lines
+                    const newActions = result.split('\n')
+                        .filter(line => line.trim().length > 0 && (line.includes('-') || line.includes('*') || line.match(/^\d\./)))
+                        .map(l => l.replace(/^[-*1-9.]+\s*/, '').trim())
+                        .slice(0, 3); // Limit to 3
+                    
+                    const finalActions = newActions.length > 0 ? newActions : ["AI 生成格式錯誤，請重試"];
+                    
+                    setActiveCell(prev => ({ ...prev, actions: [...prev.actions, ...finalActions] }));
+                } catch (e) {
+                    alert("AI Error: " + e.message);
+                } finally {
+                    setIsAiLoading(false);
+                }
+            };
+
+            return (
+                <div className="space-y-6 fade-in pb-24">
+                    {/* DYL Sliders */}
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <i data-lucide="activity" className="w-4 h-4"></i> Design Your Life
+                        </h3>
+                        <div className="grid grid-cols-4 gap-3">
+                            {Object.entries(dyl).map(([k, v]) => (
+                                <div key={k} className="flex flex-col items-center">
+                                    <div className="relative h-24 w-6 bg-slate-100 rounded-full overflow-hidden">
+                                        <div 
+                                            className={`absolute bottom-0 w-full transition-all duration-500 ${k==='health'?'bg-emerald-400':k==='work'?'bg-blue-400':k==='play'?'bg-amber-400':'bg-rose-400'}`}
+                                            style={{height: `${v}%`}}
+                                        ></div>
+                                        <input type="range" min="0" max="100" value={v} onChange={(e)=>setDyl({...dyl, [k]:parseInt(e.target.value)})} className="absolute inset-0 opacity-0 cursor-ns-resize"/>
+                                    </div>
+                                    <span className="text-[10px] font-bold mt-2 uppercase text-slate-500">{k}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Mandala Grid */}
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <i data-lucide="compass" className="w-4 h-4"></i> Mandala Chart
+                        </h3>
+                        <div className="grid grid-cols-3 gap-2 aspect-square">
+                            {MANDALA_DATA.map(cell => (
+                                <div 
+                                    key={cell.id} 
+                                    onClick={() => setActiveCell(cell)}
+                                    className={`${cell.color} ${cell.text} flex flex-col items-center justify-center p-2 rounded-xl text-center cursor-pointer transition-transform hover:scale-95 border border-white/50`}
+                                >
+                                    <span className={`text-[10px] md:text-xs font-bold ${cell.id === 'core' ? 'text-sm' : ''}`}>{cell.title}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Modal */}
+                    {activeCell && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm" onClick={()=>setActiveCell(null)}>
+                            <div className="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl fade-in" onClick={e=>e.stopPropagation()}>
+                                <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-3 ${activeCell.color} ${activeCell.text}`}>{activeCell.title}</div>
+                                <h2 className="text-xl font-bold text-slate-800 mb-4">{activeCell.goal}</h2>
+                                <ul className="space-y-3 max-h-60 overflow-y-auto mb-4 pr-2 custom-scroll">
+                                    {activeCell.actions.map((a,i)=>(
+                                        <li key={i} className="flex items-start text-sm text-slate-600 gap-3">
+                                            <div className="mt-1 w-1.5 h-1.5 rounded-full bg-slate-400 flex-shrink-0"></div>
+                                            {a}
+                                        </li>
+                                    ))}
+                                </ul>
+                                
+                                <button 
+                                    onClick={handleAiBreakdown}
+                                    disabled={isAiLoading}
+                                    className="w-full py-2 mb-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl text-sm font-medium flex items-center justify-center gap-2 disabled:opacity-50 hover:shadow-lg transition-all"
+                                >
+                                    {isAiLoading ? (
+                                        <><i data-lucide="loader-2" className="w-4 h-4 animate-spin"></i> Thinking...</>
+                                    ) : (
+                                        <><i data-lucide="sparkles" className="w-4 h-4"></i> ✨ AI 拆解行動 (Action Breakdown)</>
+                                    )}
+                                </button>
+                                
+                                <button onClick={()=>setActiveCell(null)} className="w-full py-3 bg-slate-100 text-slate-600 rounded-xl text-sm font-medium">Close</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // --- 3.2 Yearly Plan ---
+        const YearlyPlan = () => {
+            const [plan, setPlan] = useLocalStorage('yearly_pdca', {});
+            const quarters = [
+                { id: "q1", title: "Q1: Reset (1-3月)", theme: "bg-emerald-50 border-emerald-100" },
+                { id: "q2", title: "Q2: Rhythm (4-6月)", theme: "bg-blue-50 border-blue-100" },
+                { id: "q3", title: "Q3: Link (7-9月)", theme: "bg-amber-50 border-amber-100" },
+                { id: "q4", title: "Q4: Harvest (10-12月)", theme: "bg-rose-50 border-rose-100" },
+            ];
+            const fields = ["Plan (目標)", "Do (執行)", "Check (復盤)", "Act (調整)"];
+
+            const handleChange = (qId, field, val) => {
+                setPlan({...plan, [`${qId}-${field}`]: val});
+            };
+
+            return (
+                <div className="space-y-6 pb-24 fade-in">
+                    <div className="flex justify-between items-center mb-2">
+                        <h2 className="text-xl font-bold text-slate-800">2025-2026 Roadmap</h2>
+                        <span className="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded">PDCA</span>
+                    </div>
+                    <div className="space-y-4">
+                        {quarters.map(q => (
+                            <div key={q.id} className={`rounded-2xl border p-4 ${q.theme}`}>
+                                <h3 className="font-bold text-slate-700 mb-3">{q.title}</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {fields.map(f => (
+                                        <div key={f} className="bg-white/60 p-2 rounded-lg">
+                                            <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1">{f}</label>
+                                            <textarea 
+                                                className="w-full bg-transparent text-sm text-slate-700 resize-none focus:outline-none h-16"
+                                                placeholder="..."
+                                                value={plan[`${q.id}-${f}`] || ""}
+                                                onChange={(e)=>handleChange(q.id, f, e.target.value)}
+                                            ></textarea>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // --- 3.3 Weekly Planner (With AI Audit) ---
+        const WeeklyPlanner = ({ apiKey }) => {
+            const [weekData, setWeekData] = useLocalStorage('weekly_plan', {});
+            const [aiAdvice, setAiAdvice] = useState("");
+            const [isAiLoading, setIsAiLoading] = useState(false);
+            const timeSlots = [];
+            for (let i = 5; i < 29; i++) timeSlots.push(i % 24);
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+            // Color coding helper
+            const getStyle = (text) => {
+                if (!text) return "";
+                if (text.toLowerCase().includes("rto")) return "bg-green-100 text-green-800 border-green-200";
+                if (text.toLowerCase().includes("deep")) return "bg-blue-100 text-blue-800 border-blue-200";
+                if (text.toLowerCase().includes("meet")) return "bg-rose-100 text-rose-800 border-rose-200";
+                return "bg-slate-100 text-slate-800";
+            };
+
+            const handleEnergyAudit = async () => {
+                if (!apiKey) { alert("請先至 Settings 設定 Gemini API Key"); return; }
+                
+                // Construct a simple text representation of the week
+                let planSummary = "";
+                Object.entries(weekData).forEach(([key, val]) => {
+                    if(val) planSummary += `${key}: ${val}; `;
+                });
+                if (planSummary.length < 10) { alert("請先填寫一些行程，AI 才能分析能量流動。"); return; }
+
+                setIsAiLoading(true);
+                try {
+                    const prompt = `Current Weekly Plan: "${planSummary}". Context: Goal is 'Lightness in Body, Sovereignty in Career'. 'RTO' means commute/exercise, 'Deep' means focused work. Analyze this schedule. Is there enough rest? Is the deep work protected? Provide a short energy audit in Traditional Chinese (max 100 words).`;
+                    const system = "You are an Energy Management Coach.";
+                    const result = await callGeminiAPI(apiKey, prompt, system);
+                    setAiAdvice(result);
+                } catch (e) {
+                    alert("AI Error: " + e.message);
+                } finally {
+                    setIsAiLoading(false);
+                }
+            };
+
+            return (
+                <div className="h-[calc(100vh-140px)] flex flex-col pb-24 fade-in">
+                     <div className="flex justify-between items-center mb-4 px-1">
+                        <h2 className="text-xl font-bold text-slate-800">Weekly Flow</h2>
+                        <button 
+                            onClick={handleEnergyAudit}
+                            disabled={isAiLoading}
+                            className="flex items-center gap-1 text-[10px] bg-slate-900 text-white px-3 py-1.5 rounded-full disabled:opacity-50 hover:bg-slate-700 transition-colors"
+                        >
+                             {isAiLoading ? <i data-lucide="loader-2" className="w-3 h-3 animate-spin"></i> : <i data-lucide="sparkles" className="w-3 h-3"></i>}
+                             AI 能量檢視
+                        </button>
+                    </div>
+                    
+                    {aiAdvice && (
+                        <div className="mb-4 bg-blue-50 border border-blue-100 p-3 rounded-xl text-xs text-blue-800 leading-relaxed">
+                            <strong className="block mb-1 font-bold">✨ AI Energy Audit:</strong>
+                            <div dangerouslySetInnerHTML={{ __html: marked.parse(aiAdvice) }}></div>
+                            <button onClick={()=>setAiAdvice("")} className="mt-2 text-[10px] underline text-blue-500">Close</button>
+                        </div>
+                    )}
+
+                    <div className="flex-1 overflow-auto border border-slate-200 rounded-xl bg-white relative shadow-inner">
+                        <div className="min-w-[600px]">
+                            {/* Header */}
+                            <div className="sticky top-0 z-10 grid grid-cols-8 bg-slate-50 border-b border-slate-200">
+                                <div className="p-2 text-center text-[10px] font-bold text-slate-400 border-r">Time</div>
+                                {days.map(d => (
+                                    <div key={d} className="p-2 text-center text-xs font-bold text-slate-600 border-r">{d}</div>
+                                ))}
+                            </div>
+                            {/* Body */}
+                            {timeSlots.map(h => (
+                                <div key={h} className="grid grid-cols-8 border-b border-slate-100 h-10">
+                                    <div className="text-[10px] text-slate-400 flex items-center justify-center border-r bg-slate-50/50">
+                                        {String(h).padStart(2,'0')}:00
+                                    </div>
+                                    {days.map(d => {
+                                        const key = `${d}-${h}`;
+                                        return (
+                                            <div key={key} className="border-r relative p-0.5">
+                                                <input 
+                                                    className={`w-full h-full text-[10px] rounded px-1 text-center focus:outline-none focus:ring-1 focus:ring-indigo-300 ${getStyle(weekData[key])}`}
+                                                    value={weekData[key] || ""}
+                                                    onChange={(e)=>setWeekData({...weekData, [key]: e.target.value})}
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- 3.4 Habit Tracker (With AI Coach) ---
+        const HabitTracker = ({ apiKey }) => {
+            const [logs, setLogs] = useLocalStorage('habit_logs', {});
+            const [aiCoach, setAiCoach] = useState("");
+            const [isAiLoading, setIsAiLoading] = useState(false);
+            
+            const habits = [
+                { id: "mob", name: "🧘‍♀️ Mobility", color: "text-purple-600" },
+                { id: "move", name: "🏃‍♀️ 30m Move", color: "text-green-600" },
+                { id: "jour", name: "🌌 Journey", color: "text-blue-600" },
+                { id: "note", name: "📝 Journal", color: "text-orange-600" }
+            ];
+
+            const today = new Date();
+            const daysInMonth = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
+            const daysArr = Array.from({length: daysInMonth}, (_, i) => i + 1);
+
+            const toggleHabit = (day, habitId) => {
+                const dateKey = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                const currentDayLogs = logs[dateKey] || {};
+                const newDayLogs = { ...currentDayLogs, [habitId]: !currentDayLogs[habitId] };
+                setLogs({ ...logs, [dateKey]: newDayLogs });
+            };
+
+            const getLog = (day) => {
+                const dateKey = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                return logs[dateKey] || {};
+            };
+            
+            const handleHabitCoach = async () => {
+                if (!apiKey) { alert("請先至 Settings 設定 Gemini API Key"); return; }
+                
+                // Calculate stats for current month
+                let stats = { mob: 0, move: 0, jour: 0, note: 0 };
+                daysArr.forEach(d => {
+                    const l = getLog(d);
+                    if(l.mob) stats.mob++;
+                    if(l.move) stats.move++;
+                    if(l.jour) stats.jour++;
+                    if(l.note) stats.note++;
+                });
+                
+                setIsAiLoading(true);
+                try {
+                    const prompt = `Habit Stats for this month: Mobility(${stats.mob}), Exercise(${stats.move}), Journey(${stats.jour}), Journal(${stats.note}). Today is day ${today.getDate()}. Context: Goal is consistency not perfection. Provide a warm, encouraging 'Habit Coach' feedback in Traditional Chinese (max 60 words). Celebrate progress.`;
+                    const system = "You are a supportive Habit Coach.";
+                    const result = await callGeminiAPI(apiKey, prompt, system);
+                    setAiCoach(result);
+                } catch (e) {
+                    alert("AI Error: " + e.message);
+                } finally {
+                    setIsAiLoading(false);
+                }
+            };
+
+            return (
+                <div className="space-y-6 pb-24 fade-in">
+                     <div className="flex justify-between items-center mb-2">
+                        <h2 className="text-xl font-bold text-slate-800">Habit Tracker</h2>
+                        <button 
+                            onClick={handleHabitCoach}
+                            disabled={isAiLoading}
+                            className="flex items-center gap-1 text-[10px] bg-slate-900 text-white px-3 py-1.5 rounded-full disabled:opacity-50 hover:bg-slate-700 transition-colors"
+                        >
+                             {isAiLoading ? <i data-lucide="loader-2" className="w-3 h-3 animate-spin"></i> : <i data-lucide="sparkles" className="w-3 h-3"></i>}
+                             AI 習慣教練
+                        </button>
+                    </div>
+
+                    {aiCoach && (
+                        <div className="mb-2 bg-green-50 border border-green-100 p-3 rounded-xl text-xs text-green-800 leading-relaxed">
+                             <strong className="block mb-1 font-bold">✨ AI Coach:</strong>
+                             <div dangerouslySetInnerHTML={{ __html: marked.parse(aiCoach) }}></div>
+                             <button onClick={()=>setAiCoach("")} className="mt-2 text-[10px] underline text-green-600">Close</button>
+                        </div>
+                    )}
+
+                    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                        <div className="grid grid-cols-7 border-b border-slate-100 bg-slate-50">
+                            {['M','T','W','T','F','S','S'].map((d,i)=>(
+                                <div key={i} className="text-center py-2 text-xs font-bold text-slate-400">{d}</div>
+                            ))}
+                        </div>
+                        <div className="grid grid-cols-7">
+                            {daysArr.map(d => {
+                                const dayLog = getLog(d);
+                                const isToday = d === today.getDate();
+                                return (
+                                    <div key={d} className={`aspect-square border-r border-b border-slate-50 p-1 flex flex-col items-center relative ${isToday ? 'bg-indigo-50/50' : ''}`}>
+                                        <span className={`text-[10px] mb-1 ${isToday ? 'font-bold text-indigo-600' : 'text-slate-400'}`}>{d}</span>
+                                        <div className="grid grid-cols-2 gap-0.5">
+                                            {habits.map(h => (
+                                                <div 
+                                                    key={h.id}
+                                                    onClick={() => toggleHabit(d, h.id)}
+                                                    className={`w-3 h-3 rounded-full cursor-pointer transition-colors ${dayLog[h.id] ? h.color.replace('text', 'bg') : 'bg-slate-100'}`}
+                                                    title={h.name}
+                                                ></div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Today's Check-in */}
+                    <div className="bg-white p-4 rounded-xl border border-slate-100">
+                        <h3 className="text-xs font-bold text-slate-400 uppercase mb-3">Today's Check-in</h3>
+                        <div className="grid grid-cols-2 gap-3">
+                            {habits.map(h => {
+                                const dayLog = getLog(today.getDate());
+                                return (
+                                    <button 
+                                        key={h.id}
+                                        onClick={() => toggleHabit(today.getDate(), h.id)}
+                                        className={`p-3 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${dayLog[h.id] ? 'bg-slate-800 text-white' : 'bg-slate-50 text-slate-500'}`}
+                                    >
+                                        <div className={`w-2 h-2 rounded-full ${dayLog[h.id] ? 'bg-green-400' : 'bg-slate-300'}`}></div>
+                                        {h.name}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- 3.5 5-Year Journal with AI ---
+        const Journal = ({ apiKey }) => {
+            const [entries, setEntries] = useLocalStorage('journal_5year', {});
+            const [aiResponse, setAiResponse] = useState("");
+            const [isAiLoading, setIsAiLoading] = useState(false);
+            
+            const today = new Date();
+            const fullDateKey = getTodayStr();
+            const dateKey = `${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+            const prompt = SHAMAN_PROMPTS[dateKey] || SHAMAN_PROMPTS['default'];
+
+            const saveEntry = (val) => {
+                setEntries({...entries, [fullDateKey]: val});
+            };
+
+            const handleShamanInsight = async () => {
+                if (!apiKey) { alert("請先至 Settings 設定 Gemini API Key"); return; }
+                const currentEntry = entries[fullDateKey] || "";
+                if (currentEntry.length < 5) { alert("請先寫下一點內容，薩滿才能有所感應..."); return; }
+
+                setIsAiLoading(true);
+                try {
+                    const promptText = `User Journal: "${currentEntry}". Context: User is seeking lightness, sovereignty, and shamanic connection. Provide a short, poetic, supportive shamanic insight (max 80 words). Use Traditional Chinese.`;
+                    const system = "You are a wise, compassionate Shaman and Life Coach.";
+                    
+                    const result = await callGeminiAPI(apiKey, promptText, system);
+                    setAiResponse(result);
+                } catch (e) {
+                    alert("AI Error: " + e.message);
+                } finally {
+                    setIsAiLoading(false);
+                }
+            };
+
+            return (
+                <div className="space-y-6 pb-24 fade-in">
+                     <div className="bg-indigo-50 p-5 rounded-2xl border border-indigo-100">
+                        <div className="flex items-center gap-2 mb-2">
+                            <i data-lucide="sparkles" className="w-4 h-4 text-indigo-600"></i>
+                            <span className="text-xs font-bold text-indigo-600 uppercase">AI Shaman Prompt</span>
+                        </div>
+                        <p className="text-sm font-medium text-slate-700 leading-relaxed">{prompt}</p>
+                    </div>
+
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                        <div className="flex justify-between mb-3">
+                            <span className="text-sm font-bold text-slate-800">2025 (Today)</span>
+                        </div>
+                        <textarea 
+                            className="w-full h-32 p-3 text-sm bg-slate-50 rounded-xl focus:outline-none resize-none text-slate-600"
+                            placeholder="Write your soul notes here..."
+                            value={entries[fullDateKey] || ""}
+                            onChange={(e) => saveEntry(e.target.value)}
+                        ></textarea>
+                        
+                        <div className="mt-3 flex justify-end">
+                            <button 
+                                onClick={handleShamanInsight}
+                                disabled={isAiLoading}
+                                className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-slate-800 transition-colors disabled:opacity-50"
+                            >
+                                {isAiLoading ? <i data-lucide="loader-2" className="w-3 h-3 animate-spin"></i> : <i data-lucide="sparkles" className="w-3 h-3"></i>}
+                                獲取薩滿洞見 (Shamanic Insight)
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* AI Response Area */}
+                    {(aiResponse || isAiLoading) && (
+                        <div className={`p-5 rounded-2xl border border-purple-100 relative overflow-hidden ${isAiLoading ? 'shimmer h-24' : 'bg-purple-50/50'}`}>
+                             {!isAiLoading && (
+                                <>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <i data-lucide="feather" className="w-4 h-4 text-purple-600"></i>
+                                        <span className="text-xs font-bold text-purple-600 uppercase">The Shaman Speaks</span>
+                                    </div>
+                                    <p className="text-sm text-slate-700 italic leading-relaxed" dangerouslySetInnerHTML={{ __html: marked.parse(aiResponse) }}></p>
+                                    <button onClick={()=>setAiResponse("")} className="absolute top-3 right-3 text-purple-400 hover:text-purple-600"><i data-lucide="x" className="w-4 h-4"></i></button>
+                                </>
+                             )}
+                        </div>
+                    )}
+
+                    <div className="space-y-3 opacity-60">
+                        {[2026, 2027, 2028, 2029].map(y => (
+                             <div key={y} className="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <span className="text-xs font-bold text-slate-400 block mb-2">{y}</span>
+                                <div className="h-0.5 w-full bg-slate-200"></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // --- 3.6 Settings View ---
+        const Settings = ({ apiKey, setApiKey }) => {
+            const [inputKey, setInputKey] = useState(apiKey);
+            
+            const handleSave = () => {
+                setApiKey(inputKey);
+                alert("API Key Saved! AI features are now active.");
+            };
+
+            return (
+                <div className="space-y-6 pb-24 fade-in">
+                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                        <h3 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i data-lucide="key" className="w-4 h-4"></i> Gemini API Configuration
+                        </h3>
+                        <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+                            要啟用 AI 薩滿功能 (洞見、行動拆解、習慣教練)，請輸入您的 Google Gemini API Key。您的金鑰僅會儲存在此設備的瀏覽器中，絕對安全。
+                        </p>
+                        <div className="space-y-3">
+                            <input 
+                                type="password" 
+                                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                                placeholder="Paste your API Key here..."
+                                value={inputKey}
+                                onChange={(e) => setInputKey(e.target.value)}
+                            />
+                            <button 
+                                onClick={handleSave}
+                                className="w-full py-3 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-slate-800 transition-colors"
+                            >
+                                Save API Key
+                            </button>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-4 text-center">
+                            Get your key at <a href="https://aistudio.google.com/app/apikey" target="_blank" className="underline text-blue-500">Google AI Studio</a>
+                        </p>
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================
+        // 4. Main App Layout
+        // ==========================================
+        const App = () => {
+            const [view, setView] = useState('dashboard');
+            const [apiKey, setApiKey] = useLocalStorage('gemini_api_key', '');
+
+            // Initialize Icons
+            useEffect(() => {
+                lucide.createIcons();
+            }, [view]);
+
+            const NavBtn = ({ id, icon, label }) => (
+                <button 
+                    onClick={() => setView(id)}
+                    className={`flex flex-col items-center justify-center w-full py-1 ${view === id ? 'text-slate-900' : 'text-slate-400 hover:text-slate-600'}`}
+                >
+                    <i data-lucide={icon} className={`w-6 h-6 mb-1 ${view === id ? 'stroke-[2.5px]' : 'stroke-2'}`}></i>
+                    <span className="text-[10px] font-medium">{label}</span>
+                </button>
+            );
+
+            return (
+                <div className="min-h-screen bg-slate-50/50 md:flex">
+                    
+                    {/* Desktop Sidebar */}
+                    <aside className="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 h-screen fixed top-0 left-0 p-6 z-20">
+                        <div className="mb-10">
+                            <h1 className="text-2xl font-bold text-slate-800">Life OS</h1>
+                            <p className="text-xs text-slate-400 mt-1">Lightness & Sovereignty</p>
+                        </div>
+                        <nav className="space-y-2">
+                            {[
+                                {id: 'dashboard', i: 'layout-grid', l: 'Core Dashboard'},
+                                {id: 'yearly', i: 'map', l: 'Yearly Plan'},
+                                {id: 'weekly', i: 'calendar', l: 'Weekly Flow'},
+                                {id: 'habits', i: 'activity', l: 'Habit Tracker'},
+                                {id: 'journal', i: 'book-open', l: '5-Year Journal'},
+                                {id: 'settings', i: 'settings', l: 'Settings'},
+                            ].map(item => (
+                                <button key={item.id} onClick={()=>setView(item.id)} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${view===item.id ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-50'}`}>
+                                    <i data-lucide={item.i} className="w-4 h-4"></i>
+                                    {item.l}
+                                </button>
+                            ))}
+                        </nav>
+                    </aside>
+
+                    {/* Main Content */}
+                    <main className="flex-1 md:ml-64 max-w-2xl mx-auto min-h-screen relative">
+                        {/* Header */}
+                        <div className="p-6 pb-2 sticky top-0 bg-slate-50/90 backdrop-blur-sm z-10 md:static md:bg-transparent flex justify-between items-center">
+                            <div>
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                                    {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+                                </p>
+                                <h2 className="text-2xl font-bold text-slate-800 capitalize">{view.replace('-', ' ')}</h2>
+                            </div>
+                            <button onClick={()=>setView('settings')} className="md:hidden p-2 text-slate-400">
+                                <i data-lucide="settings" className="w-5 h-5"></i>
+                            </button>
+                        </div>
+
+                        {/* Views */}
+                        <div className="p-6 pt-2">
+                            {view === 'dashboard' && <Dashboard apiKey={apiKey} />}
+                            {view === 'yearly' && <YearlyPlan />}
+                            {view === 'weekly' && <WeeklyPlanner apiKey={apiKey} />}
+                            {view === 'habits' && <HabitTracker apiKey={apiKey} />}
+                            {view === 'journal' && <Journal apiKey={apiKey} />}
+                            {view === 'settings' && <Settings apiKey={apiKey} setApiKey={setApiKey} />}
+                        </div>
+                    </main>
+
+                    {/* Mobile Bottom Nav */}
+                    <div className="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 pb-safe z-40 px-2 py-2 shadow-lg">
+                        <div className="flex justify-between items-center">
+                            <NavBtn id="dashboard" icon="layout-grid" label="Core" />
+                            <NavBtn id="weekly" icon="calendar" label="Plan" />
+                            <div className="relative -top-6">
+                                <button onClick={()=>setView('habits')} className="bg-slate-900 text-white p-4 rounded-full shadow-xl hover:scale-105 transition-transform">
+                                    <i data-lucide="check" className="w-6 h-6"></i>
+                                </button>
+                            </div>
+                            <NavBtn id="yearly" icon="map" label="Year" />
+                            <NavBtn id="journal" icon="book-open" label="Write" />
+                        </div>
+                    </div>
+
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
