@@ -1,0 +1,257 @@
+% !TEX program = lualatex
+\documentclass[letterpaper, 10pt]{article}
+
+% --- PACKAGES ---
+\usepackage[margin=0.5in]{geometry} % Minimalist margins
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calendar, positioning, shapes.geometric, patterns}
+\usepackage{pgffor}
+\usepackage{pgfcalendar}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+% --- LANGUAGE SETUP (Universal Compatibility) ---
+% 使用 babel 取代 xeCJK 以支援 LuaLaTeX 環境
+\usepackage[chinese, provide=*]{babel}
+\babelprovide[import]{chinese}
+\babelfont{rm}{Noto Sans}
+\babelfont[chinese]{rm}{Noto Sans CJK TC}
+
+% --- STYLING ---
+\setlength{\parindent}{0pt}
+\pagestyle{empty} 
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{darkgray}{RGB}{50, 50, 50}
+
+% --- CUSTOM COMMANDS ---
+\newcommand{\dottedline}{\noindent\makebox[\linewidth]{\dotfill}\par}
+\newcommand{\header}[1]{
+    \vspace*{0.5cm}
+    {\huge \textbf{#1}}
+    \vspace{0.3cm}
+    \hrule height 1pt
+    \vspace{0.5cm}
+}
+
+\begin{document}
+
+% ==========================================
+% 1. COVER PAGE
+% ==========================================
+\begin{titlepage}
+    \centering
+    \vspace*{4cm}
+    {\Huge \textbf{2025}} \\
+    \vspace{0.5cm}
+    {\Huge \textbf{LIFE MANAGEMENT SYSTEM}} \\
+    \vspace{0.5cm}
+    {\Large \textit{Nov \& Dec Special Edition}} \\
+    \vspace{3cm}
+    \rule{10cm}{2pt} \\
+    \vspace{1cm}
+    {\Large \textbf{年度核心主題}} \\
+    \vspace{0.5cm}
+    {\Huge 輕盈主導，自在連結} \\
+    \vspace{0.5cm}
+    {\small Lightness in Body, Sovereignty in Career, Connection in Spirit}
+    \vfill
+    {\small DYL \textbullet\ Mandala \textbullet\ PDCA \textbullet\ Nov-Dec Weekly \& Daily} \\
+    \vspace{2cm}
+\end{titlepage}
+
+% ==========================================
+% 2. DYL & SELF ASSESSMENT
+% ==========================================
+\newpage
+\header{1. Design Your Life (DYL) \& Assessment}
+
+\textbf{Q1. 工作與生產力 (The Work View)} \\
+\textit{工作對你的意義是什麼？你為了什麼而工作？}
+\vspace{2.5cm} \hrule \vspace{0.5cm}
+
+\textbf{Q2. 個人價值與意義 (The Life View)} \\
+\textit{什麼賦予了你生命意義？你最重視的價值觀是什麼？}
+\vspace{2.5cm} \hrule \vspace{0.5cm}
+
+\textbf{Q3. 快樂與意義的重疊區 (Coherence)} \\
+\textit{你的工作觀與人生觀在哪裡是一致的？哪裡有衝突？}
+\vspace{2.5cm} \hrule \vspace{0.5cm}
+
+\textbf{Q4. 2025 Reframing (轉念)} \\
+\textit{如何把「通勤 RTO」轉化為「運動」，把「恐懼」轉化為「邊界」？}
+\vspace{2.5cm} \hrule 
+
+\vspace{1cm}
+% Radar Chart Area
+\begin{center}
+    \begin{tikzpicture}[scale=0.7]
+        \foreach \r in {1,2,3,4,5} \draw[gray!30] (0,0) circle (\r);
+        \foreach \a in {0,90,180,270} \draw[gray!50] (0,0) -- (\a:5.5);
+        \node at (90:6) {\textbf{健康 (Health)}};
+        \node at (0:6) {\textbf{事業 (Career)}};
+        \node at (270:6) {\textbf{娛樂 (Play)}};
+        \node at (180:6) {\textbf{關係 (Love)}};
+    \end{tikzpicture}
+\end{center}
+
+% ==========================================
+% 3. MANDALA CHART (九宮格)
+% ==========================================
+\newpage
+\header{2. Mandala Chart (人生九宮格)}
+\renewcommand{\arraystretch}{2.2}
+\begin{table}[h!]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|}
+        \hline
+        \textbf{身心靈 (Spiritual)} \newline \scriptsize 1. Drumming Circle \newline 2. 每日冥想 \newline 3. 薩滿 AI 融合 & 
+        \textbf{健康與體態 (Health)} \newline \scriptsize 1. RTO 轉念通勤 \newline 2. 戒情緒性進食 \newline 3. 11pm 睡眠 & 
+        \textbf{學習成長 (Growth)} \newline \scriptsize 1. 高階 AI 證照 \newline 2. 內部 Mentor \newline 3. 外部顧問探索 \\ \hline
+        \textbf{家庭 (Family)} \newline \scriptsize 1. G9/G6 心靈引導 \newline 2. 支持先生 \newline 3. 全家旅行 & 
+        \cellcolor{lightgray}\textbf{\large 自在輕盈的}\newline \textbf{\large AI 薩滿} & 
+        \textbf{財務副業 (Side Hustle)} \newline \scriptsize 1. 薩滿工作坊 Beta \newline 2. 個人品牌發聲 \newline 3. 穩健投資 \\ \hline
+        \textbf{社交 (Social)} \newline \scriptsize 1. AI PM 社群 \newline 2. 薩滿讀書會 \newline 3. 遠離消耗 & 
+        \textbf{娛樂環境 (Leisure)} \newline \scriptsize 1. Me time 小旅行 \newline 2. 斷捨離 \newline 3. 閱讀書寫 & 
+        \textbf{工作職涯 (Career)} \newline \scriptsize 1. AI 流程標準化 \newline 2. 爭取 WFH \newline 3. 拒絕無效會議 \\ \hline
+    \end{tabularx}
+\end{table}
+\renewcommand{\arraystretch}{1.0}
+
+% ==========================================
+% 4. PDCA PLAN
+% ==========================================
+\newpage
+\header{3. Annual PDCA Plan (2025-2026)}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{|c|X|X|X|}
+    \hline
+    \rowcolor{black!10} \textbf{Q} & \textbf{Plan (計畫)} & \textbf{Do (執行)} & \textbf{Check \& Act (覆盤與調整)} \\ \hline
+    \textbf{Q1} & \textbf{健康:} RTO 路線, 168斷食 \newline \textbf{副業:} Drumming Circle \newline \textbf{家庭:} 確認外派 & 1. 紀錄體重/腰圍 \newline 2. 舉辦小型聚會 & 體重 -3kg? 調整斷食時間。 \\ \hline
+    \textbf{Q2} & \textbf{健康:} 肌力訓練 \newline \textbf{工作:} AI Milestone \newline \textbf{副業:} 收費工作坊 & 1. 不情緒性進食 \newline 2. 記錄收入與反饋 & 能量是否耗竭? 安排暑假休息。 \\ \hline
+    \textbf{Q3} & \textbf{家庭:} 亞洲旅行 \newline \textbf{探索:} 考察市場機會 & 1. 維持不復胖 \newline 2. 夫妻深度對話 & 心情回穩? 調整 Plan C。 \\ \hline
+    \textbf{Q4} & \textbf{副業:} 年度儀式 \newline \textbf{健康:} 衝刺 -10kg & 1. 奧德賽回顧 \newline 2. 慶祝晚宴 & 核心達成? 設定 2026 目標。 \\ \hline
+\end{tabularx}
+
+% ==========================================
+% 5. MONTHLY PLANNER (Includes Nov/Dec 25)
+% ==========================================
+\newcommand{\monthlypage}[2]{
+    \newpage
+    \header{#2}
+    \noindent \textbf{Focus:} \hrulefill \\
+    \vspace{0.5cm}
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[step=2.3cm, gray, thin] (0,0) grid (16.1, 11.5);
+            \foreach \x in {0, 2.3, ..., 13.8} \draw (\x, 11.5) node[anchor=north west] {};
+            \node at (1.15, 11.8) {SUN}; \node at (3.45, 11.8) {MON}; \node at (5.75, 11.8) {TUE};
+            \node at (8.05, 11.8) {WED}; \node at (10.35, 11.8) {THU}; \node at (12.65, 11.8) {FRI}; \node at (14.95, 11.8) {SAT};
+        \end{tikzpicture}
+    \end{center}
+    \vfill \textbf{PDCA Notes:} \hrulefill
+}
+
+% Generating Monthly Pages for Nov 2025 - Dec 2026 (for completeness)
+\foreach \m in {
+    {2025-11-01}/{November 2025}, {2025-12-01}/{December 2025},
+    {2026-01-01}/{January 2026}, {2026-02-01}/{February 2026}
+    % ... You can extend this list if needed, kept short for preview
+} { \expandafter\monthlypage\m }
+
+% ==========================================
+% 6. WEEKLY PLANNER (Only Nov \& Dec 2025)
+% ==========================================
+\newcommand{\weeklypage}[1]{
+    \newpage
+    \noindent {\Large \textbf{Week: } #1} \hfill \textit{Priority:} \underline{\hspace{4cm}}
+    \vspace{0.3cm}
+    \begin{center}
+    % Vertical Layout 5AM - 4AM
+    \begin{tabularx}{\textwidth}{|c|X|X|X|X|X|X|X|}
+        \hline
+        \textbf{Time} & \textbf{Mon} & \textbf{Tue} & \textbf{Wed} & \textbf{Thu} & \textbf{Fri} & \textbf{Sat} & \textbf{Sun} \\ \hline
+        05:00 & & & & & & & \\ \hline
+        06:00 & & & & & & & \\ \hline
+        07:00 & & & & & & & \\ \hline
+        08:00 & & & & & & & \\ \hline
+        09:00 & & & & & & & \\ \hline
+        10:00 & & & & & & & \\ \hline
+        11:00 & & & & & & & \\ \hline
+        12:00 & & & & & & & \\ \hline
+        13:00 & & & & & & & \\ \hline
+        14:00 & & & & & & & \\ \hline
+        15:00 & & & & & & & \\ \hline
+        16:00 & & & & & & & \\ \hline
+        17:00 & & & & & & & \\ \hline
+        18:00 & & & & & & & \\ \hline
+        19:00 & & & & & & & \\ \hline
+        20:00 & & & & & & & \\ \hline
+        21:00 & & & & & & & \\ \hline
+        22:00 & & & & & & & \\ \hline
+        23:00 & & & & & & & \\ \hline
+        00:00 & & & & & & & \\ \hline
+        01-04 & & & & & & & \\ \hline
+    \end{tabularx}
+    \end{center}
+    \vspace{0.2cm}
+    \textbf{To-Do:} \hrulefill
+}
+
+% Manually specifying weeks for Nov \& Dec 2025
+\foreach \w in {
+    {Nov 3 - Nov 9}, {Nov 10 - Nov 16}, {Nov 17 - Nov 23}, {Nov 24 - Nov 30},
+    {Dec 1 - Dec 7}, {Dec 8 - Dec 14}, {Dec 15 - Dec 21}, {Dec 22 - Dec 28}, {Dec 29 - Jan 4}
+} { \weeklypage{\w} }
+
+% ==========================================
+% 7. HABIT TRACKER (Added Nov 2025)
+% ==========================================
+\newpage
+\header{Habit Tracker}
+\newcommand{\habitrow}[1]{
+    #1 & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+}
+\newcommand{\habitmonth}[1]{
+    \vspace{0.5cm} \noindent {\large \textbf{#1}} \\
+    \begin{tabularx}{\textwidth}{|l|*{31}{X|}}
+        \hline
+        \textbf{Item} & \tiny 1 & \tiny 2 & \tiny 3 & \tiny 4 & \tiny 5 & \tiny 6 & \tiny 7 & \tiny 8 & \tiny 9 & \tiny 10 & \tiny 11 & \tiny 12 & \tiny 13 & \tiny 14 & \tiny 15 & \tiny 16 & \tiny 17 & \tiny 18 & \tiny 19 & \tiny 20 & \tiny 21 & \tiny 22 & \tiny 23 & \tiny 24 & \tiny 25 & \tiny 26 & \tiny 27 & \tiny 28 & \tiny 29 & \tiny 30 & \tiny 31 \\ \hline
+        \habitrow{Mobility} \habitrow{Exercise} \habitrow{Journey} \habitrow{Journal}
+    \end{tabularx}
+}
+
+\foreach \m in {November 2025, December 2025, January 2026} { \habitmonth{\m} }
+
+% ==========================================
+% 8. 5-YEAR JOURNAL (Only Nov \& Dec 2025)
+% ==========================================
+\newpage
+\header{Daily Journal (Nov - Dec 2025)}
+
+\newcommand{\journalpage}[2]{
+    \newpage
+    \noindent {\Huge \textbf{#1 / #2}} \hfill \textit{Daily Log}
+    \vspace{0.5cm} \hrule \vspace{0.5cm}
+    \textbf{(a) One Topic a Day:} \vspace{1.5cm} \dottedline \dottedline 
+    \vspace{0.5cm}
+    \textbf{(b) What else to note down:} \vspace{1.5cm} \dottedline \dottedline
+    \vspace{1cm}
+    \noindent \textbf{2025 Entry:} \\
+    \begin{tikzpicture} \draw[gray] (0,0) rectangle (\textwidth, 4cm); \end{tikzpicture}
+    \vspace{0.5cm}
+    \noindent \textbf{Future Years (2026-2029):} \\
+    \begin{tikzpicture} \draw[gray!50] (0,0) rectangle (\textwidth, 6cm); \end{tikzpicture}
+}
+
+% Loop for Nov 1, 2025 to Dec 31, 2025
+\pgfcalendar{cal}{2025-11-01}{2025-12-31}{
+    \journalpage{\pgfcalendarshorthand{m}-}{\pgfcalendarshorthand{d}-}
+}
+
+\end{document}
