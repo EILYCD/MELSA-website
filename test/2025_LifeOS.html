@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>輕盈主導 2025 | Life OS</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f8fafc; }
+        /* Hide scrollbar for clean UI */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        // ==========================================
+        // 1. Data & Configuration (薩滿數據庫)
+        // ==========================================
+        
+        const SHAMAN_PROMPTS_DEC = {
+            1: "【系統啟動】今天佔用你最多算力 (Compute Power) 的變數是什麼？",
+            20: "【冬至前夜】你願意把什麼樣的「舊我」徹底關機？",
+            21: "【冬至重啟】寫下一個你希望在 2026 年顯化的高清畫面。",
+            31: "【2026 System Prompt】用一句話定義 2026 年你的操作系統核心守則。",
+            // Default fallback
+            "default": "今日靈感：在這一刻，你的身體感覺是輕盈還是沈重？" 
+        };
+
+        const MANDALA_DATA = [
+            { id: "spiritual", title: "🧘‍♀️ 身心靈", color: "bg-purple-50", text: "text-purple-700", goal: "薩滿社群連結", actions: ["舉辦 Drumming Circle", "每日冥想不帶走負能量", "薩滿與 AI 概念融合"] },
+            { id: "health", title: "🏃‍♀️ 健康體態", color: "bg-green-50", text: "text-green-700", goal: "減重 10-12kg", actions: ["RTO = 走路運動", "戒情緒性進食", "11pm 前睡養護代謝"] },
+            { id: "growth", title: "🎓 學習成長", color: "bg-blue-50", text: "text-blue-700", goal: "AI SME 權威", actions: ["考取高階 AI 證照", "內部 Mentor 下屬", "探索顧問機會 (Plan C)"] },
+            { id: "family", title: "👨‍👩‍👧‍👦 家庭", color: "bg-orange-50", text: "text-orange-700", goal: "高質量陪伴", actions: ["G9/G6 心靈引導 Date", "夫妻支持遠距模式", "全家旅行 (非返鄉)"] },
+            { id: "core", title: "💠 核心", color: "bg-slate-800", text: "text-white", goal: "輕盈主導，自在連結", actions: ["Body: Lightness", "Career: Sovereignty", "Spirit: Connection"] },
+            { id: "finance", title: "💰 財務副業", color: "bg-yellow-50", text: "text-yellow-700", goal: "驗證獲利模式", actions: ["啟動工作坊 Beta", "建立個人品牌聲量", "投資穩健現金流"] },
+            { id: "social", title: "🤝 社交", color: "bg-pink-50", text: "text-pink-700", goal: "滋養型人際", actions: ["AI PM 社群", "薩滿讀書會", "遠離消耗能量聚會"] },
+            { id: "leisure", title: "🎨 娛樂環境", color: "bg-teal-50", text: "text-teal-700", goal: "心流體驗", actions: ["獨處小旅行 (Me time)", "居家斷捨離", "享受閱讀書寫"] },
+            { id: "career", title: "🚀 工作職涯", color: "bg-indigo-50", text: "text-indigo-700", goal: "體制內創業", actions: ["建立標準化流程", "爭取 WFH 彈性", "拒絕無效會議"] },
+        ];
+
+        // ==========================================
+        // 2. Utility Functions
+        // ==========================================
+        const getStorage = (key, defaultVal) => {
+            const stored = localStorage.getItem(key);
+            return stored ? JSON.parse(stored) : defaultVal;
+        };
+        const setStorage = (key, val) => localStorage.setItem(key, JSON.stringify(val));
+        
+        const getTodayStr = () => new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        const getDisplayDate = () => {
+            const d = new Date();
+            return d.toLocaleDateString('zh-TW', { month: 'long', day: 'numeric', weekday: 'long' });
+        };
+
+        // ==========================================
+        // 3. Components
+        // ==========================================
+
+        // --- 3.1 DYL Dashboard Component ---
+        const DYLStatus = () => {
+            const [levels, setLevels] = useState(getStorage('dyl_levels', { health: 60, work: 80, play: 40, love: 90 }));
+            
+            const updateLevel = (key, val) => {
+                const newLevels = { ...levels, [key]: val };
+                setLevels(newLevels);
+                setStorage('dyl_levels', newLevels);
+            };
+
+            return (
+                <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 mb-4">
+                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Design Your Life Check-in</h3>
+                    <div className="grid grid-cols-4 gap-2 text-center">
+                        {Object.entries(levels).map(([key, val]) => (
+                            <div key={key} className="flex flex-col items-center group cursor-pointer">
+                                <div className="relative h-24 w-4 bg-slate-100 rounded-full overflow-hidden">
+                                    <div 
+                                        className={`absolute bottom-0 left-0 w-full transition-all duration-500 ${key === 'health' ? 'bg-green-400' : key === 'work' ? 'bg-blue-400' : key === 'play' ? 'bg-yellow-400' : 'bg-red-400'}`}
+                                        style={{ height: `${val}%` }}
+                                    ></div>
+                                    <input 
+                                        type="range" min="0" max="100" value={val} 
+                                        onChange={(e) => updateLevel(key, parseInt(e.target.value))}
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-ns-resize"
+                                    />
+                                </div>
+                                <span className="text-xs font-medium mt-2 capitalize text-slate-600">{key}</span>
+                                <span className="text-[10px] text-slate-400">{val}%</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // --- 3.2 Mandala Component ---
+        const MandalaGrid = () => {
+            const [activeCell, setActiveCell] = useState(null);
+
+            return (
+                <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Mandala Navigator</h3>
+                    <div className="grid grid-cols-3 gap-1 aspect-square">
+                        {MANDALA_DATA.map((cell) => (
+                            <div 
+                                key={cell.id}
+                                onClick={() => setActiveCell(cell)}
+                                className={`${cell.color} ${cell.text} flex flex-col items-center justify-center text-center p-1 rounded-lg cursor-pointer transition-transform hover:scale-95 border border-white/50`}
+                            >
+                                <span className={`text-[10px] md:text-xs font-bold ${cell.id === 'core' ? 'text-sm' : ''}`}>
+                                    {cell.title}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Modal/Detail View */}
+                    {activeCell && (
+                        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setActiveCell(null)}>
+                            <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl" onClick={e => e.stopPropagation()}>
+                                <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 ${activeCell.color} ${activeCell.text}`}>
+                                    {activeCell.title}
+                                </div>
+                                <h2 className="text-xl font-bold text-slate-800 mb-4">{activeCell.goal}</h2>
+                                <ul className="space-y-3">
+                                    {activeCell.actions.map((action, i) => (
+                                        <li key={i} className="flex items-start text-sm text-slate-600">
+                                            <i data-lucide="check-circle" className="w-4 h-4 mr-2 text-slate-400 mt-0.5"></i>
+                                            {action}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button onClick={() => setActiveCell(null)} className="mt-6 w-full py-2 bg-slate-900 text-white rounded-lg text-sm">Close</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // --- 3.3 5-Year Journal Component ---
+        const FiveYearJournal = () => {
+            const today = new Date();
+            const dateKey = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`; // MM-DD
+            const fullDateKey = getTodayStr(); // YYYY-MM-DD
+            
+            const [entries, setEntries] = useState(getStorage('journal_entries', {}));
+            const [currentInput, setCurrentInput] = useState(entries[fullDateKey]?.text || "");
+            
+            // Get Prompt
+            const prompt = SHAMAN_PROMPTS_DEC[today.getDate()] || SHAMAN_PROMPTS_DEC["default"];
+
+            // Handle Save
+            const handleSave = () => {
+                const newEntries = { 
+                    ...entries, 
+                    [fullDateKey]: { text: currentInput, timestamp: Date.now() } 
+                };
+                setEntries(newEntries);
+                setStorage('journal_entries', newEntries);
+            };
+
+            // Get historical entries for this day
+            const years = [2025, 2026, 2027, 2028, 2029];
+            
+            return (
+                <div className="space-y-4 pb-20">
+                    {/* Today's Prompt */}
+                    <div className="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                        <div className="flex items-center gap-2 mb-2">
+                            <i data-lucide="sparkles" className="w-4 h-4 text-indigo-500"></i>
+                            <span className="text-xs font-bold text-indigo-500 uppercase">AI Shaman Prompt</span>
+                        </div>
+                        <p className="text-sm font-medium text-slate-700 leading-relaxed">
+                            {prompt}
+                        </p>
+                    </div>
+
+                    {/* Today's Input */}
+                    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm font-bold text-slate-800">2025 (Today)</span>
+                            <button onClick={handleSave} className="text-xs bg-slate-900 text-white px-3 py-1 rounded-full">Save</button>
+                        </div>
+                        <textarea 
+                            className="w-full h-32 p-3 text-sm bg-slate-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-200 resize-none text-slate-600"
+                            placeholder="在這裡寫下與未來的對話..."
+                            value={currentInput}
+                            onChange={(e) => setCurrentInput(e.target.value)}
+                        ></textarea>
+                    </div>
+
+                    {/* Time Travel Blocks */}
+                    <div className="space-y-3">
+                        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider text-center my-4">Time Capsule</h3>
+                        {years.filter(y => y > 2025).map(year => (
+                            <div key={year} className="bg-slate-50 p-4 rounded-xl border border-slate-100 opacity-60">
+                                <span className="text-xs font-bold text-slate-400 mb-1 block">{year}</span>
+                                <div className="h-0.5 w-full bg-slate-200 my-2"></div>
+                                <p className="text-xs text-slate-400 italic">Future entry waiting to be written...</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        // --- 3.4 Vertical Planner (Weekly) ---
+        const WeeklyPlanner = () => {
+            const timeSlots = [];
+            for(let i=5; i<29; i++) { // 5am to 4am next day
+                timeSlots.push(i % 24);
+            }
+
+            const [plan, setPlan] = useState(getStorage('weekly_plan', {}));
+
+            const handlePlanChange = (day, hour, val) => {
+                const key = `${day}-${hour}`;
+                const newPlan = { ...plan, [key]: val };
+                setPlan(newPlan);
+                setStorage('weekly_plan', newPlan);
+            };
+
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+            return (
+                <div className="overflow-x-auto pb-20">
+                    <div className="min-w-[600px] bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+                        {/* Header */}
+                        <div className="grid grid-cols-8 bg-slate-50 border-b border-slate-100">
+                            <div className="p-2 text-center text-xs font-bold text-slate-400 border-r">Time</div>
+                            {days.map(d => (
+                                <div key={d} className="p-2 text-center text-xs font-bold text-slate-600 border-r">{d}</div>
+                            ))}
+                        </div>
+                        
+                        {/* Grid */}
+                        {timeSlots.map(hour => (
+                            <div key={hour} className="grid grid-cols-8 border-b border-slate-50">
+                                <div className="p-2 text-center text-[10px] text-slate-400 border-r bg-slate-50/50 flex items-center justify-center">
+                                    {String(hour).padStart(2,'0')}:00
+                                </div>
+                                {days.map(day => {
+                                    const key = `${day}-${hour}`;
+                                    const val = plan[key] || "";
+                                    let bgClass = "";
+                                    if(val.includes("RTO")) bgClass = "bg-green-50 text-green-700";
+                                    else if(val.includes("Deep")) bgClass = "bg-blue-50 text-blue-700";
+                                    
+                                    return (
+                                        <div key={day} className={`border-r p-0 relative ${bgClass}`}>
+                                            <input 
+                                                type="text" 
+                                                className={`w-full h-8 text-[10px] px-1 bg-transparent focus:outline-none focus:bg-white text-center`}
+                                                value={val}
+                                                onChange={(e) => handlePlanChange(day, hour, e.target.value)}
+                                            />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-4 text-xs text-slate-400 text-center">
+                        * Tip: Type "RTO" for Green, "Deep" for Blue highlight.
+                    </div>
+                </div>
+            );
+        };
+
+        // --- 3.5 Reviews & Habit Tracker ---
+        const ReviewSystem = () => {
+            const habits = ["🧘‍♀️ Mobility", "🏃‍♀️ 30m Move", "🌌 Journey", "📝 Journal"];
+            const [habitStatus, setHabitStatus] = useState(getStorage(`habits_${getTodayStr()}`, {}));
+
+            const toggleHabit = (habit) => {
+                const newStatus = { ...habitStatus, [habit]: !habitStatus[habit] };
+                setHabitStatus(newStatus);
+                setStorage(`habits_${getTodayStr()}`, newStatus);
+            };
+
+            return (
+                <div className="space-y-6 pb-20">
+                    {/* Habit Tracker */}
+                    <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
+                        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Daily Rituals</h3>
+                        <div className="grid grid-cols-2 gap-3">
+                            {habits.map(h => (
+                                <button 
+                                    key={h}
+                                    onClick={() => toggleHabit(h)}
+                                    className={`p-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between ${habitStatus[h] ? 'bg-slate-800 text-white' : 'bg-slate-50 text-slate-500'}`}
+                                >
+                                    {h}
+                                    {habitStatus[h] && <i data-lucide="check" className="w-4 h-4"></i>}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Fear Setting / Review */}
+                    <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
+                        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Fear Setting & Review</h3>
+                        <div className="space-y-3">
+                            <div>
+                                <label className="text-xs text-slate-500 block mb-1">Trigger (壓力源)</label>
+                                <input type="text" className="w-full bg-slate-50 p-2 rounded-lg text-sm border-none" placeholder="e.g. RTO 通勤, 專案進度..." />
+                            </div>
+                            <div>
+                                <label className="text-xs text-slate-500 block mb-1">Shamanic Response (轉念/薩滿回應)</label>
+                                <textarea className="w-full bg-slate-50 p-2 rounded-lg text-sm border-none h-20" placeholder="e.g. 這不是交通，這是移動式健身房..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================
+        // 4. Main App Shell
+        // ==========================================
+        const App = () => {
+            const [currentView, setCurrentView] = useState('dashboard'); // dashboard, journal, planner, review
+
+            // Initialize Icons
+            useEffect(() => {
+                lucide.createIcons();
+            }, [currentView]);
+
+            // Header Component
+            const Header = () => (
+                <div className="p-6 pb-2">
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{getDisplayDate()}</p>
+                    <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                        <span className="bg-slate-800 text-white p-1 rounded">2025</span>
+                        <span className="font-light">Lightness</span>
+                    </h1>
+                    <p className="text-xs text-slate-500 mt-2 italic font-serif">"Lightness in Body, Sovereignty in Career."</p>
+                </div>
+            );
+
+            // Bottom Navigation (Mobile Friendly)
+            const BottomNav = () => (
+                <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-100 py-3 px-6 flex justify-between items-center z-40 md:hidden pb-safe">
+                    <button onClick={() => setCurrentView('dashboard')} className={`flex flex-col items-center ${currentView === 'dashboard' ? 'text-slate-900' : 'text-slate-400'}`}>
+                        <i data-lucide="layout-grid" className="w-5 h-5 mb-1"></i>
+                        <span className="text-[10px]">Core</span>
+                    </button>
+                    <button onClick={() => setCurrentView('journal')} className={`flex flex-col items-center ${currentView === 'journal' ? 'text-slate-900' : 'text-slate-400'}`}>
+                        <i data-lucide="book-open" className="w-5 h-5 mb-1"></i>
+                        <span className="text-[10px]">Journal</span>
+                    </button>
+                    <div className="relative -top-5">
+                        <button onClick={() => setCurrentView('review')} className="bg-slate-900 text-white p-4 rounded-full shadow-lg shadow-slate-300">
+                            <i data-lucide="check-square" className="w-6 h-6"></i>
+                        </button>
+                    </div>
+                    <button onClick={() => setCurrentView('planner')} className={`flex flex-col items-center ${currentView === 'planner' ? 'text-slate-900' : 'text-slate-400'}`}>
+                        <i data-lucide="calendar" className="w-5 h-5 mb-1"></i>
+                        <span className="text-[10px]">Plan</span>
+                    </button>
+                    <button onClick={() => alert('Settings: Data stored locally.')} className={`flex flex-col items-center text-slate-400`}>
+                        <i data-lucide="settings" className="w-5 h-5 mb-1"></i>
+                        <span className="text-[10px]">Set</span>
+                    </button>
+                </div>
+            );
+
+            // Desktop Sidebar
+            const Sidebar = () => (
+                <div className="hidden md:flex flex-col w-64 bg-white border-r border-slate-100 h-screen fixed left-0 top-0 p-6">
+                    <div className="mb-10">
+                        <h2 className="text-xl font-bold text-slate-800">Life OS</h2>
+                        <p className="text-xs text-slate-400">AI Shaman Edition</p>
+                    </div>
+                    <nav className="space-y-2">
+                        {[
+                            {id: 'dashboard', icon: 'layout-grid', label: 'Dashboard & Mandala'},
+                            {id: 'journal', icon: 'book-open', label: '5-Year Journal'},
+                            {id: 'planner', icon: 'calendar', label: 'Weekly Planner'},
+                            {id: 'review', icon: 'check-square', label: 'Review & Habits'},
+                        ].map(item => (
+                            <button 
+                                key={item.id}
+                                onClick={() => setCurrentView(item.id)}
+                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${currentView === item.id ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-50'}`}
+                            >
+                                <i data-lucide={item.icon} className="w-4 h-4"></i>
+                                {item.label}
+                            </button>
+                        ))}
+                    </nav>
+                </div>
+            );
+
+            // Render Content
+            const renderContent = () => {
+                switch(currentView) {
+                    case 'dashboard':
+                        return (
+                            <div className="space-y-4 animate-fade-in">
+                                <DYLStatus />
+                                <MandalaGrid />
+                            </div>
+                        );
+                    case 'journal':
+                        return <FiveYearJournal />;
+                    case 'planner':
+                        return <WeeklyPlanner />;
+                    case 'review':
+                        return <ReviewSystem />;
+                    default:
+                        return <DYLStatus />;
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-slate-50/50 md:pl-64">
+                    <Sidebar />
+                    <main className="max-w-2xl mx-auto min-h-screen relative">
+                        <Header />
+                        <div className="p-6 pt-2">
+                            {renderContent()}
+                        </div>
+                    </main>
+                    <BottomNav />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
