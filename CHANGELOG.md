@@ -4,6 +4,27 @@ All notable changes to the MELSA Wellness project will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.2.0] - 2025-12-01 (Marketing Attribution)
+### 🚀 Features (Marketing)
+- **Referral Tracking:** Added a "How did you find us?" dropdown menu to both the Newsletter form (`index.html`) and Diagnostic Intake form (`intake.html`).
+- **Options:** Added sources: Instagram, LinkedIn, Google Search, Friend/Colleague, FSS/Community.
+
+### 🔧 Backend & Database
+- **Google Apps Script:** Updated the `doPost` function to parse and capture the new `referral` parameter from frontend fetch requests.
+- **Database Schema:** Added "Referral" column headers to the 4th column (Newsletter) and 6th column (Intake) in the Master Google Sheet.
+- **Notifications:** Updated automated email alerts to include the "Source" field for immediate attribution visibility.
+
+## [2.1.0] - 2025-12-01 (SEO & Indexing)
+### 🔍 SEO & Metadata
+- **On-Page SEO:** Injected standard `<meta>` tags into `index.html` (Description, Keywords: "Shamanic Healing Toronto", Author).
+- **Social Sharing:** Implemented Open Graph (`og:`) tags to ensure professional link previews (Title, Description, Brand Image) on LinkedIn and Facebook.
+
+### 🏢 Operational
+- **Google Search Console:** Verified domain ownership (`melsawellness.ca`) via Cloudflare DNS and submitted indexing request.
+- **Google Business Profile:** Established local presence for "MELSA Wellness" in Markham/Toronto to capture "near me" traffic.
+
+
+---
 
 ## [2.0.1] - 2025-11-30 (Launch Day)
 ### 🚀 Launch
