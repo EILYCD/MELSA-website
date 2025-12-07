@@ -4,6 +4,16 @@ All notable changes to the MELSA Wellness project will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.3.0] - 2025-12-06 (Security & Architecture)
+### 🏗️ Infrastructure
+- **Directory Split:** Implemented "Front of House" vs "Back of House" architecture. Moved all client-facing files (`*.html`, `/images`) into a new `/public` directory.
+- **Access Control:** Admin files (`README.md`, `CHANGELOG.md`, `melsawellness-dashboard.html`) are now isolated in the root and blocked from public deployment.
+
+### 🔒 Security & SEO
+- **Robots.txt:** Added `robots.txt` to strictly disallow crawling of admin documentation and success pages.
+- **Sitemap:** Added `sitemap.xml` to explicitly guide search engines to `index`, `about`, and `intake` pages.
+- **Dashboard:** Added `<meta name="robots" content="noindex">` tag to the dashboard for double-layered security.
+
 ## [2.2.0] - 2025-12-01 (Marketing Attribution)
 ### 🚀 Features (Marketing)
 - **Referral Tracking:** Added a "How did you find us?" dropdown menu to both the Newsletter form (`index.html`) and Diagnostic Intake form (`intake.html`).

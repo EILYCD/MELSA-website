@@ -71,7 +71,7 @@
     <aside class="w-64 bg-stone-100 border-r border-stone-200 flex flex-col z-20 flex-shrink-0">
         <div class="p-6 border-b border-stone-200">
             <h1 class="font-serif text-xl font-bold text-stone-900">MELSA<span class="text-sage-500">.Ops</span></h1>
-            <p class="text-xs text-stone-500 mt-1">Interactive Manual v2.2</p>
+            <p class="text-xs text-stone-500 mt-1">Interactive Manual v2.3</p>
             <div class="mt-2 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800">
                 🔒 ADMIN ONLY
             </div>
@@ -147,16 +147,14 @@
                  <div class="glass-card p-4 rounded-lg border-t-4 border-purple-500">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-xs font-bold text-purple-600 tracking-widest uppercase">Build Quota</p>
-                            <h3 class="font-bold text-stone-900 text-lg mt-1">Cloudflare</h3>
+                            <p class="text-xs font-bold text-purple-600 tracking-widest uppercase">Structure</p>
+                            <h3 class="font-bold text-stone-900 text-lg mt-1">Split Dir</h3>
                         </div>
-                        <span class="text-xl">☁️</span>
+                        <span class="text-xl">📁</span>
                     </div>
-                    <div class="mt-4">
-                        <div class="w-full bg-stone-200 rounded-full h-2 mb-1">
-                            <div class="bg-purple-500 h-2 rounded-full" style="width: 5%"></div>
-                        </div>
-                        <p class="text-xs text-stone-400 text-right">Safe Zone</p>
+                    <div class="mt-4 text-xs text-stone-400 text-right space-y-1">
+                        <p>Public: <span class="font-mono text-stone-600 bg-stone-200 px-1 rounded">/public</span></p>
+                        <p>Admin: <span class="font-mono text-stone-600 bg-stone-200 px-1 rounded">Root</span></p>
                     </div>
                 </div>
             </div>
@@ -195,8 +193,35 @@
            <div class="space-y-6 relative border-l-2 border-stone-200 ml-4 pl-8 pb-4">
                
                <div class="relative">
+                   <span class="absolute -left-[41px] top-0 h-6 w-6 rounded-full bg-purple-500 border-4 border-stone-50"></span>
+                   <div class="glass-card p-6 rounded-lg border-l-4 border-purple-500">
+                       <div class="flex justify-between items-start mb-4">
+                           <div>
+                               <span class="inline-block px-2 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded mb-2">v2.3.0</span>
+                               <h3 class="font-bold text-stone-900 text-lg">Security & Architecture Restructure</h3>
+                           </div>
+                           <span class="text-xs text-stone-400">2025-12-06</span>
+                       </div>
+                       <ul class="space-y-3 text-sm text-stone-600">
+                           <li class="flex items-start gap-2">
+                               <span class="text-purple-500 mt-1">▸</span>
+                               <span><strong>Split Directory:</strong> Moved all client-facing assets to <code>/public</code>. Isolated Admin docs in Root.</span>
+                           </li>
+                           <li class="flex items-start gap-2">
+                               <span class="text-purple-500 mt-1">▸</span>
+                               <span><strong>Access Control:</strong> Implemented <code>robots.txt</code> and <code>noindex</code> tags to block admin file crawling.</span>
+                           </li>
+                           <li class="flex items-start gap-2">
+                               <span class="text-purple-500 mt-1">▸</span>
+                               <span><strong>SEO Map:</strong> Added <code>sitemap.xml</code> for optimized indexing of core pages.</span>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+
+               <div class="relative">
                    <span class="absolute -left-[41px] top-0 h-6 w-6 rounded-full bg-sage-500 border-4 border-stone-50"></span>
-                   <div class="glass-card p-6 rounded-lg">
+                   <div class="glass-card p-6 rounded-lg opacity-80 hover:opacity-100 transition">
                        <div class="flex justify-between items-start mb-4">
                            <div>
                                <span class="inline-block px-2 py-1 bg-sage-100 text-sage-600 text-xs font-bold rounded mb-2">v2.2.0</span>
@@ -213,17 +238,13 @@
                                <span class="text-sage-500 mt-1">▸</span>
                                <span><strong>Backend Upgrade:</strong> Google Apps Script updated to parse referral sources into the database.</span>
                            </li>
-                           <li class="flex items-start gap-2">
-                               <span class="text-sage-500 mt-1">▸</span>
-                               <span><strong>Alerts:</strong> Admin emails now identify the source of the lead for immediate attribution.</span>
-                           </li>
                        </ul>
                    </div>
                </div>
 
                <div class="relative">
                    <span class="absolute -left-[41px] top-0 h-6 w-6 rounded-full bg-blue-400 border-4 border-stone-50"></span>
-                   <div class="glass-card p-6 rounded-lg opacity-90">
+                   <div class="glass-card p-6 rounded-lg opacity-60 hover:opacity-100 transition">
                        <div class="flex justify-between items-start mb-4">
                            <div>
                                <span class="inline-block px-2 py-1 bg-blue-100 text-blue-600 text-xs font-bold rounded mb-2">v2.1.0</span>
@@ -231,26 +252,13 @@
                            </div>
                            <span class="text-xs text-stone-400">2025-12-01</span>
                        </div>
-                       <ul class="space-y-3 text-sm text-stone-600">
-                           <li class="flex items-start gap-2">
-                               <span class="text-stone-400 mt-1">▸</span>
-                               <span><strong>Social Sharing:</strong> Implemented Open Graph (OG) tags for professional link previews on LinkedIn/FB.</span>
-                           </li>
-                           <li class="flex items-start gap-2">
-                               <span class="text-stone-400 mt-1">▸</span>
-                               <span><strong>Visibility:</strong> Verified domain with Google Search Console and requested indexing.</span>
-                           </li>
-                           <li class="flex items-start gap-2">
-                               <span class="text-stone-400 mt-1">▸</span>
-                               <span><strong>Local Presence:</strong> Established Google Business Profile for Toronto/Markham area.</span>
-                           </li>
-                       </ul>
+                       <p class="text-sm text-stone-600">Implemented Open Graph tags and verified Google Search Console.</p>
                    </div>
                </div>
 
                <div class="relative">
                    <span class="absolute -left-[41px] top-0 h-6 w-6 rounded-full bg-stone-400 border-4 border-stone-50"></span>
-                   <div class="glass-card p-6 rounded-lg opacity-75 grayscale hover:grayscale-0 transition">
+                   <div class="glass-card p-6 rounded-lg opacity-50 hover:opacity-100 transition">
                        <div class="flex justify-between items-start mb-4">
                            <div>
                                <span class="inline-block px-2 py-1 bg-stone-200 text-stone-600 text-xs font-bold rounded mb-2">v2.0.1</span>
@@ -258,11 +266,51 @@
                            </div>
                            <span class="text-xs text-stone-400">2025-11-30</span>
                        </div>
-                       <p class="text-sm text-stone-600">
-                           Deployment of custom domain (melsawellness.com) and final production verification.
-                       </p>
+                       <p class="text-sm text-stone-600">Deployment of custom domain (melsawellness.com) and final production verification.</p>
                    </div>
                </div>
+
+               <div class="relative">
+                    <span class="absolute -left-[41px] top-0 h-6 w-6 rounded-full bg-blue-500 border-4 border-stone-50"></span>
+                    <div class="glass-card p-6 rounded-lg opacity-40 hover:opacity-100 transition">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded mb-2">v2.0.0</span>
+                                <h3 class="font-bold text-stone-900 text-lg">Automation Release</h3>
+                            </div>
+                            <span class="text-xs text-stone-400">2025-11-29</span>
+                        </div>
+                        <ul class="space-y-1 text-xs text-stone-600">
+                            <li><strong>Added:</strong> Newsletter, Intake Form, Google Apps Script Backend.</li>
+                            <li><strong>Docs:</strong> Dashboard & Success Pages created.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <span class="absolute -left-[41px] top-0 h-6 w-6 rounded-full bg-teal-500 border-4 border-stone-50"></span>
+                     <div class="glass-card p-6 rounded-lg opacity-30 hover:opacity-100 transition">
+                         <div class="flex justify-between items-start mb-4">
+                             <div>
+                                 <span class="inline-block px-2 py-1 bg-teal-100 text-teal-800 text-xs font-bold rounded mb-2">v1.0.0</span>
+                                 <h3 class="font-bold text-stone-900 text-lg">Rebrand & V1 Release</h3>
+                             </div>
+                             <span class="text-xs text-stone-400">2025-11-27</span>
+                         </div>
+                         <p class="text-sm text-stone-600">Full migration to Light Theme (Cream & Teal) and Service Architecture restructure.</p>
+                     </div>
+                </div>
+
+                <div class="relative">
+                    <span class="absolute -left-[41px] top-0 h-6 w-6 rounded-full bg-stone-300 border-4 border-stone-50"></span>
+                    <div class="glass-card p-6 rounded-lg opacity-20 hover:opacity-100 transition">
+                        <h3 class="font-bold text-stone-500 text-sm mb-2">Legacy Milestones</h3>
+                        <ul class="text-xs text-stone-400 space-y-1">
+                            <li>[v0.2.0] MVP Infrastructure (Cloudflare Migration) - 2025-11-26</li>
+                            <li>[v0.1.0] Proof of Concept (Netlify Deploy) - 2025-11-25</li>
+                        </ul>
+                    </div>
+                </div>
 
            </div>
        </section>

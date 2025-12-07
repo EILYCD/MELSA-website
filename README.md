@@ -76,25 +76,45 @@ Based on the "Rational Mystic" brand positioning.
 
 ---
 
-## 📂 Project Structure
+## 📐 Architecture: Front vs. Back of House
+We use a split-directory structure to secure admin documentation.
+
+### 1. Root Directory (Admin Only)
+Contains documentation, logs, and the developer dashboard. These files are **NOT** uploaded to the public web server.
+* `README.md`
+* `CHANGELOG.md`
+* `melsawellness-dashboard.html`
+
+### 2. Public Directory (Client Facing)
+The `/public` folder is the "Build Output" for Cloudflare. Only files inside this folder are accessible at `melsawellness.com`.
+* `index.html`
+* `about.html`
+* `intake.html`
+* `images/`
+
+---
+
+## 📂 Project Structure Map
 
 ```text
 /
-├── index.html                # Landing Page (Services, Philosophy, Drumming Circle)
-├── about.html                # About Me Page (Profile, Story)
-├── intake.html               # [NEW] Diagnostic Intake Form for 1-on-1 services
-├── thank-you.html            # [NEW] Success page for Drumming Circle Signup
-├── intake-success.html       # [NEW] Success page for Client Intake
-├── melsawellness-dashboard.html # [NEW] Project Documentation Dashboard
-├── README.md                 # This documentation
-└── images/                   # Image Assets Folder
-    ├── logo-w.png            # Primary Logo (Teal text, Transparent BG)
-    └── profile.png           # Founder Portrait
+├── README.md                 # Admin Documentation (Private)
+├── CHANGELOG.md              # Version History (Private)
+├── melsawellness-dashboard.html # Operations Manual (Private)
+└── public/                   # 🌍 THE LIVE SITE
+    ├── index.html            # Landing Page
+    ├── about.html            # Bio
+    ├── intake.html           # Diagnostic Form
+    ├── robots.txt            # SEO Rules
+    ├── sitemap.xml           # SEO Map
+    └── images/               # Image Assets
+        └── logo-w.png
 ```
 
 > **⚠️ CRITICAL RULES FOR ASSETS:**
 > 1.  **Case Sensitivity:** Cloudflare Pages is case-sensitive. `profile.png` ≠ `Profile.png`. Always use lowercase filenames.
 > 2.  **Absolute Paths:** Always reference images with a leading slash (e.g., `/images/profile.png`). This prevents broken images when Cloudflare uses Clean URLs (e.g., `/about` instead of `/about.html`).
+> 3.  **Front Office:**All images and HTML pages intended for the public MUST be placed inside the public/ folder. If you leave them in the root, the website will not see them.
 
 ---
 
