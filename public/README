@@ -1,0 +1,27 @@
+# 📂 Public Directory (Production Build)
+
+**Status:** Live / Client-Facing
+**Deployment:** Cloudflare Pages (Build Output Directory: `public`)
+
+---
+
+## 🏗️ Architecture Overview
+This directory contains the **"Front of House"** assets for MELSA Wellness. Only files located within this directory are served to the public web.
+
+### 🔒 Security Protocol
+* **Admin Files:** Internal documentation, changelogs, and the Developer Dashboard are located in the **Root** directory, outside of this folder. They are intentionally excluded from the build to prevent public access.
+* **Robots.txt:** Configured to block crawling of technical files.
+
+### 🗺️ File Manifest
+* **`index.html`**: Main Landing Page (Philosophy, Services, Newsletter)
+* **`about.html`**: Founder Bio & Story
+* **`intake.html`**: Client Diagnostic Form (Logic: System Bug → Desired State)
+* **`images/`**: All static assets (Logo, Profile). *Note: Must use absolute paths.*
+
+### 🚦 Success & Routing
+* **`thank-you.html`**: Destination for Drumming Circle signups.
+* **`intake-success.html`**: Destination for Client Intake submissions.
+* **`sitemap.xml`**: SEO map for search engines.
+
+---
+*For internal development workflows and full changelogs, please refer to the private repository root.*

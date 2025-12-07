@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /melsawellness-dashboard.html
+Disallow: /README.md
+Disallow: /CHANGELOG.md
+Disallow: /project-handoff.md
+Disallow: /stackbit.config.ts
+Disallow: /intake-success.html
+Disallow: /thank-you.html
+
+Sitemap: https://melsawellness.com/sitemap.xml
