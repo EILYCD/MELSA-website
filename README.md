@@ -1,71 +1,177 @@
-# MELSA-website
-Official website for MELSA Wellnes
+# MELSA Wellness - Technical Documentation
 
+## 🌍 Environments
+| Environment | Branch | URL | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Production** | main | https://melsawellness.com https://melsawellness.pages.dev | Live public site |
+| **UAT** | uat | https://uat.melsawellness.pages.dev | Versioning pre colour change |
+| **IST** | ist | https://ist.melsawellness.pages.dev | Staging |
+| **DEV** | dev | https://dev.melsawellness.pages.dev | Testing new features |
 
-「文字腳本」來確認每一個區塊的目的、視覺感受與內容架構。
-這是基於您「理性的神秘主義者 (Rational Mystic)」品牌定位的網頁架構藍圖：
-🏛️ MELSA Wellness 網頁架構藍圖
-整體視覺關鍵字：留白 (Whitespace)、雜誌感 (Editorial)、沉穩 (Stone/Sage)、結構化 (Structured)。
-1. 導航列 (Navbar) —— 「安靜的指引」
- * 功能： 讓使用者隨時能找到路，但不搶眼。
- * 視覺：
-   * 背景：半透明的毛玻璃效果（Frosted Glass），滑動時不會遮擋內容。
-   * Logo：左側使用襯線體 (Serif)，展現經典與優雅。
-   * 連結：右側使用無襯線體 (Sans-serif) 全大寫，字距拉開，展現現代感與紀律。
-   * 重點： 右上角的「中/英切換」按鈕需要精緻顯眼。
-2. 首頁主視覺 (Hero Section) —— 「定調與鉤子」
- * 功能： 在 3 秒內告訴訪客「這裡不一樣」。不是一般的算命網站，而是給現代人的心靈方案。
- * 視覺：
-   * 不使用滿版大圖：改用大量的米白色 (stone-50) 留白背景。
-   * 文字排版：置中。
-   * 主標題：大字號襯線體（例如："Beyond the Right Path"）。
-   * 副標題：手寫感或斜體（"Find Your Own Answers"），增加人味。
-   * 按鈕：兩個並排（左實心黑：開始旅程；右空心框：閱讀故事）。
-3. 核心理念 (Philosophy) —— 「建立差異化」
- * 功能： 解決「為什麼我要找你？」並打破迷思（不需要大師，你需要的是自己）。
- * 架構： 左右分割佈局 (50/50 Split)。
-   * 左側： 一張非常有質感的抽象圖片（例如岩石紋理或平靜水面），黑白或低飽和度。
-   * 右側： 文字區塊。標題「Cut Off the Middleman (無需中間人)」。
-   * 亮點： 中間穿插一句引用句 (Blockquote)，左邊有一條鼠尾草綠 (Sage Green) 的豎線裝飾。
-4. 關於我 (About) —— 「理性與感性的橋樑」
- * 功能： 證明您懂「現實世界」的壓力（MBA背景），也懂「靈性世界」的療癒。
- * 視覺： 背景切換為淺灰色 (stone-100)，區分區塊。
- * 架構：
-   * 上方：文字故事（A+ Student -> Shaman 的轉變）。
-   * 下方（重要修改建議）： 「憑證網格 (Credentials Grid)」。用四個整齊的小方格列出您的身份（薩滿、催眠、靈氣、MBA），用極細線條區隔，像一張精緻的規格表。
-5. 服務項目 (Services) —— 「清晰的產品階梯」
- * 功能： 讓訪客知道能買什麼。
- * 視覺： 深色模式 (Dark Mode)。背景切換為深灰/黑色 (stone-800)，文字變白。這能創造視覺衝擊，讓服務內容看起來很「貴重 (Premium)」。
- * 架構： 兩張並排的卡片。
-   * 卡片 1 (左)：5 週課程 (旗艦產品)。
-   * 卡片 2 (右)：單次諮詢 (急救/整合)。
-   * 內容：條列式勾選清單 (Checklist)，強調「結果」而非「過程」。
-   * 行動： 按鈕連結到 Calendly。
-6. 見證/評價 (Testimonials) —— 「社會認證」(目前程式碼中還沒有，建議新增)
- * 功能： 消除疑慮。
- * 視覺： 回到白色背景。
- * 架構： 3 個橫向排列的引用框。不需要照片（保護隱私），只需要文字和署名（例如：Client in Finance, Toronto）。
-7. 頁尾 (Footer) —— 「結尾」
- * 視覺： 最深色 (stone-900)。
- * 內容： 簡單的聯絡資訊、Email、IG/LinkedIn 連結。
+---
 
+## 🛠️ Tech Stack
+* **Core:** Semantic HTML5
+* **Styling:** Tailwind CSS (via CDN)
+* **Scripting:** Vanilla JavaScript (No frameworks)
+* **Hosting:** Cloudflare Pages (Unlimited bandwidth & requests)
+* **Booking:** Calendly Integration
+* **Forms:** Formsubmit.co (Email-based backend) => deprecated from IST, replaced by Backend Automation + Database
+* **Backend Automation:** Google Apps Script (Serverless)
+* **Database:** Google Sheets ("MELSA Website Database")
+**Update (v2.0)**: We have migrated away from email-only forwarding (Formsubmit). Data is now sent via JavaScript fetch to a custom Google Apps Script, which appends rows to specific tabs in a secured Google Sheet.  
+---
 
-雖然 Cloudflare 給了 500 次額度很難用完，但學會控制部署節奏是很好的開發習慣。
+## 🎨 Design System (Light Theme)
+The website uses a custom **"Rational Mystic"** aesthetic, transitioning from dark mode to a welcoming combination of warm creams and professional teal accents.
 
-方法一：使用「通關密語」 (⭐ 最推薦)
-  Cloudflare Pages (以及 Netlify/Vercel) 都支援一種機制：只要您的 Commit Message (提交訊息) 裡面包含特定的關鍵字，系統就會自動忽略這次更新，只備份程式碼但不進行部署。
+### Color Palette (tailwind.config)
 
-  操作步驟：
-    當您做了一些小修改（例如改個錯字、換個顏色），想要存檔但不想浪費部署次數時。
-    在 GitHub (或是您的 Git 工具) 提交時，在訊息後面加上 [skip ci] 或 [ci skip]。
-  範例：
-    原本寫： Update typo in footer (這會觸發部署)
-    現在寫： Update typo in footer [skip ci] (這不會觸發部署)
-    如何觸發部署？ 等到您累積了 5 個小修改，覺得「好，現在可以看成果了」，下一次提交時不要加 [skip ci]，Cloudflare 就會把前面累積的所有修改一次打包部署出來。
+| Color Name | Hex Code | Usage |
+| :--- | :--- | :--- |
+| **Stone 50** | `#FAF9F6` | Main Body Background (Cream) |
+| **Stone 100** | `#F5F5F2` | Secondary Background (Footer/Services) |
+| **Stone 900** | `#1C1917` | Primary Text (Charcoal) |
+| **Sage 500** | `#4FB5B0` | Brand Teal (Buttons, Accents, Logo) |
+| **Sage 600** | `#3D9C98` | Hover State |
 
-方法二：在 Cloudflare 後台暫停 (手動開關)
-  如果您希望這段時間完全不要動，可以去後台把自動部署「關掉」。
-  進入 Cloudflare Pages 的 melsawellness 專案。
-  點擊 Settings (設定) > Builds & deployments (建置與部署)。
-  向下滑找到 Configure Production deployments (設定正式部署) 或 Branch deployments (分支部署)。
-  點擊 Pause deployments (暫停部署)。
+### Typography
+* **Headings:** Georgia (Serif) — *Represents the "Mystic/Classic" side.*
+* **Body:** Helvetica Neue / Arial (Sans-serif) — *Represents the "Rational/Modern" side.*
+
+---
+
+## 📐 Website Architecture Blueprint (網頁架構藍圖)
+Based on the "Rational Mystic" brand positioning.
+**Visual Keywords:** Whitespace, Editorial, Grounded (Stone/Sage), Structured.
+
+### 1. Navbar ("The Compass")
+* **Function:** Unobtrusive navigation.
+* **Visuals:** Frosted glass background.
+* **Key Element:** Prominent EN/ZH toggle button.
+* **Logo:** `logo-w.png` (Teal brand color with transparent background).
+
+### 2. Hero Section ("The Hook")
+* **Visuals:** Cream background (`stone-50`) with centered typography. **No full-width hero images.**
+* **Copy:** "Beyond the Right Path. Find Your Own Answers."
+
+### 3. Philosophy Section ("The Differentiator")
+* **Structure:** 50/50 Split layout.
+* **Left:** Abstract nature texture (High-quality Pexels image).
+* **Right:** "Cut Off the Middleman" manifesto.
+
+### 4. Services Section ("The Methodology")
+* **Structure:** 3-Column Grid, ordered by logic flow: Integration → Clearing → Power.
+* **Flagship:** Independent full-width card for Harner Shamanic Counseling (HSC).
+* **Metaphors:** Uses rational metaphors (e.g., "System Administrator Access", "Digital Security Key") to explain spiritual concepts.
+
+### 5. About Page (`about.html`)
+* **Style:** Glassmorphism card design.
+* **Headline:** "Hello, Inner World." / "你好，內在世界。"
+* **Asset:** Full-color profile photo (`profile.png`).
+
+### 6. Footer ("The Anchor")
+* **Visuals:** Light warm grey (`stone-100`).
+* **Content:** Social links, copyright, and location info.
+
+---
+
+## 📂 Project Structure
+
+```text
+/
+├── index.html                # Landing Page (Services, Philosophy, Drumming Circle)
+├── about.html                # About Me Page (Profile, Story)
+├── intake.html               # [NEW] Diagnostic Intake Form for 1-on-1 services
+├── thank-you.html            # [NEW] Success page for Drumming Circle Signup
+├── intake-success.html       # [NEW] Success page for Client Intake
+├── melsawellness-dashboard.html # [NEW] Project Documentation Dashboard
+├── README.md                 # This documentation
+└── images/                   # Image Assets Folder
+    ├── logo-w.png            # Primary Logo (Teal text, Transparent BG)
+    └── profile.png           # Founder Portrait
+```
+
+> **⚠️ CRITICAL RULES FOR ASSETS:**
+> 1.  **Case Sensitivity:** Cloudflare Pages is case-sensitive. `profile.png` ≠ `Profile.png`. Always use lowercase filenames.
+> 2.  **Absolute Paths:** Always reference images with a leading slash (e.g., `/images/profile.png`). This prevents broken images when Cloudflare uses Clean URLs (e.g., `/about` instead of `/about.html`).
+
+---
+
+## 📝 Localization (EN / 中文)
+The site uses a CSS-first class toggling system to prevent content flickering.
+
+* **English elements:** `<span class="lang-en">...</span>`
+* **Chinese elements:** `<span class="lang-zh hidden-lang">...</span>`
+
+**Logic:** JavaScript toggles the `hidden-lang` class. Chinese is hidden by default in CSS.
+
+---
+
+## 🚀 Development Workflow (The "Credit-Saver" Method)
+To avoid exhausting Cloudflare build limits (500/month), follow this workflow:
+
+1.  **Local Development (0 Cost)**
+    * Download the code to your computer/Chromebook.
+    * Use VS Code or a browser to preview files locally.
+    * Make all edits (typos, colors, layout) locally first.
+
+2.  **UAT Deployment (1 Credit)**
+    * When features are ready to share or test on mobile:
+    * Push code to the `uat` branch.
+    * Cloudflare automatically builds to `https://uat.melsawellness.pages.dev`.
+
+3.  **Production Release (1 Credit)**
+    * When UAT is verified:
+    * Create a Pull Request on GitHub: **base: main ← compare: uat**.
+    * Merge the Pull Request.
+
+### 💡 Skip Build Trick
+If you are saving code to GitHub but don't need a deployment immediately, add `[skip ci]` to your commit message.
+
+```bash
+git commit -m "Update README docs [skip ci]"
+```
+
+---
+
+## 🔌 Integrations
+
+### 1. Newsletter (Drumming Circle)
+* **Location:** `index.html` (Bottom section).
+* **Backend:** Formsubmit.co
+* **Redirect:** Dynamically redirects to `/thank-you.html` based on the current environment (UAT or Prod).
+
+### 2. Client Intake (1-on-1 Services)
+* **Location:** `intake.html`.
+* **Backend:** Formsubmit.co
+* **Redirect:** Dynamically redirects to `/intake-success.html`.
+
+### 3. Booking
+* **Intro Call:** Linked to [Calendly Free Consultation](https://calendly.com/melsawellness/free) (15-min).
+* **Paid Session:** Managed via Intake process.
+
+---
+
+## V2.0 🌟 Key Features Update
+
+### 1. Newsletter & Community (Drumming Circle)
+* **Location:** `index.html` (Bottom section) + Nav Bar link.
+* **Design:** "Coming Soon" card style with Toronto/Markham location tags.
+* **Workflow:** User submits form → Data sent to Google Sheets (Newsletter tab) → Auto-redirect to `thank-you.html`.
+
+### 2. Client Intake System (Diagnostic)
+* **Location:** `intake.html` (Linked from Services CTA).
+* **Concept:** Framed as a "System Diagnostic" (identifying bugs/challenges) rather than a menu order.
+* **Workflow:** User submits diagnostic → Data sent to Google Sheets (Intake tab) → Auto-redirect to `intake-success.html`.
+
+### 3. Backend Automation (Google Sheets)
+* **Upgrade:** We moved away from email forwarding (Formsubmit) to a true database.
+* **Mechanism:** Custom Google Apps Script (`doPost`) receives form data via JS Fetch API and appends it to specific tabs in the Master Google Sheet.
+* **Security:** Script executes as "Me" (Owner), protecting the database from public access while allowing public submissions.
+
+### 4. Developer Dashboard
+* **File:** `melsawellness-dashboard.html`
+* **Purpose:** A single-page view to check live environment status, copy brand hex codes, view tech stack composition, and reference development workflows.
+
+---
