@@ -192,68 +192,61 @@ git commit -m "Update README docs [skip ci]"
 
 
 ---
+## 🌟 Key Features UpdateKey Features Update
 
-## V2.0 🌟 Key Features Update
-
-### 1. Newsletter & Community (Drumming Circle)
+### V2.0 🌟 Product Launch
+#### 1. Newsletter & Community (Drumming Circle)
 * **Location:** `index.html` (Bottom section) + Nav Bar link.
 * **Design:** "Coming Soon" card style with Toronto/Markham location tags.
 * **Workflow:** User submits form → Data sent to Google Sheets (Newsletter tab) → Auto-redirect to `thank-you.html`.
-
-### 2. Client Intake System (Diagnostic)
+#### 2. Client Intake System (Diagnostic)
 * **Location:** `intake.html` (Linked from Services CTA).
 * **Concept:** Framed as a "System Diagnostic" (identifying bugs/challenges) rather than a menu order.
 * **Workflow:** User submits diagnostic → Data sent to Google Sheets (Intake tab) → Auto-redirect to `intake-success.html`.
-
-### 3. Backend Automation (Google Sheets)
+#### 3. Backend Automation (Google Sheets)
 * **Upgrade:** We moved away from email forwarding (Formsubmit) to a true database.
 * **Mechanism:** Custom Google Apps Script (`doPost`) receives form data via JS Fetch API and appends it to specific tabs in the Master Google Sheet.
 * **Security:** Script executes as "Me" (Owner), protecting the database from public access while allowing public submissions.
-
-### 4. Developer Dashboard
+#### 4. Developer Dashboard
 * **File:** `melsawellness-dashboard.html`
 * **Purpose:** A single-page view to check live environment status, copy brand hex codes, view tech stack composition, and reference development workflows.
 
----
-## V2.1 🔍 SEO & Indexing Update
+──────────────
 
-### 1. Social Previews (Open Graph)
+### V2.1 🔍 SEO & Indexing Update
+#### 1. Social Previews (Open Graph)
 * **Location:** `index.html` (`<head>` section).
 * **Upgrade:** Added Open Graph (`og:`) tags and standard metadata (Description, Keywords).
 * **Result:** Links shared on LinkedIn, Facebook, or WhatsApp now generate professional previews with the brand image and description.
-
-### 2. Search Visibility
+#### 2. Search Visibility
 * **Integration:** Google Search Console & Google Business Profile.
 * **Workflow:** Domain ownership verified via DNS. Sitemap submitted to ensure Google correctly indexes `melsawellness.com` while ignoring utility pages.
 
----
+──────────────
 
-## V2.2 📊 Marketing Attribution Update
-
-### 1. Referral Tracking
+### V2.2 📊 Marketing Attribution Update
+#### 1. Referral Tracking
 * **Location:** `index.html` (Newsletter) and `intake.html` (Intake).
 * **Feature:** Added "How did you find us?" dropdown menu with options (Instagram, LinkedIn, Friend, etc.).
 * **Workflow:** User selects source → Data sent via Fetch API → Backend records source.
-
-### 2. Backend Parsing
+#### 2. Backend Parsing
 * **Backend:** Google Apps Script (`doPost`).
 * **Upgrade:** Script updated to parse the new `referral` parameter.
 * **Database:** Automatically appends the source data to the 4th column (Newsletter) or 6th column (Intake) in the Master Google Sheet.
 
----
+──────────────
 
-## V2.3 🏗️ Security & Architecture Update
-
-### 1. Split Directory Architecture
+### V2.3 🏗️ Security & Architecture Update
+#### 1. Split Directory Architecture
 * **Upgrade:** Implemented "Front of House" vs. "Back of House" separation.
 * **Mechanism:** All public files (`*.html`, `/images`) moved to `/public`. Admin files (`README`, `CHANGELOG`, `Dashboard`) remain in Root.
 * **Security:** Cloudflare now builds strictly from `/public`. Admin documentation is physically excluded from the production build, preventing public access.
-
-### 2. Access Control (The Bouncer)
+#### 2. Access Control (The Bouncer)
 * **Location:** `robots.txt` (in `/public`).
 * **Function:** Explicitly disallows bots from crawling success pages (`thank-you.html`) or legacy admin files.
 * **Dashboard:** Added `<meta name="robots" content="noindex">` to the dashboard file for double-layered security.
-
-### 3. SEO Mapping
+#### 3. SEO Mapping
 * **Location:** `sitemap.xml` (in `/public`).
 * **Function:** Provides a strict map to search engines, listing only the valid entry points: Home, About, and Intake.
+
+──────────────
