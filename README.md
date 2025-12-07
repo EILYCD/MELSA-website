@@ -4,8 +4,8 @@
 | Environment | Branch | URL | Purpose |
 | :--- | :--- | :--- | :--- |
 | **Production** | main | https://melsawellness.com https://melsawellness.pages.dev | Live public site |
-| **UAT** | uat | https://uat.melsawellness.pages.dev | Versioning pre colour change |
-| **IST** | ist | https://ist.melsawellness.pages.dev | Staging |
+| **UAT** | uat | https://uat.melsawellness.pages.dev | Versioning or Staging |
+| **IST** | ist | https://ist.melsawellness.pages.dev | Developing new features |
 | **DEV** | dev | https://dev.melsawellness.pages.dev | Testing new features |
 
 ---
@@ -19,7 +19,7 @@
 * **Forms:** Formsubmit.co (Email-based backend) => deprecated from IST, replaced by Backend Automation + Database
 * **Backend Automation:** Google Apps Script (Serverless)
 * **Database:** Google Sheets ("MELSA Website Database")
-**Update (v2.0)**: We have migrated away from email-only forwarding (Formsubmit). Data is now sent via JavaScript fetch to a custom Google Apps Script, which appends rows to specific tabs in a secured Google Sheet.  
+* **Structure:** Public files in `/public`, Admin files in Root.
 ---
 
 ## 🎨 Design System (Light Theme)
@@ -97,24 +97,36 @@ The `/public` folder is the "Build Output" for Cloudflare. Only files inside thi
 ## 📂 Project Structure Map
 
 ```text
-/
-├── README.md                 # Admin Documentation (Private)
-├── CHANGELOG.md              # Version History (Private)
-├── melsawellness-dashboard.html # Operations Manual (Private)
-└── public/                   # 🌍 THE LIVE SITE
-    ├── index.html            # Landing Page
-    ├── about.html            # Bio
-    ├── intake.html           # Diagnostic Form
-    ├── robots.txt            # SEO Rules
-    ├── sitemap.xml           # SEO Map
-    └── images/               # Image Assets
-        └── logo-w.png
+
+/ (Root)         <-- ADMIN ONLY (Not Published)
+├── README.md                       # Admin Project Documentation (Private)
+├── CHANGELOG.md                    # Version History (Private)
+├── melsawellness-dashboard.html    # Operations Manual (Private) / Developer Documentation Dashboard
+└── public/      <-- PUBLISHED SITE # 🌍 THE LIVE SITE
+    ├── index.html                  # Landing Page
+    │   ├── Logic: Language Toggle, Mobile Menu, Newsletter Form Submission
+    │   └── Key Sections: Hero, Philosophy, Services Grid, Newsletter
+    ├── about.html                  # Bio
+    │   ├── Logic: Language Toggle
+    │   └── Assets: Uses absolute path /images/profile.png    
+    ├── intake.html                 # Diagnostic Form
+    │   ├── Logic: Form Submission -> Redirect to intake-success.html
+    │   └── Fields: Name, Email, Current Challenge, Desired Outcome
+    ├── thank-you.html              # Success Page for Newsletter (Drumming Circle)
+    ├── intake-success.html         # Success Page for Client Intake
+    ├── robots.txt                  # SEO Rules
+    ├── sitemap.xml                 # SEO Map
+    └── images/                     # Image Assets
+        ├── logo-w.png              # Teal Logo (Transparent BG) wide version
+        ├── logo-v.png              # Teal Logo (Transparent BG) verticle version - for SEO
+        └── profile.png             # Emily's Photo
+
 ```
 
 > **⚠️ CRITICAL RULES FOR ASSETS:**
 > 1.  **Case Sensitivity:** Cloudflare Pages is case-sensitive. `profile.png` ≠ `Profile.png`. Always use lowercase filenames.
 > 2.  **Absolute Paths:** Always reference images with a leading slash (e.g., `/images/profile.png`). This prevents broken images when Cloudflare uses Clean URLs (e.g., `/about` instead of `/about.html`).
-> 3.  **Front Office:**All images and HTML pages intended for the public MUST be placed inside the public/ folder. If you leave them in the root, the website will not see them.
+> 3.  **Front Office:** All images and HTML pages intended for the public MUST be placed inside the public/ folder. If you leave them in the root, the website will not see them.
 
 ---
 
@@ -124,7 +136,7 @@ The site uses a CSS-first class toggling system to prevent content flickering.
 * **English elements:** `<span class="lang-en">...</span>`
 * **Chinese elements:** `<span class="lang-zh hidden-lang">...</span>`
 
-**Logic:** JavaScript toggles the `hidden-lang` class. Chinese is hidden by default in CSS.
+* **Logic:** JavaScript toggles the `hidden-lang` class. Chinese is hidden by default in CSS.
 
 ---
 
@@ -157,6 +169,13 @@ git commit -m "Update README docs [skip ci]"
 
 ## 🔌 Integrations
 
+| Feature | Provider | Logic |
+| :--- | :--- | :--- |
+| **Forms** | Custom JS `fetch()` | Sends data to Google Apps Script Web App URL. |
+| **Database** | Google Sheets | Script appends rows to specific sheets based on hidden `formType` input. |
+| **Booking** | Calendly | Direct links for `/free` (Intro) and custom intake for paid sessions. |
+| **Analytics** | Cloudflare | Built-in privacy-first web analytics. |
+
 ### 1. Newsletter (Drumming Circle)
 * **Location:** `index.html` (Bottom section).
 * **Backend:** Formsubmit.co
@@ -170,6 +189,7 @@ git commit -m "Update README docs [skip ci]"
 ### 3. Booking
 * **Intro Call:** Linked to [Calendly Free Consultation](https://calendly.com/melsawellness/free) (15-min).
 * **Paid Session:** Managed via Intake process.
+
 
 ---
 
@@ -195,3 +215,45 @@ git commit -m "Update README docs [skip ci]"
 * **Purpose:** A single-page view to check live environment status, copy brand hex codes, view tech stack composition, and reference development workflows.
 
 ---
+## V2.1 🔍 SEO & Indexing Update
+
+### 1. Social Previews (Open Graph)
+* **Location:** `index.html` (`<head>` section).
+* **Upgrade:** Added Open Graph (`og:`) tags and standard metadata (Description, Keywords).
+* **Result:** Links shared on LinkedIn, Facebook, or WhatsApp now generate professional previews with the brand image and description.
+
+### 2. Search Visibility
+* **Integration:** Google Search Console & Google Business Profile.
+* **Workflow:** Domain ownership verified via DNS. Sitemap submitted to ensure Google correctly indexes `melsawellness.com` while ignoring utility pages.
+
+---
+
+## V2.2 📊 Marketing Attribution Update
+
+### 1. Referral Tracking
+* **Location:** `index.html` (Newsletter) and `intake.html` (Intake).
+* **Feature:** Added "How did you find us?" dropdown menu with options (Instagram, LinkedIn, Friend, etc.).
+* **Workflow:** User selects source → Data sent via Fetch API → Backend records source.
+
+### 2. Backend Parsing
+* **Backend:** Google Apps Script (`doPost`).
+* **Upgrade:** Script updated to parse the new `referral` parameter.
+* **Database:** Automatically appends the source data to the 4th column (Newsletter) or 6th column (Intake) in the Master Google Sheet.
+
+---
+
+## V2.3 🏗️ Security & Architecture Update
+
+### 1. Split Directory Architecture
+* **Upgrade:** Implemented "Front of House" vs. "Back of House" separation.
+* **Mechanism:** All public files (`*.html`, `/images`) moved to `/public`. Admin files (`README`, `CHANGELOG`, `Dashboard`) remain in Root.
+* **Security:** Cloudflare now builds strictly from `/public`. Admin documentation is physically excluded from the production build, preventing public access.
+
+### 2. Access Control (The Bouncer)
+* **Location:** `robots.txt` (in `/public`).
+* **Function:** Explicitly disallows bots from crawling success pages (`thank-you.html`) or legacy admin files.
+* **Dashboard:** Added `<meta name="robots" content="noindex">` to the dashboard file for double-layered security.
+
+### 3. SEO Mapping
+* **Location:** `sitemap.xml` (in `/public`).
+* **Function:** Provides a strict map to search engines, listing only the valid entry points: Home, About, and Intake.

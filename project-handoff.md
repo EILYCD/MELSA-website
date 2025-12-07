@@ -34,6 +34,21 @@
 | **Booking** | Calendly | Direct links for `/free` (Intro) and custom intake for paid sessions. |
 | **Analytics** | Cloudflare | Built-in privacy-first web analytics. |
 
+
+#### 1. Newsletter (Drumming Circle)
+* **Location:** `index.html` (Bottom section).
+* **Backend:** Formsubmit.co
+* **Redirect:** Dynamically redirects to `/thank-you.html` based on the current environment (UAT or Prod).
+
+#### 2. Client Intake (1-on-1 Services)
+* **Location:** `intake.html`.
+* **Backend:** Formsubmit.co
+* **Redirect:** Dynamically redirects to `/intake-success.html`.
+
+#### 3. Booking
+* **Intro Call:** Linked to [Calendly Free Consultation](https://calendly.com/melsawellness/free) (15-min).
+* **Paid Session:** Managed via Intake process.
+
 ---
 
 ## 2. Design System (Light Theme)
@@ -103,40 +118,34 @@
 
 ---
 
-## 5. Latest Updates Completed
-* [x] [1.0.0] - 2025-11-27 (Rebrand & V1 Release)
-    * [x] Full migration to Light Theme (Cream/Teal).
-    * [x] Fixed mobile navbar layout (Logo height `h-7`, `whitespace-nowrap` on buttons).
-    * [x] Updated Chinese copy for professional tone ("類比", "預約線上諮詢").
-    * [x] Fixed broken profile image by renaming to `profile.png` and using absolute paths.
-    * [x] Updated Calendly link to specific `/free` endpoint.
-* [x] [2.0.0] - 2025-11-29 (Automation Release)
-    * [x] *Newsletter:* Added "Drumming Circle" section.
-    * [x] *Intake System:* Implemented `intake.html` diagnostic form.
-    * [x] *Backend Automation:* Replaced Formsubmit.co with *Google Apps Script*
-    * [x] *Dashboard:* Created `melsawellness-dashboard.html`.
-* [x] [2.0.1] - 2025-11-30 (Launch Day)
-    * [x] *Domain:* Purchased and connected custom domain `www.melsawellness.com`.
-    * [x] *Production:* Site is now live.
-* [x] [2.1.0] - 2025-12-01 (SEO & Indexing)
-    * [x] *On-Page SEO:* Injected standard `<meta>` tags (Description, Keywords).
-    * [x] *Social Sharing:* Implemented Open Graph (`og:`) tags for link previews.
-    * *Operational*
-        * [x] *Google Search Console:* Verified domain ownership.
-        * [x] *Google Business Profile:* Established local presence.
-* [x] [2.2.0] - 2025-12-01 (Marketing Attribution)
-    * [x] *Referral Tracking:* Added a "How did you find us?" dropdown menu to both the Newsletter form and Diagnostic Intake form.
-    * [x] *Options:* Added sources: Instagram, LinkedIn, Google Search, Friend/Colleague, FSS/Community.
-    * [x] *Google Apps Script:* Updated the `doPost` function to capture the `referral` parameter.
-    * [x] *Notifications:* Updated automated email alerts to include the "Source" field.
-* [x] [2.3.0] - 2025-12-06 (Security & Architecture)
-    * *Infrastructure*
-        * [x] *Directory Split:* Implemented "Front of House" vs "Back of House" architecture. Moved all client-facing files (`*.html`, `/images`) into a new `/public` directory.
-        * [x] *Access Control:* Admin files (`README.md`, `CHANGELOG.md`, `melsawellness-dashboard.html`) are now isolated in the root and blocked from public deployment.
-  * *Security & SEO*
-        * [x] *Robots.txt:* Added `robots.txt` to strictly disallow crawling of admin documentation and success pages.
-        * [x] *Sitemap:* Added `sitemap.xml` to explicitly guide search engines to `index`, `about`, and `intake` pages.
-        * [x] *Dashboard:* Added `<meta name="robots" content="noindex">` tag to the dashboard for double-layered security.
+## 5. Version History & Milestones
+
+### **[v2.3.0] Security & Architecture (2025-12-06)**
+* **Infrastructure:** Implemented "Front of House" vs. "Back of House" architecture. Moved all client-facing files (`*.html`, `/images`) into a new `/public` directory.
+* **Access Control:** Admin files (`README.md`, `CHANGELOG.md`, `melsawellness-dashboard.html`) are now isolated in the root and blocked from public deployment.
+* **SEO & Security:** Added `robots.txt` (to block admin crawling) and `sitemap.xml` (to guide indexing). Added `noindex` meta tags to the dashboard.
+
+### **[v2.2.0] Marketing Attribution (2025-12-01)**
+* **Referral Tracking:** Added "How did you find us?" dropdowns to Newsletter and Intake forms.
+* **Data Parsing:** Updated Google Apps Script to capture and record the referral source in the Master Database.
+* **Notifications:** Admin email alerts now include the lead source.
+
+### **[v2.1.0] SEO & Indexing (2025-12-01)**
+* **On-Page:** Injected standard `<meta>` tags (Description, Keywords) and Open Graph (`og:`) tags for social sharing previews.
+* **Operational:** Verified domain with Google Search Console and established Google Business Profile.
+
+### **[v2.0.1] Launch Day (2025-11-30)**
+* **Production:** Connected custom domain `www.melsawellness.com`. Site is live.
+
+### **[v2.0.0] Automation Release (2025-11-29)**
+* **Backend:** Replaced Formsubmit.co with custom **Google Apps Script** integration.
+* **Features:** Added "Drumming Circle" newsletter section and `intake.html` diagnostic form.
+* **Documentation:** Created `melsawellness-dashboard.html`.
+
+### **[v1.0.0] Rebrand & V1 Release (2025-11-27)**
+* **Design:** Full migration to Light Theme (Cream/Teal) and fixed mobile navbar layouts.
+* **Localization:** Updated Chinese copy for professional tone.
+* **Assets:** Fixed profile image paths and updated Calendly links to `/free` endpoint.
 
 ---
 
@@ -194,7 +203,7 @@ To avoid hitting Cloudflare build limits (500/mo):
 
 ## 9. Future Roadmap Items
 - [ ] **Blog/Journal:** Create a simple blog layout for sharing articles.
-- [x] **SEO:** Add `<meta>` descriptions and Open Graph (OG) tags for better social sharing.
+- **SEO:** Add `<meta>` descriptions and Open Graph (OG) tags for better social sharing.
 - ~~[ ] **Domain Email:** Set up Cloudflare Email Routing to forward `hello@melsawellness.ca` to your Gmail.~~
 
 *End of Handoff Document*
