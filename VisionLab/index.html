@@ -1,0 +1,268 @@
+<script>
+        // --- 1. STATE MANAGEMENT ---
+        const INITIAL_STATE = {
+            activeModule: 'audit',
+            language: 'en',
+            dyl: { vitality_up: '', vitality_down: '', values: '', alignment: '' },
+            solomon: { problem: '', advice: '' },
+            report: ''
+        };
+
+        let state = JSON.parse(localStorage.getItem('melsa_vision_lab')) || INITIAL_STATE;
+
+        // --- 2. TRANSLATIONS (Keep your existing translation function here) ---
+        const t = (key) => {
+            const zh = state.language === 'zh';
+            const dict = {
+                title: zh ? "願景實驗室" : "Vision Lab",
+                subtitle: zh ? "有意圖的生活藍圖" : "Blueprint for Intentional Living",
+                step1: zh ? "能量審計" : "Energy Audit",
+                step2: zh ? "神諭洞察" : "Oracle Insights",
+                step3: zh ? "所羅門顧問" : "Solomon's Advisor",
+                step4: zh ? "總結與構建" : "Summary & Build",
+                next: zh ? "下一步" : "Next Step",
+                prev: zh ? "上一步" : "Back",
+                generate: zh ? "連接神諭" : "Connect to Oracle",
+                reframe: zh ? "重塑視角" : "Reframe Perspective",
+                print: zh ? "列印 / 存為 PDF" : "Print / Save PDF",
+                loading: zh ? "思考中..." : "Thinking...",
+                vitality_up_label: zh ? "活力時刻 (能量來源)" : "Vitality Highs (Energy Givers)",
+                vitality_down_label: zh ? "疲憊時刻 (能量洩漏)" : "Vitality Lows (Energy Leaks)",
+                values_label: zh ? "核心價值觀" : "Core Values",
+                alignment_label: zh ? "對齊衝突 (摩擦點)" : "Alignment Conflict (Friction Points)",
+            };
+            return dict[key] || key;
+        };
+
+        // --- 3. CORE LOGIC ---
+        window.saveState = () => localStorage.setItem('melsa_vision_lab', JSON.stringify(state));
+        
+        window.updateField = (category, field, val) => {
+            state[category][field] = val;
+            window.saveState();
+        };
+
+        window.setModule = (mod) => {
+            state.activeModule = mod;
+            window.saveState();
+            renderApp();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.toggleLang = () => {
+            state.language = state.language === 'zh' ? 'en' : 'zh';
+            window.saveState();
+            renderApp();
+        };
+
+        // --- 4. RENDERERS (Keep your existing render functions: Header, Nav, AuditModule, etc.) ---
+        // COPY THE RENDER FUNCTIONS FROM THE PREVIOUS FILE HERE
+        // (Header, Nav, AuditModule, ReportModule, AdvisorModule, SummaryModule)
+        
+        // ... [Paste Render Functions Here] ...
+
+        // --- 5. NEW AI GENERATION LOGIC (Server-Side) ---
+        window.generateAI = async (type) => {
+            const btn = document.getElementById(type === 'report' ? 'btn-gen-report' : 'btn-gen-solomon');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="loader-2" class="animate-spin" width="16"></i> ${t('loading')}`;
+            btn.disabled = true;
+
+            try {
+                const lang = state.language === 'zh' ? 'Traditional Chinese (繁體中文)' : 'English';
+                let prompt = "";
+
+                if(type === 'report') {
+                    prompt = `Role: Life Strategist. Goal: Analyze input for Energy/Values coherency.
+                    Input: Vitality Highs: ${state.dyl.vitality_up}, Lows: ${state.dyl.vitality_down}, Alignment: ${state.dyl.alignment}.
+                    Output: Markdown report with 3 sections (Energy Signature, Coherency Gap, Guidance). Language: ${lang}.`;
+                } else {
+                    prompt = `Role: Wise Observer. Goal: Describe a 'best friend' suffering from the user's specific energy leaks to trigger psychological distancing.
+                    User Leaks: ${state.dyl.vitality_down}. User Conflict: ${state.dyl.alignment}.
+                    Task: Write a compassionate narrative about this friend. End by asking the user for advice. Language: ${lang}.`;
+                }
+
+                // CALL YOUR OWN CLOUDFLARE BACKEND
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                const data = await response.json();
+                
+                if (data.error) throw new Error(data.error);
+
+                if(type === 'report') state.report = data.output;
+                else state.solomon.problem = data.output;
+                
+                window.saveState();
+                renderApp();
+
+            } catch (e) {
+                alert("AI Error: " + e.message);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        };
+
+        // --- INIT ---
+        const Header = () => `
+            <header class="flex justify-between items-start mb-12 border-b border-stone-200 pb-6">
+                <div>
+                    <h1 class="font-serif text-3xl text-stone-900">${t('title')}</h1>
+                    <p class="text-sage-600 font-bold text-xs uppercase tracking-widest mt-1">${t('subtitle')}</p>
+                </div>
+                <div class="flex gap-4 no-print">
+                    <button onclick="window.toggleLang()" class="text-xs font-bold text-stone-400 hover:text-stone-800 transition-colors">
+                        ${state.language === 'zh' ? 'EN' : '中文'}
+                    </button>
+                </div>
+            </header>
+        `;
+        // Make sure to include the other render functions (Nav, AuditModule, etc.) definition before calling renderApp
+        // I have abbreviated them above, but you must keep the full HTML strings from the previous file.
+
+        const Nav = (prev, next) => `
+            <div class="flex justify-between items-center mt-12 pt-8 border-t border-stone-200 no-print">
+                ${prev ? `<button onclick="window.setModule('${prev}')" class="flex items-center gap-2 text-stone-500 hover:text-stone-900 text-sm font-medium"><i data-lucide="arrow-left" width="16"></i> ${t('prev')}</button>` : '<div></div>'}
+                <div class="flex gap-1">
+                    ${['audit','report','advisor','summary'].map(m => `
+                        <div class="h-1.5 w-8 rounded-full transition-colors ${state.activeModule === m ? 'bg-sage-500' : 'bg-stone-200'}"></div>
+                    `).join('')}
+                </div>
+                ${next ? `<button onclick="window.setModule('${next}')" class="flex items-center gap-2 bg-stone-900 text-white px-6 py-2.5 rounded-full hover:bg-sage-600 transition-all text-sm font-bold shadow-lg shadow-stone-200">${t('next')} <i data-lucide="arrow-right" width="16"></i></button>` : '<div></div>'}
+            </div>
+        `;
+
+        const AuditModule = () => `
+            <div class="space-y-8 fade-in">
+                <div class="flex items-center gap-2 text-sage-600 font-bold uppercase text-xs tracking-widest mb-4">
+                    <span class="bg-sage-100 p-1 rounded"><i data-lucide="activity" width="14"></i></span> ${t('step1')}
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-2">${t('vitality_up_label')}</label>
+                        <textarea class="w-full bg-stone-50 border-stone-100 rounded-lg p-3 text-sm focus:ring-2 focus:ring-sage-500 outline-none h-24 resize-none transition-all" 
+                        oninput="window.updateField('dyl', 'vitality_up', this.value)">${state.dyl.vitality_up}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-2">${t('vitality_down_label')}</label>
+                        <textarea class="w-full bg-stone-50 border-stone-100 rounded-lg p-3 text-sm focus:ring-2 focus:ring-sage-500 outline-none h-24 resize-none transition-all" 
+                        oninput="window.updateField('dyl', 'vitality_down', this.value)">${state.dyl.vitality_down}</textarea>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-2">${t('values_label')}</label>
+                        <textarea class="w-full bg-stone-50 border-stone-100 rounded-lg p-3 text-sm focus:ring-2 focus:ring-sage-500 outline-none h-24 resize-none transition-all" 
+                        oninput="window.updateField('dyl', 'values', this.value)">${state.dyl.values}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-2">${t('alignment_label')}</label>
+                        <textarea class="w-full bg-stone-50 border-stone-100 rounded-lg p-3 text-sm focus:ring-2 focus:ring-sage-500 outline-none h-24 resize-none transition-all" 
+                        oninput="window.updateField('dyl', 'alignment', this.value)">${state.dyl.alignment}</textarea>
+                    </div>
+                </div>
+                ${Nav(null, 'report')}
+            </div>
+        `;
+
+        const ReportModule = () => {
+            const markdown = (text) => text.split('\n').map(l => {
+                if(l.startsWith('## ')) return `<h2 class="text-xl font-bold mt-6 mb-3 text-stone-900 border-b border-stone-100 pb-2">${l.replace('## ','')}</h2>`;
+                if(l.startsWith('### ')) return `<h3 class="text-sm font-bold mt-4 mb-2 text-sage-600 uppercase tracking-wide">${l.replace('### ','')}</h3>`;
+                if(l.startsWith('* ')) return `<li class="ml-4 list-disc my-1 text-stone-600">${l.replace('* ','')}</li>`;
+                return `<p class="my-2 text-stone-600 leading-relaxed">${l}</p>`;
+            }).join('');
+            return `
+                <div class="space-y-8 fade-in">
+                    <div class="flex items-center gap-2 text-sage-600 font-bold uppercase text-xs tracking-widest mb-4">
+                        <span class="bg-sage-100 p-1 rounded"><i data-lucide="eye" width="14"></i></span> ${t('step2')}
+                    </div>
+                    <div class="bg-white p-8 rounded-xl border border-stone-200 shadow-sm min-h-[400px]">
+                        ${state.report 
+                            ? `<div class="prose prose-stone text-sm">${markdown(state.report)}</div>` 
+                            : `<div class="h-64 flex flex-col items-center justify-center text-stone-400 border-2 border-dashed border-stone-100 rounded-lg">
+                                <i data-lucide="sparkles" class="mb-2 opacity-50"></i>
+                                <p class="text-sm">The Oracle awaits your inputs.</p>
+                               </div>`}
+                    </div>
+                    <div class="flex justify-center no-print">
+                        <button id="btn-gen-report" onclick="window.generateAI('report')" class="flex items-center gap-2 bg-stone-800 text-white px-8 py-3 rounded-full hover:bg-stone-600 transition-all font-bold shadow-lg">
+                            <i data-lucide="zap" width="16"></i> ${t('generate')}
+                        </button>
+                    </div>
+                    ${Nav('audit', 'advisor')}
+                </div>
+            `;
+        };
+
+        const AdvisorModule = () => `
+            <div class="space-y-8 fade-in">
+                <div class="flex items-center gap-2 text-sage-600 font-bold uppercase text-xs tracking-widest mb-4">
+                    <span class="bg-sage-100 p-1 rounded"><i data-lucide="message-circle" width="14"></i></span> ${t('step3')}
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm flex flex-col">
+                         <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-stone-800">1. The Third Person</h3>
+                            <button id="btn-gen-solomon" onclick="window.generateAI('solomon')" class="text-xs bg-sage-50 text-sage-600 px-3 py-1 rounded-full font-bold hover:bg-sage-100 border border-sage-200 transition-colors no-print">
+                                ${t('reframe')}
+                            </button>
+                         </div>
+                         <textarea class="flex-1 w-full bg-stone-50 border-stone-100 rounded-lg p-4 text-sm font-serif italic text-stone-600 leading-loose outline-none resize-none min-h-[300px]"
+                         readonly>${state.solomon.problem}</textarea>
+                    </div>
+                    <div class="bg-sage-50 p-6 rounded-xl border border-sage-100 flex flex-col shadow-inner">
+                         <h3 class="font-bold text-stone-800 mb-4">2. Your Advice</h3>
+                         <textarea class="flex-1 w-full bg-white border-transparent rounded-lg p-4 text-sm font-serif text-stone-800 leading-loose outline-none resize-none shadow-sm min-h-[300px] focus:ring-2 focus:ring-sage-500"
+                         placeholder="If this was your best friend, what would you tell them?"
+                         oninput="window.updateField('solomon', 'advice', this.value)">${state.solomon.advice}</textarea>
+                    </div>
+                </div>
+                ${Nav('report', 'summary')}
+            </div>
+        `;
+
+        const SummaryModule = () => `
+            <div class="space-y-8 fade-in text-center py-12">
+                <div class="inline-block p-4 bg-sage-100 rounded-full mb-4 text-sage-600">
+                    <i data-lucide="check-circle-2" width="48" height="48"></i>
+                </div>
+                <h2 class="font-serif text-4xl text-stone-900">${t('step4')}</h2>
+                <p class="text-stone-500 max-w-md mx-auto">Your blueprint is ready.</p>
+                <div class="flex justify-center gap-4 mt-8 no-print">
+                    <button onclick="window.print()" class="flex items-center gap-2 bg-stone-900 text-white px-8 py-3 rounded-full hover:bg-stone-700 transition-all font-bold shadow-lg">
+                        <i data-lucide="printer" width="18"></i> ${t('print')}
+                    </button>
+                </div>
+                <div class="hidden print:block text-left mt-12 space-y-8">
+                     <h3 class="font-bold text-xl border-b border-black pb-2">Audit</h3>
+                     <p class="text-sm"><strong>Highs:</strong> ${state.dyl.vitality_up}</p>
+                     <p class="text-sm"><strong>Lows:</strong> ${state.dyl.vitality_down}</p>
+                     <p class="text-sm"><strong>Alignment:</strong> ${state.dyl.alignment}</p>
+                     <h3 class="font-bold text-xl border-b border-black pb-2 mt-8">Oracle Report</h3>
+                     <div class="text-sm whitespace-pre-wrap">${state.report}</div>
+                     <h3 class="font-bold text-xl border-b border-black pb-2 mt-8">Advisor</h3>
+                     <p class="text-sm italic">${state.solomon.problem}</p>
+                     <p class="text-sm font-bold mt-4">My Advice:</p>
+                     <p class="text-sm">${state.solomon.advice}</p>
+                </div>
+                ${Nav('advisor', null)}
+            </div>
+        `;
+
+        const renderApp = () => {
+            const root = document.getElementById('app-root');
+            let content = Header();
+            if(state.activeModule === 'audit') content += AuditModule();
+            if(state.activeModule === 'report') content += ReportModule();
+            if(state.activeModule === 'advisor') content += AdvisorModule();
+            if(state.activeModule === 'summary') content += SummaryModule();
+            root.innerHTML = content;
+            lucide.createIcons();
+        };
+
+        renderApp();
+    </script>
